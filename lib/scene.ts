@@ -1,8 +1,18 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
-import { rooms, floorRects, walls, contains, roomAt, type Rect } from "./plan";
+import {
+  rooms,
+  floorRects,
+  walls,
+  contains,
+  roomAt,
+  coreObstacles,
+  floorElevation,
+  type Rect,
+} from "./plan";
 import { buildFurnishings } from "./furnishings";
+import { buildCore } from "./core";
 import { RESIDENCE, buildLowerFacade, buildPostProcessing, createTileMaterial } from "./atmosphere";
 export type Mode = "overview" | "walk" | "plan";
 export type TourOptions = {
@@ -338,9 +348,10 @@ export function createTour(
     box(x, h / 2, z, 0.32, h, 0.32, wallMat);
     collisions.push([x - 0.16, z - 0.16, x + 0.16, z + 0.16]);
   }
-  // The common lift/stair core is outside the apartment, retained only as an orientation footprint.
-  const coreMat = new THREE.MeshStandardMaterial({ color: "#bdc1bd", roughness: 1 });
-  box(12.6, -0.05, 9.1, 7.8, 0.13, 5, coreMat);
+  const core = buildCore();
+  scene.add(core.group);
+  ceilingGroup.add(core.ceiling);
+  collisions.push(...coreObstacles);
   // Exact structural heights: ceiling surface at 3m / 6m; shallow perimeter soffit at 2.85m / 5.85m.
   const ceilingRects: Rect[] = [
     [4, 0, 7, 1.4],
@@ -357,6 +368,10 @@ export function createTour(
     [9, 11.6, 13.1, 16.7],
     [13.1, 11.6, 15.2, 16.7],
     [0, 12.8, 4, 17.8],
+    [8.6, 8.95, 11.8, 11.6],
+    [11.8, 10.22, 16.4, 11.6],
+    [8.6, 6.6, 10.85, 8.95],
+    [10.85, 6.6, 11.8, 8.95],
   ];
   for (const r of ceilingRects) {
     const [x, z, x2, z2] = r,
@@ -412,7 +427,7 @@ export function createTour(
       cx = (x + x2) / 2,
       cz = (z + z2) / 2;
     const light = new THREE.SpotLight(0xffddb0, 32, 6.5, Math.PI * 0.39, 0.75, 2);
-    light.position.set(cx, 2.76, cz);
+    light.position.set(cx, room.id === "stairs" ? 5.76 : room.id === "lift" ? 2.4 : 2.76, cz);
     light.target.position.set(cx, 0, cz);
     light.castShadow = true;
     light.shadow.mapSize.set(512, 512);
@@ -423,7 +438,7 @@ export function createTour(
     roomLights.set(room.id, light);
     scene.add(light, light.target);
     const lens = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.055, 0.016, 16), glowMat);
-    lens.position.set(cx, 2.836, cz);
+    lens.position.set(cx, room.id === "stairs" ? 5.836 : 2.836, cz);
     ceilingGroup.add(lens);
   }
   let panorama: THREE.Texture | null = null,
@@ -577,7 +592,11 @@ export function createTour(
     selected = id;
     yaw = room.yaw;
     pitch = 0;
-    camera.position.set(room.position[0], 1.65, room.position[1]);
+    camera.position.set(
+      room.position[0],
+      1.65 + floorElevation(...room.position),
+      room.position[1],
+    );
     camera.rotation.set(pitch, yaw, 0);
     camera.fov = 65;
     camera.updateProjectionMatrix();
@@ -606,9 +625,12 @@ export function createTour(
   function advance(dx: number, dz: number) {
     const steps = Math.max(1, Math.ceil(Math.hypot(dx, dz) / 0.07));
     for (let i = 0; i < steps; i++) {
-      if (canWalk(camera.position.x + dx / steps, camera.position.z))
+      const reachable = (x: number, z: number) =>
+        canWalk(x, z) &&
+        Math.abs(floorElevation(x, z) - floorElevation(camera.position.x, camera.position.z)) < 0.2;
+      if (reachable(camera.position.x + dx / steps, camera.position.z))
         camera.position.x += dx / steps;
-      if (canWalk(camera.position.x, camera.position.z + dz / steps))
+      if (reachable(camera.position.x, camera.position.z + dz / steps))
         camera.position.z += dz / steps;
     }
   }
@@ -645,7 +667,7 @@ export function createTour(
         ),
         camera,
       );
-      const hit = ray.intersectObjects(floors.children, false)[0];
+      const hit = ray.intersectObjects([...floors.children, ...core.surfaces], false)[0];
       if (hit && hit.distance < 12) {
         advance(hit.point.x - camera.position.x, hit.point.z - camera.position.z);
       }
@@ -713,6 +735,11 @@ export function createTour(
       advance(
         (-Math.sin(yaw) * f + Math.cos(yaw) * r) * speed,
         (-Math.cos(yaw) * f - Math.sin(yaw) * r) * speed,
+      );
+      camera.position.y = THREE.MathUtils.lerp(
+        camera.position.y,
+        1.65 + floorElevation(camera.position.x, camera.position.z),
+        1 - Math.exp(-14 * dt),
       );
       if (pressed.has("ArrowLeft")) yaw += dt * 1.4;
       if (pressed.has("ArrowRight")) yaw -= dt * 1.4;
