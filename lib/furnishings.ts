@@ -1,89 +1,935 @@
-import * as THREE from 'three';
-import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
-import { furnishings, furnishingObstacles, fixtureObstacles, type Furnishing } from './furniture-layout';
-import type { Rect } from './plan';
+import * as THREE from "three";
+import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+import {
+  furnishings,
+  furnishingObstacles,
+  fixtureObstacles,
+  type Furnishing,
+} from "./furniture-layout";
+import type { Rect } from "./plan";
 
-export function buildFurnishings(){
- const group=new THREE.Group(),ceilingFixtures=new THREE.Group();group.name='奶油风家具与家电';ceilingFixtures.name='吊灯';
- const fabricCanvas=document.createElement('canvas');fabricCanvas.width=fabricCanvas.height=128;const ctx=fabricCanvas.getContext('2d')!;
- ctx.fillStyle='#f1ebdd';ctx.fillRect(0,0,128,128);for(let i=0;i<128;i++){ctx.fillStyle=i%3?'#d6cbb72b':'#ffffff4d';ctx.fillRect(i,0,1,128);ctx.fillRect(0,i,128,1);}
- const weave=new THREE.CanvasTexture(fabricCanvas);weave.wrapS=weave.wrapT=THREE.RepeatWrapping;weave.repeat.set(6,6);weave.colorSpace=THREE.SRGBColorSpace;
- const mat=(color:string,roughness=.6,metalness=0)=>new THREE.MeshStandardMaterial({color,roughness,metalness});
- const cream=mat('#f2e7d4'),white=mat('#faf5e9'),taupe=mat('#b9a991'),stone=mat('#dacbb2',.34),ceramic=mat('#fffaf0',.17),linen=new THREE.MeshStandardMaterial({map:weave,color:'#f9f0dd',roughness:.94}),sand=new THREE.MeshStandardMaterial({map:weave,color:'#c4b39a',roughness:.97}),brass=mat('#b8a17a',.27,.7),steel=mat('#a5aaa7',.25,.85),dark=mat('#252c2a',.26,.2),screen=mat('#111b20',.1,.25),oak=mat('#a8997d',.68),green=mat('#657658',.85),leafLight=mat('#8a9872',.8),soil=mat('#514a3d',1);
- const mirror=new THREE.MeshStandardMaterial({color:'#d2dcdb',metalness:1,roughness:.045});
- const glass=new THREE.MeshPhysicalMaterial({color:'#dae8e1',transparent:true,opacity:.19,roughness:.07,metalness:0,depthWrite:false,side:THREE.DoubleSide});
- const light=new THREE.MeshStandardMaterial({color:'#fff3d8',emissive:'#ffe1a3',emissiveIntensity:1.25,roughness:.6});
- const geometries=new Map<string,THREE.BufferGeometry>();
- function put(parent:THREE.Object3D,geo:THREE.BufferGeometry,material:THREE.Material,x:number,y:number,z:number){const mesh=new THREE.Mesh(geo,material);mesh.position.set(x,y,z);mesh.castShadow=material!==glass&&material!==light;mesh.receiveShadow=true;parent.add(mesh);return mesh;}
- function rounded(parent:THREE.Object3D,x:number,y:number,z:number,w:number,h:number,d:number,m:THREE.Material=cream,r=.04){const radius=Math.min(r,w*.45,h*.45,d*.45),key=`r${w},${h},${d},${radius}`;let geo=geometries.get(key);if(!geo){geo=new RoundedBoxGeometry(w,h,d,2,radius);geometries.set(key,geo)}return put(parent,geo,m,x,y,z)}
- function cyl(parent:THREE.Object3D,x:number,y:number,z:number,r:number,h:number,m:THREE.Material=brass,rBottom=r,segments=24){const key=`c${r},${rBottom},${h},${segments}`;let geo=geometries.get(key);if(!geo){geo=new THREE.CylinderGeometry(r,rBottom,h,segments);geometries.set(key,geo)}return put(parent,geo,m,x,y,z)}
- function orb(parent:THREE.Object3D,x:number,y:number,z:number,w:number,h:number,d:number,m:THREE.Material){let geo=geometries.get('sphere');if(!geo){geo=new THREE.SphereGeometry(1,16,12);geometries.set('sphere',geo)}const o=put(parent,geo,m,x,y,z);o.scale.set(w/2,h/2,d/2);return o;}
- function ring(parent:THREE.Object3D,x:number,y:number,z:number,r:number,t:number,m:THREE.Material,flat=false){const o=put(parent,new THREE.TorusGeometry(r,t,8,32),m,x,y,z);if(flat)o.rotation.x=Math.PI/2;return o;}
- function tube(parent:THREE.Object3D,points:number[][],radius:number,m:THREE.Material=brass){const curve=new THREE.CatmullRomCurve3(points.map(p=>new THREE.Vector3(p[0],p[1],p[2])));return put(parent,new THREE.TubeGeometry(curve,16,radius,8,false),m,0,0,0)}
- function bowl(parent:THREE.Object3D,x:number,y:number,z:number,w:number,d:number,h:number,m:THREE.Material=ceramic){const profile=[[0,0],[.29,0],[.43,.12],[.5,.95],[.47,1],[.435,.96],[.375,.27],[.28,.19],[0,.19]].map(([r,a])=>new THREE.Vector2(r,a*h));const o=put(parent,new THREE.LatheGeometry(profile,40),m,x,y,z);o.scale.set(w,1,d);return o;}
- function faucet(parent:THREE.Object3D,x:number,y:number,z:number){cyl(parent,x,y+.04,z,.025,.08,steel);tube(parent,[[x,y,z],[x,y+.22,z],[x,y+.27,z+.055],[x,y+.24,z+.16]],.013,steel);rounded(parent,x+.065,y+.07,z,.09,.018,.035,steel,.008)}
- function book(parent:THREE.Object3D,x:number,y:number,z:number){rounded(parent,x,y,z,.26,.025,.19,taupe,.004);rounded(parent,x+.02,y+.029,z,.24,.025,.18,white,.004)}
- function vase(parent:THREE.Object3D,x:number,y:number,z:number,small=false){const s=small?.55:1;const o=put(parent,new THREE.LatheGeometry([[0,0],[.08,0],[.12,.08],[.11,.18],[.055,.25],[.05,.32],[.04,.32],[.035,.23]].map(([r,h])=>new THREE.Vector2(r*s,h*s)),24),taupe,x,y,z);for(let i=0;i<3;i++){const a=i*2.3;const xx=x+Math.cos(a)*.12*s,zz=z+Math.sin(a)*.12*s;tube(parent,[[x,y+.25*s,z],[xx,y+.55*s,zz],[xx+.03,y+.65*s,zz]],.004,green);for(let j=0;j<3;j++){const leaf=orb(parent,xx+.025*j*s,y+(.43+.08*j)*s,zz,.11*s,.04*s,.055*s,green);leaf.rotation.z=.5+j*.6;}}return o;}
- function lamp(parent:THREE.Object3D,x:number,y:number,z:number){cyl(parent,x,y+.012,z,.085,.024,brass);cyl(parent,x,y+.16,z,.016,.3,brass);const shade=cyl(parent,x,y+.3,z,.16,.14,light,.19);return shade;}
- function bed(root:THREE.Group,f:Furnishing){const{w,d}=f;for(const x of[-w*.37,w*.37])for(const z of[-d*.34,d*.34])cyl(root,x,.09,z,.035,.18,oak);rounded(root,0,.23,0,w,.28,d,taupe,.09);rounded(root,0,.43,0,w-.015,.22,d-.035,white,.1);rounded(root,0,.56,.17,w-.025,.16,d-.43,linen,.09);rounded(root,0,.65,-d/2+.34,w*.43,.14,.42,white,.07).position.x=-w*.24;rounded(root,w*.24,.65,-d/2+.34,w*.43,.14,.42,white,.07);rounded(root,0,.65,d/2-.4,w-.045,.035,.58,sand,.015);rounded(root,0,.72,-d/2+.015,w+.12,1.23,.11,linen,.055);for(let i=0;i<5;i++)rounded(root,(i-2)*(w/5),.75,-d/2+.078,w/5-.006,1.1,.04,linen,.02);}
- function sofa(root:THREE.Group,f:Furnishing){const{w,d}=f;const outdoor=f.variant==='outdoor';const upholstery=outdoor?sand:linen;for(const x of[-w*.4,w*.4])for(const z of[-d*.3,d*.3])cyl(root,x,.09,z,.035,.17,brass);rounded(root,0,.29,0,w,.32,d,upholstery,.12);rounded(root,0,.68,-d/2+.12,w,.52,.23,upholstery,.1);for(const x of[-w/2+.12,w/2-.12])rounded(root,x,.58,.02,.25,.38,d-.07,upholstery,.115);const seats=w>2.5?3:2;for(let i=0;i<seats;i++){const sw=(w-.5)/seats;rounded(root,-(w-.5)/2+sw*(i+.5),.48,.06,sw-.02,.18,d-.3,linen,.075);const cushion=rounded(root,-(w-.5)/2+sw*(i+.5),.7,-.19,sw-.05,.39,.15,linen,.07);cushion.rotation.x=.12;}
-  const pillow=rounded(root,-w/2+.4,.73,.03,.4,.38,.14,sand,.09);pillow.rotation.set(-.15,.1,.22);const pillow2=rounded(root,w/2-.44,.72,.02,.4,.38,.14,white,.08);pillow2.rotation.z=-.2;}
- function chair(root:THREE.Group,f:Furnishing,arm=false){const{w,d}=f;for(const x of[-w*.34,w*.34])for(const z of[-d*.31,d*.31]){const leg=cyl(root,x,.22,z,.019,.43,oak);leg.rotation.z=x>0?-.06:.06;}rounded(root,0,.46,.015,w,.14,d-.055,linen,.055);rounded(root,0,.73,-d/2+.055,w,.48,.13,linen,.065);if(arm)for(const x of[-w/2+.065,w/2-.065])rounded(root,x,.65,.025,.13,.21,d-.08,sand,.06);}
- function table(root:THREE.Group,f:Furnishing,dining=false){const h=dining?.75:.37;const top=cyl(root,0,h-.03,0,.5,.055,stone,.5,48);top.scale.set(f.w,1,f.d);if(dining){for(const x of[-f.w*.27,f.w*.27]){const base=cyl(root,x,(h-.06)/2,0,.19,h-.06,cream);base.scale.z=.85;for(let i=0;i<18;i++){const a=i*Math.PI/9;cyl(root,x+Math.sin(a)*.19,(h-.06)/2,Math.cos(a)*.158,.009,h-.08,taupe,undefined,8)}}}else{const base=cyl(root,0,.16,0,.27,.3,taupe);base.scale.x=f.w*.68;base.scale.z=f.d*.65;}
-  if(dining){vase(root,0,h,0);for(const x of[-f.w*.28,f.w*.28])for(const z of[-f.d*.28,f.d*.28]){const plate=cyl(root,x,h+.009,z,.115,.012,ceramic);ring(root,x,h+.017,z,.085,.002,taupe,true);}}else{book(root,-f.w*.17,h+.015,0);vase(root,f.w*.24,h,0,true);}}
- function cabinet(root:THREE.Group,f:Furnishing,h:number){const n=Math.max(2,Math.round(f.w/.55));rounded(root,0,h/2,0,f.w,h,f.d,cream,.012);rounded(root,0,.035,.015,f.w-.09,.07,f.d-.05,taupe,.01);for(let i=0;i<n;i++){const x=-f.w/2+(i+.5)*f.w/n;rounded(root,x,h/2+.035,f.d/2+.008,f.w/n-.009,h-.095,.024,cream,.009);rounded(root,x+f.w/n*.31,h*.52,f.d/2+.03,.012,Math.min(.24,h*.25),.021,brass,.006);} }
- function nightstand(root:THREE.Group,f:Furnishing){rounded(root,0,.26,0,f.w,.47,f.d,cream,.055);rounded(root,0,.36,f.d/2+.004,f.w-.05,.17,.015,taupe,.009);rounded(root,0,.16,f.d/2+.004,f.w-.05,.17,.015,cream,.009);lamp(root,0,.5,0);}
- function desk(root:THREE.Group,f:Furnishing){rounded(root,0,.75,0,f.w,.055,f.d,stone,.025);for(const x of[-f.w*.4,f.w*.4])rounded(root,x,.37,0,.045,.74,f.d*.82,brass,.012);rounded(root,0,.66,.025,f.w-.09,.14,f.d-.05,cream,.015);rounded(root,0,.65,f.d/2,.18,.014,.025,brass,.004);if(f.variant==='vanity'){const o=orb(root,0,1.2,-f.d/2,.57,.7,.035,mirror);ring(root,0,1.2,-f.d/2-.01,.29,.014,brass).scale.y=1.2;vase(root,f.w*.32,.79,0,true);}else{const laptop=new THREE.Group();root.add(laptop);rounded(laptop,0,.79,0,.35,.018,.24,steel,.008);rounded(laptop,0,.91,-.11,.35,.23,.014,dark,.008);rounded(laptop,0,.91,-.1,.31,.19,.004,screen,.004);book(root,-f.w*.33,.79,0);}}
- function television(root:THREE.Group,f:Furnishing){rounded(root,0,1.27,-.055,f.w,2.52,.08,cream,.025);rounded(root,0,.32,.045,f.w,.28,.3,stone,.04);rounded(root,0,1.45,.013,1.99,1.14,.055,dark,.025);rounded(root,0,1.455,.047,1.93,1.08,.005,screen,.01);rounded(root,0,.57,.14,.84,.06,.06,dark,.02);vase(root,-f.w*.4,.48,.07);lamp(root,f.w*.4,.48,.05);}
- function ac(root:THREE.Group,f:Furnishing){rounded(root,0,.01,0,f.w,.29,.18,white,.035);rounded(root,0,-.075,.098,f.w-.12,.055,.012,dark,.008);for(let i=0;i<3;i++)rounded(root,0,-.091+i*.015,.108,f.w-.15,.006,.022,cream,.002);orb(root,f.w*.35,0,.102,.022,.012,.01,light);}
- function plant(root:THREE.Group,f:Furnishing){const h=f.h??1.2;const potH=h>.9?.36:.25;const pot=cyl(root,0,potH/2,0,f.w*.43,potH,taupe,f.w*.31);cyl(root,0,potH+.006,0,f.w*.38,.012,soil);const stem=h-potH;for(let b=0;b<5;b++){const a=b*2.4,tipX=Math.cos(a)*f.w*.65,tipZ=Math.sin(a)*f.w*.65,tipY=potH+stem*(.55+b*.1);tube(root,[[0,potH,0],[tipX*.3,potH+stem*.4,tipZ*.3],[tipX,tipY,tipZ]],.009,oak);for(let i=0;i<8;i++){const t=i/7,ang=a+i*2.1;const x=tipX*(.3+.7*t)+Math.sin(ang)*f.w*.15,z=tipZ*(.3+.7*t)+Math.cos(ang)*f.w*.15,y=potH+stem*(.3+.6*t)+.03*b;const leaf=orb(root,x,y,z,f.w*.28,.022,f.w*.13,i%3?green:leafLight);leaf.rotation.set(.3+Math.sin(ang)*.5,ang,Math.cos(ang)*.6);}}}
- function mug(root:THREE.Group,x:number,y:number,z:number){cyl(root,x,y+.055,z,.04,.1,ceramic);ring(root,x+.046,y+.055,z,.026,.006,ceramic);cyl(root,x,y+.108,z,.032,.003,taupe);}
- function coffeeMachine(root:THREE.Group,x:number,y:number,z:number){rounded(root,x,y+.19,z,.27,.37,.3,dark,.025);rounded(root,x,y+.2,z+.16,.22,.27,.03,steel,.01);rounded(root,x,y+.08,z+.17,.2,.018,.13,dark,.004);cyl(root,x,y+.35,z+.172,.022,.01,steel).rotation.x=Math.PI/2;rounded(root,x,y+.24,z+.19,.07,.035,.07,dark,.007);mug(root,x,y+.09,z+.18);}
- function kitchen(root:THREE.Group,f:Furnishing){cabinet(root,f,.86);const sw=.68,sx=.2,d=f.d;
-  rounded(root,0,f.variant==='hob'?1.23:.967,-d/2-.012,f.w,f.variant==='hob'?.65:.11,.025,stone,.004);
-  if(f.variant==='sink'){
-   const left=sx-sw/2+f.w/2,right=f.w/2-sx-sw/2;
-   rounded(root,-f.w/2+left/2,.89,0,left,.05,d,stone,.006);rounded(root,sx+sw/2+right/2,.89,0,right,.05,d,stone,.006);rounded(root,sx,.89,-d/2+.055,sw,.05,.11,stone,.006);rounded(root,sx,.89,d/2-.055,sw,.05,.11,stone,.006);
-   rounded(root,sx,.74,0,sw-.01,.03,d-.19,steel,.035);rounded(root,sx-sw/2+.015,.81,0,.027,.16,d-.19,steel,.007);rounded(root,sx+sw/2-.015,.81,0,.027,.16,d-.19,steel,.007);for(const z of[-d/2+.11,d/2-.11])rounded(root,sx,.81,z,sw,.16,.025,steel,.008);faucet(root,sx,.915,-d/2+.07);
-   const dishX=-f.w/2+.33;rounded(root,dishX,.47,d/2+.029,.55,.69,.025,white,.015);rounded(root,dishX,.77,d/2+.048,.53,.08,.018,steel,.004);rounded(root,dishX,.73,d/2+.073,.36,.018,.022,brass,.006);for(let i=0;i<4;i++)orb(root,dishX+.08+i*.035,.78,d/2+.062,.012,.012,.005,dark);
-   const kettleX=f.w/2-.3;cyl(root,kettleX,1.02,0,.085,.2,white,.1);cyl(root,kettleX,1.125,0,.06,.018,brass);tube(root,[[kettleX+.06,1.1,0],[kettleX+.13,1.07,0],[kettleX+.13,.98,0],[kettleX+.07,.97,0]],.015,dark);
-  }else{
-   rounded(root,0,.89,0,f.w,.05,d,stone,.008);rounded(root,.18,.925,0,.66,.025,.47,dark,.012);for(const x of[-.03,.39])for(const z of[-.115,.115]){ring(root,x,.947,z,.073,.008,dark,true);ring(root,x,.95,z,.052,.006,steel,true);for(let i=0;i<2;i++){const grate=rounded(root,x,.959,z,.17,.016,.013,dark,.002);grate.rotation.y=i*Math.PI/2;}}
-   const ovenX=.18;rounded(root,ovenX,.45,d/2+.022,.56,.57,.032,steel,.014);rounded(root,ovenX,.43,d/2+.043,.48,.39,.017,screen,.01);rounded(root,ovenX,.68,d/2+.06,.43,.025,.033,brass,.006);for(const x of[ovenX-.17,ovenX+.17])cyl(root,x,.69,d/2+.065,.023,.02,dark).rotation.x=Math.PI/2;
-   for(const x of[-f.w/2+.32,f.w/2-.32]){rounded(root,x,2.15,-d/2+.18,.58,1.07,.34,cream,.015);rounded(root,x,2.15,-d/2+.357,.558,1.04,.025,cream,.008);rounded(root,x,1.78,-d/2+.382,.16,.012,.024,brass,.005);}
-   rounded(root,.18,1.66,-.06,.72,.085,.47,steel,.014);rounded(root,.18,2.12,-.18,.33,.88,.22,cream,.015);rounded(root,.18,1.61,.06,.55,.014,.18,dark,.004);for(const x of[-.04,.4])orb(root,x,1.608,.1,.025,.01,.025,light);
-   cyl(root,-.03,1.027,-.115,.071,.13,steel);cyl(root,-.03,1.102,-.115,.08,.015,steel);orb(root,-.03,1.12,-.115,.036,.025,.036,dark);
+export function buildFurnishings() {
+  const group = new THREE.Group(),
+    ceilingFixtures = new THREE.Group();
+  group.name = "奶油风家具与家电";
+  ceilingFixtures.name = "吊灯";
+  const fabricCanvas = document.createElement("canvas");
+  fabricCanvas.width = fabricCanvas.height = 128;
+  const ctx = fabricCanvas.getContext("2d")!;
+  ctx.fillStyle = "#f1ebdd";
+  ctx.fillRect(0, 0, 128, 128);
+  for (let i = 0; i < 128; i++) {
+    ctx.fillStyle = i % 3 ? "#d6cbb72b" : "#ffffff4d";
+    ctx.fillRect(i, 0, 1, 128);
+    ctx.fillRect(0, i, 128, 1);
   }
- }
- function fridge(root:THREE.Group,f:Furnishing){rounded(root,0,1.04,0,f.w,2.08,f.d,cream,.035);const front=f.d/2+.015;for(const x of[-f.w/4,f.w/4]){rounded(root,x,1.21,front,f.w/2-.009,1.61,.026,steel,.018);rounded(root,x<0?-.032:.032,1.18,front+.026,.019,.55,.028,brass,.008);}rounded(root,0,.21,front,f.w-.022,.38,.027,cream,.018);rounded(root,.14,1.48,front+.017,.14,.18,.012,dark,.008);for(let i=0;i<3;i++)rounded(root,.14,1.52-i*.035,front+.025,.075,.006,.005,light,.002);}
- function laundry(root:THREE.Group,f:Furnishing){for(let i=0;i<2;i++){const y=i*.89;rounded(root,0,y+.43,0,.66,.86,.62,white,.023);rounded(root,0,y+.68,.319,.6,.17,.02,cream,.006);ring(root,0,y+.36,.337,.205,.018,steel);const port=cyl(root,0,y+.36,.332,.185,.025,screen);port.rotation.x=Math.PI/2;ring(root,0,y+.36,.355,.153,.008,dark);const dial=cyl(root,.2,y+.705,.35,.039,.025,steel);dial.rotation.x=Math.PI/2;rounded(root,-.12,y+.705,.339,.22,.06,.01,dark,.005);for(let n=0;n<3;n++)rounded(root,-.15+n*.04,y+.71,.347,.025,.008,.005,light,.002);}
-  rounded(root,0,1.82,0,.66,.07,.62,cream,.008);for(let i=0;i<3;i++)rounded(root,-.1,1.87+i*.065,.02,.38,.06,.32,linen,.025);
- }
- function vanity(root:THREE.Group,f:Furnishing){rounded(root,0,.53,0,f.w,.49,f.d,cream,.02);for(const y of[.43,.65]){rounded(root,0,y,f.d/2+.012,f.w-.024,.205,.025,cream,.01);rounded(root,0,y+.07,f.d/2+.032,f.w*.45,.012,.025,brass,.006);}rounded(root,0,.81,0,f.w+.025,.045,f.d+.02,stone,.012);bowl(root,0,.83,.03,Math.min(.58,f.w*.78),f.d*.76,.12);faucet(root,0,.85,-f.d/2+.04);
-  if(f.room!=='utility'){rounded(root,0,1.47,-f.d/2+.035,f.w*.83,.91,.04,brass,.1);rounded(root,0,1.47,-f.d/2+.063,f.w*.78,.86,.012,mirror,.09);rounded(root,0,1.96,-f.d/2+.065,f.w*.7,.025,.045,light,.01);cyl(root,f.w*.38,.91,.03,.027,.15,taupe);rounded(root,f.w*.38,.998,.03,.04,.015,.045,brass,.005);tube(root,[[-f.w*.33,.64,f.d/2+.06],[-f.w*.33,.57,f.d/2+.09],[f.w*.33,.57,f.d/2+.09],[f.w*.33,.64,f.d/2+.06]],.009,brass);rounded(root,-f.w*.22,.44,f.d/2+.105,.19,.3,.022,linen,.007);}
- }
- function toilet(root:THREE.Group,f:Furnishing){const body=put(root,new THREE.LatheGeometry([[0,0],[.16,0],[.18,.06],[.17,.24],[.22,.37],[.235,.43],[.2,.46],[0,.46]].map(([r,h])=>new THREE.Vector2(r,h)),32),ceramic,0,0,.06);body.scale.set(f.w/.47,1,f.d/.47*.83);rounded(root,0,.495,.035,f.w,.065,f.d*.88,white,.03);rounded(root,0,.51,-f.d*.32,f.w*.84,.26,.17,ceramic,.065);rounded(root,0,.654,-f.d*.33,.085,.012,.045,steel,.006);rounded(root,f.w*.47,.48,.09,.018,.055,.18,steel,.008);}
- function shower(root:THREE.Group,f:Furnishing){rounded(root,0,.018,0,f.w,.035,f.d,stone,.008);rounded(root,0,.039,-f.d/2+.075,f.w*.64,.005,.043,steel,.006);for(let i=0;i<10;i++)rounded(root,-f.w*.28+i*f.w*.062,.043,-f.d/2+.075,.013,.002,.03,dark,.001);
-  const back=-f.d/2+.07;tube(root,[[f.w*.2,1.02,back],[f.w*.2,2.12,back],[f.w*.2,2.17,back+.29]],.012,steel);const rain=cyl(root,f.w*.2,2.16,back+.29,.105,.024,steel);for(let i=0;i<12;i++){const a=i*Math.PI/6;orb(root,f.w*.2+Math.cos(a)*.075,2.143,back+.29+Math.sin(a)*.075,.006,.005,.006,dark);}rounded(root,f.w*.2,1.04,back,.24,.045,.07,steel,.016);tube(root,[[f.w*.2,1.02,back],[f.w*.04,.55,back+.06],[-f.w*.15,.88,back+.035],[-f.w*.15,1.42,back]],.006,steel);rounded(root,-f.w*.15,1.49,back,.035,.17,.025,steel,.013);
-  rounded(root,-f.w*.29,1.12,f.d/2,f.w*.42,2.18,.012,glass,.002);for(const x of[-f.w/2,-f.w*.08])rounded(root,x,1.12,f.d/2,.014,2.22,.018,brass,.003);rounded(root,-f.w*.29,2.235,f.d/2,f.w*.42,.018,.02,brass,.003);
-  rounded(root,-f.w*.3,1.2,back,.2,.035,.14,stone,.006);for(let i=0;i<2;i++){cyl(root,-f.w*.35+i*.09,1.31,back+.025,.027,.17,i?cream:taupe);rounded(root,-f.w*.35+i*.09,1.407,back+.025,.027,.018,.027,brass,.004);}
- }
- function tub(root:THREE.Group,f:Furnishing){bowl(root,0,.035,0,f.w,f.d,.55);cyl(root,f.w*.36,.57,-f.d*.25,.02,.78,steel);tube(root,[[f.w*.36,.72,-f.d*.25],[f.w*.36,.81,-f.d*.25],[f.w*.26,.8,-f.d*.18]],.012,steel);rounded(root,-f.w*.32,.58,0,.18,.025,f.d*.96,oak,.006);mug(root,-f.w*.32,.596,0);}
- function sideboard(root:THREE.Group,f:Furnishing){cabinet(root,f,.89);rounded(root,0,.918,0,f.w+.03,.045,f.d+.025,stone,.015);coffeeMachine(root,f.w*.27,.945,0);vase(root,-f.w*.27,.945,0);}
- function entry(root:THREE.Group,f:Furnishing){cabinet(root,{...f,w:f.w*.42},2.7);root.children.forEach(o=>o.position.x-=f.w*.29);rounded(root,f.w*.22,.43,0,f.w*.53,.12,f.d,linen,.045);rounded(root,f.w*.22,1.51,-f.d/2+.03,f.w*.48,1.65,.045,mirror,.08);rounded(root,f.w*.22,.12,-.025,f.w*.52,.24,f.d-.07,cream,.015);}
- for(const f of furnishings){const root=new THREE.Group();root.name=f.id;root.position.set(f.x,f.y??0,f.z);root.rotation.y=f.yaw??0;(f.kind==='pendant'?ceilingFixtures:group).add(root);
-  switch(f.kind){
-   case 'bed':bed(root,f);break;case 'sofa':sofa(root,f);break;case 'chair':chair(root,f);break;case 'armchair':chair(root,f,true);break;case 'coffee':table(root,f);break;case 'diningtable':table(root,f,true);break;case 'wardrobe':cabinet(root,f,2.7);break;case 'nightstand':nightstand(root,f);break;case 'desk':desk(root,f);break;case 'tvwall':television(root,f);break;case 'ac':ac(root,f);break;case 'plant':plant(root,f);break;case 'kitchenrun':kitchen(root,f);break;case 'fridge':fridge(root,f);break;case 'laundry':laundry(root,f);break;case 'vanity':vanity(root,f);break;case 'toilet':toilet(root,f);break;case 'shower':shower(root,f);break;case 'tub':tub(root,f);break;case 'sideboard':sideboard(root,f);break;case 'entrycabinet':entry(root,f);break;
-   case 'floorlamp':cyl(root,0,.02,0,.16,.04,brass);cyl(root,0,.76,0,.012,1.5,brass);cyl(root,0,1.42,0,.22,.26,linen,.3);cyl(root,0,1.283,0,.24,.013,light);break;
-   case 'console':rounded(root,0,.86,0,f.w,.06,f.d,stone,.025);for(const x of[-f.w*.39,f.w*.39])rounded(root,x,.42,0,.035,.84,f.d*.65,brass,.01);vase(root,0,.9,0);rounded(root,0,1.48,-f.d/2,f.w*.7,.75,.035,mirror,.09);break;
-   case 'pendant':for(const x of[-.33,.33]){cyl(root,x,.32,0,.005,.64,brass);orb(root,x,-.04,0,.52,.25,.46,light);}rounded(root,0,.69,0,.83,.025,.11,brass,.008);break;
+  const weave = new THREE.CanvasTexture(fabricCanvas);
+  weave.wrapS = weave.wrapT = THREE.RepeatWrapping;
+  weave.repeat.set(6, 6);
+  weave.colorSpace = THREE.SRGBColorSpace;
+  const mat = (color: string, roughness = 0.6, metalness = 0) =>
+    new THREE.MeshStandardMaterial({ color, roughness, metalness });
+  const weaveRelief = weave.clone();
+  weaveRelief.colorSpace = THREE.NoColorSpace;
+  const cream = mat("#f2e7d4"),
+    white = mat("#faf5e9"),
+    taupe = mat("#b9a991"),
+    stone = new THREE.MeshPhysicalMaterial({
+      color: "#dacbb2",
+      roughness: 0.3,
+      clearcoat: 0.3,
+      clearcoatRoughness: 0.2,
+    }),
+    ceramic = new THREE.MeshPhysicalMaterial({
+      color: "#fffaf0",
+      roughness: 0.17,
+      clearcoat: 0.7,
+      clearcoatRoughness: 0.1,
+    }),
+    linen = new THREE.MeshPhysicalMaterial({
+      map: weave,
+      bumpMap: weaveRelief,
+      bumpScale: 0.001,
+      color: "#f9f0dd",
+      roughness: 0.94,
+      sheen: 0.5,
+      sheenColor: "#efe6d4",
+      sheenRoughness: 0.85,
+    }),
+    sand = new THREE.MeshPhysicalMaterial({
+      map: weave,
+      bumpMap: weaveRelief,
+      bumpScale: 0.001,
+      color: "#c4b39a",
+      roughness: 0.97,
+      sheen: 0.4,
+      sheenColor: "#d9c9b1",
+      sheenRoughness: 0.9,
+    }),
+    brass = mat("#b8a17a", 0.27, 0.7),
+    steel = mat("#a5aaa7", 0.25, 0.85),
+    dark = mat("#252c2a", 0.26, 0.2),
+    screen = mat("#111b20", 0.1, 0.25),
+    oak = mat("#a8997d", 0.68),
+    green = mat("#657658", 0.85),
+    leafLight = mat("#8a9872", 0.8),
+    soil = mat("#514a3d", 1);
+  const mirror = new THREE.MeshStandardMaterial({
+    color: "#d2dcdb",
+    metalness: 1,
+    roughness: 0.045,
+  });
+  const glass = new THREE.MeshPhysicalMaterial({
+    color: "#dae8e1",
+    transparent: true,
+    opacity: 0.19,
+    roughness: 0.07,
+    metalness: 0,
+    depthWrite: false,
+    side: THREE.DoubleSide,
+  });
+  const light = new THREE.MeshStandardMaterial({
+    color: "#fff3d8",
+    emissive: "#ffe1a3",
+    emissiveIntensity: 1.25,
+    roughness: 0.6,
+  });
+  const geometries = new Map<string, THREE.BufferGeometry>();
+  function put(
+    parent: THREE.Object3D,
+    geo: THREE.BufferGeometry,
+    material: THREE.Material,
+    x: number,
+    y: number,
+    z: number,
+  ) {
+    const mesh = new THREE.Mesh(geo, material);
+    mesh.position.set(x, y, z);
+    mesh.castShadow = material !== glass && material !== light;
+    mesh.receiveShadow = true;
+    parent.add(mesh);
+    return mesh;
   }
- }
- // East-facing south-bedroom door, shown open inward along the north side of the room.
- const door=new THREE.Group();door.name='南次卧东向内开门';group.add(door);rounded(door,6.755,1.17,13.05,.85,2.29,.04,cream,.012);rounded(door,6.75,1.17,13.024,.68,2.1,.015,white,.01);for(const y of[.36,1.16,1.95])cyl(door,7.17,y,13.05,.01,.09,brass);rounded(door,6.43,1.03,13.086,.13,.022,.022,brass,.008);
- function curtain(x:number,z:number,width:number,angle:number){const root=new THREE.Group();root.position.set(x,1.43,z);root.rotation.y=angle;group.add(root);const geometry=new THREE.PlaneGeometry(width,2.79,28,16),position=geometry.attributes.position;for(let i=0;i<position.count;i++){const xx=position.getX(i),yy=position.getY(i);position.setZ(i,Math.sin(xx/width*Math.PI*12)*.033);if(yy<-.9)position.setY(i,yy+Math.cos(xx*32)*.012);}geometry.computeVertexNormals();const cloth=linen.clone();cloth.side=THREE.DoubleSide;const mesh=new THREE.Mesh(geometry,cloth);mesh.castShadow=false;mesh.receiveShadow=true;root.add(mesh);cyl(root,0,1.4,0,.013,width+.04,brass).rotation.z=Math.PI/2;}
- for(const z of[5.45,7.22,9.57,12.32])curtain(2.25,z,.44,Math.PI/2);
- for(const[x,z]of[[7.3,1.61],[9.91,1.61],[10.45,1.61],[13.21,1.61],[4.26,16.49],[6.95,16.49],[9.28,16.49],[12.85,16.49]])curtain(x,z,.35,0);
- const towelHooks=[[15.07,4.69,Math.PI/2],[8.86,16.28,Math.PI/2],[13.22,16.18,-Math.PI/2]];for(const[x,z,angle]of towelHooks){const root=new THREE.Group();root.position.set(x,0,z);root.rotation.y=angle;group.add(root);rounded(root,0,1.3,0,.4,.018,.02,brass,.006);rounded(root,0,1.08,.025,.27,.43,.024,linen,.01);}
- return {group,ceilingFixtures,obstacles:[...furnishingObstacles,...fixtureObstacles] as Rect[]};
+  function rounded(
+    parent: THREE.Object3D,
+    x: number,
+    y: number,
+    z: number,
+    w: number,
+    h: number,
+    d: number,
+    m: THREE.Material = cream,
+    r = 0.04,
+  ) {
+    const radius = Math.min(r, w * 0.45, h * 0.45, d * 0.45),
+      key = `r${w},${h},${d},${radius}`;
+    let geo = geometries.get(key);
+    if (!geo) {
+      geo = new RoundedBoxGeometry(w, h, d, 2, radius);
+      geometries.set(key, geo);
+    }
+    return put(parent, geo, m, x, y, z);
+  }
+  function cyl(
+    parent: THREE.Object3D,
+    x: number,
+    y: number,
+    z: number,
+    r: number,
+    h: number,
+    m: THREE.Material = brass,
+    rBottom = r,
+    segments = 24,
+  ) {
+    const key = `c${r},${rBottom},${h},${segments}`;
+    let geo = geometries.get(key);
+    if (!geo) {
+      geo = new THREE.CylinderGeometry(r, rBottom, h, segments);
+      geometries.set(key, geo);
+    }
+    return put(parent, geo, m, x, y, z);
+  }
+  function orb(
+    parent: THREE.Object3D,
+    x: number,
+    y: number,
+    z: number,
+    w: number,
+    h: number,
+    d: number,
+    m: THREE.Material,
+  ) {
+    let geo = geometries.get("sphere");
+    if (!geo) {
+      geo = new THREE.SphereGeometry(1, 16, 12);
+      geometries.set("sphere", geo);
+    }
+    const o = put(parent, geo, m, x, y, z);
+    o.scale.set(w / 2, h / 2, d / 2);
+    return o;
+  }
+  function ring(
+    parent: THREE.Object3D,
+    x: number,
+    y: number,
+    z: number,
+    r: number,
+    t: number,
+    m: THREE.Material,
+    flat = false,
+  ) {
+    const o = put(parent, new THREE.TorusGeometry(r, t, 8, 32), m, x, y, z);
+    if (flat) o.rotation.x = Math.PI / 2;
+    return o;
+  }
+  function tube(
+    parent: THREE.Object3D,
+    points: number[][],
+    radius: number,
+    m: THREE.Material = brass,
+  ) {
+    const curve = new THREE.CatmullRomCurve3(
+      points.map((p) => new THREE.Vector3(p[0], p[1], p[2])),
+    );
+    return put(parent, new THREE.TubeGeometry(curve, 16, radius, 8, false), m, 0, 0, 0);
+  }
+  function bowl(
+    parent: THREE.Object3D,
+    x: number,
+    y: number,
+    z: number,
+    w: number,
+    d: number,
+    h: number,
+    m: THREE.Material = ceramic,
+  ) {
+    const profile = [
+      [0, 0],
+      [0.29, 0],
+      [0.43, 0.12],
+      [0.5, 0.95],
+      [0.47, 1],
+      [0.435, 0.96],
+      [0.375, 0.27],
+      [0.28, 0.19],
+      [0, 0.19],
+    ].map(([r, a]) => new THREE.Vector2(r, a * h));
+    const o = put(parent, new THREE.LatheGeometry(profile, 40), m, x, y, z);
+    o.scale.set(w, 1, d);
+    return o;
+  }
+  function faucet(parent: THREE.Object3D, x: number, y: number, z: number) {
+    cyl(parent, x, y + 0.04, z, 0.025, 0.08, steel);
+    tube(
+      parent,
+      [
+        [x, y, z],
+        [x, y + 0.22, z],
+        [x, y + 0.27, z + 0.055],
+        [x, y + 0.24, z + 0.16],
+      ],
+      0.013,
+      steel,
+    );
+    rounded(parent, x + 0.065, y + 0.07, z, 0.09, 0.018, 0.035, steel, 0.008);
+  }
+  function book(parent: THREE.Object3D, x: number, y: number, z: number) {
+    rounded(parent, x, y, z, 0.26, 0.025, 0.19, taupe, 0.004);
+    rounded(parent, x + 0.02, y + 0.029, z, 0.24, 0.025, 0.18, white, 0.004);
+  }
+  function vase(parent: THREE.Object3D, x: number, y: number, z: number, small = false) {
+    const s = small ? 0.55 : 1;
+    const o = put(
+      parent,
+      new THREE.LatheGeometry(
+        [
+          [0, 0],
+          [0.08, 0],
+          [0.12, 0.08],
+          [0.11, 0.18],
+          [0.055, 0.25],
+          [0.05, 0.32],
+          [0.04, 0.32],
+          [0.035, 0.23],
+        ].map(([r, h]) => new THREE.Vector2(r * s, h * s)),
+        24,
+      ),
+      taupe,
+      x,
+      y,
+      z,
+    );
+    for (let i = 0; i < 3; i++) {
+      const a = i * 2.3;
+      const xx = x + Math.cos(a) * 0.12 * s,
+        zz = z + Math.sin(a) * 0.12 * s;
+      tube(
+        parent,
+        [
+          [x, y + 0.25 * s, z],
+          [xx, y + 0.55 * s, zz],
+          [xx + 0.03, y + 0.65 * s, zz],
+        ],
+        0.004,
+        green,
+      );
+      for (let j = 0; j < 3; j++) {
+        const leaf = orb(
+          parent,
+          xx + 0.025 * j * s,
+          y + (0.43 + 0.08 * j) * s,
+          zz,
+          0.11 * s,
+          0.04 * s,
+          0.055 * s,
+          green,
+        );
+        leaf.rotation.z = 0.5 + j * 0.6;
+      }
+    }
+    return o;
+  }
+  function lamp(parent: THREE.Object3D, x: number, y: number, z: number) {
+    cyl(parent, x, y + 0.012, z, 0.085, 0.024, brass);
+    cyl(parent, x, y + 0.16, z, 0.016, 0.3, brass);
+    const shade = cyl(parent, x, y + 0.3, z, 0.16, 0.14, light, 0.19);
+    return shade;
+  }
+  function bed(root: THREE.Group, f: Furnishing) {
+    const { w, d } = f;
+    for (const x of [-w * 0.37, w * 0.37])
+      for (const z of [-d * 0.34, d * 0.34]) cyl(root, x, 0.09, z, 0.035, 0.18, oak);
+    rounded(root, 0, 0.23, 0, w, 0.28, d, taupe, 0.09);
+    rounded(root, 0, 0.43, 0, w - 0.015, 0.22, d - 0.035, white, 0.1);
+    rounded(root, 0, 0.56, 0.17, w - 0.025, 0.16, d - 0.43, linen, 0.09);
+    rounded(root, 0, 0.65, -d / 2 + 0.34, w * 0.43, 0.14, 0.42, white, 0.07).position.x = -w * 0.24;
+    rounded(root, w * 0.24, 0.65, -d / 2 + 0.34, w * 0.43, 0.14, 0.42, white, 0.07);
+    rounded(root, 0, 0.65, d / 2 - 0.4, w - 0.045, 0.035, 0.58, sand, 0.015);
+    rounded(root, 0, 0.72, -d / 2 + 0.015, w + 0.12, 1.23, 0.11, linen, 0.055);
+    for (let i = 0; i < 5; i++)
+      rounded(root, (i - 2) * (w / 5), 0.75, -d / 2 + 0.078, w / 5 - 0.006, 1.1, 0.04, linen, 0.02);
+  }
+  function sofa(root: THREE.Group, f: Furnishing) {
+    const { w, d } = f;
+    const outdoor = f.variant === "outdoor";
+    const upholstery = outdoor ? sand : linen;
+    for (const x of [-w * 0.4, w * 0.4])
+      for (const z of [-d * 0.3, d * 0.3]) cyl(root, x, 0.09, z, 0.035, 0.17, brass);
+    rounded(root, 0, 0.29, 0, w, 0.32, d, upholstery, 0.12);
+    rounded(root, 0, 0.68, -d / 2 + 0.12, w, 0.52, 0.23, upholstery, 0.1);
+    for (const x of [-w / 2 + 0.12, w / 2 - 0.12])
+      rounded(root, x, 0.58, 0.02, 0.25, 0.38, d - 0.07, upholstery, 0.115);
+    const seats = w > 2.5 ? 3 : 2;
+    for (let i = 0; i < seats; i++) {
+      const sw = (w - 0.5) / seats;
+      rounded(
+        root,
+        -(w - 0.5) / 2 + sw * (i + 0.5),
+        0.48,
+        0.06,
+        sw - 0.02,
+        0.18,
+        d - 0.3,
+        linen,
+        0.075,
+      );
+      const cushion = rounded(
+        root,
+        -(w - 0.5) / 2 + sw * (i + 0.5),
+        0.7,
+        -0.19,
+        sw - 0.05,
+        0.39,
+        0.15,
+        linen,
+        0.07,
+      );
+      cushion.rotation.x = 0.12;
+    }
+    const pillow = rounded(root, -w / 2 + 0.4, 0.73, 0.03, 0.4, 0.38, 0.14, sand, 0.09);
+    pillow.rotation.set(-0.15, 0.1, 0.22);
+    const pillow2 = rounded(root, w / 2 - 0.44, 0.72, 0.02, 0.4, 0.38, 0.14, white, 0.08);
+    pillow2.rotation.z = -0.2;
+  }
+  function chair(root: THREE.Group, f: Furnishing, arm = false) {
+    const { w, d } = f;
+    for (const x of [-w * 0.34, w * 0.34])
+      for (const z of [-d * 0.31, d * 0.31]) {
+        const leg = cyl(root, x, 0.22, z, 0.019, 0.43, oak);
+        leg.rotation.z = x > 0 ? -0.06 : 0.06;
+      }
+    rounded(root, 0, 0.46, 0.015, w, 0.14, d - 0.055, linen, 0.055);
+    rounded(root, 0, 0.73, -d / 2 + 0.055, w, 0.48, 0.13, linen, 0.065);
+    if (arm)
+      for (const x of [-w / 2 + 0.065, w / 2 - 0.065])
+        rounded(root, x, 0.65, 0.025, 0.13, 0.21, d - 0.08, sand, 0.06);
+  }
+  function table(root: THREE.Group, f: Furnishing, dining = false) {
+    const h = dining ? 0.75 : 0.37;
+    const top = cyl(root, 0, h - 0.03, 0, 0.5, 0.055, stone, 0.5, 48);
+    top.scale.set(f.w, 1, f.d);
+    if (dining) {
+      for (const x of [-f.w * 0.27, f.w * 0.27]) {
+        const base = cyl(root, x, (h - 0.06) / 2, 0, 0.19, h - 0.06, cream);
+        base.scale.z = 0.85;
+        for (let i = 0; i < 18; i++) {
+          const a = (i * Math.PI) / 9;
+          cyl(
+            root,
+            x + Math.sin(a) * 0.19,
+            (h - 0.06) / 2,
+            Math.cos(a) * 0.158,
+            0.009,
+            h - 0.08,
+            taupe,
+            undefined,
+            8,
+          );
+        }
+      }
+    } else {
+      const base = cyl(root, 0, 0.16, 0, 0.27, 0.3, taupe);
+      base.scale.x = f.w * 0.68;
+      base.scale.z = f.d * 0.65;
+    }
+    if (dining) {
+      vase(root, 0, h, 0);
+      for (const x of [-f.w * 0.28, f.w * 0.28])
+        for (const z of [-f.d * 0.28, f.d * 0.28]) {
+          const plate = cyl(root, x, h + 0.009, z, 0.115, 0.012, ceramic);
+          ring(root, x, h + 0.017, z, 0.085, 0.002, taupe, true);
+        }
+    } else {
+      book(root, -f.w * 0.17, h + 0.015, 0);
+      vase(root, f.w * 0.24, h, 0, true);
+    }
+  }
+  function cabinet(root: THREE.Group, f: Furnishing, h: number) {
+    const n = Math.max(2, Math.round(f.w / 0.55));
+    rounded(root, 0, h / 2, 0, f.w, h, f.d, cream, 0.012);
+    rounded(root, 0, 0.035, 0.015, f.w - 0.09, 0.07, f.d - 0.05, taupe, 0.01);
+    for (let i = 0; i < n; i++) {
+      const x = -f.w / 2 + ((i + 0.5) * f.w) / n;
+      rounded(
+        root,
+        x,
+        h / 2 + 0.035,
+        f.d / 2 + 0.008,
+        f.w / n - 0.009,
+        h - 0.095,
+        0.024,
+        cream,
+        0.009,
+      );
+      rounded(
+        root,
+        x + (f.w / n) * 0.31,
+        h * 0.52,
+        f.d / 2 + 0.03,
+        0.012,
+        Math.min(0.24, h * 0.25),
+        0.021,
+        brass,
+        0.006,
+      );
+    }
+  }
+  function nightstand(root: THREE.Group, f: Furnishing) {
+    rounded(root, 0, 0.26, 0, f.w, 0.47, f.d, cream, 0.055);
+    rounded(root, 0, 0.36, f.d / 2 + 0.004, f.w - 0.05, 0.17, 0.015, taupe, 0.009);
+    rounded(root, 0, 0.16, f.d / 2 + 0.004, f.w - 0.05, 0.17, 0.015, cream, 0.009);
+    lamp(root, 0, 0.5, 0);
+  }
+  function desk(root: THREE.Group, f: Furnishing) {
+    rounded(root, 0, 0.75, 0, f.w, 0.055, f.d, stone, 0.025);
+    for (const x of [-f.w * 0.4, f.w * 0.4])
+      rounded(root, x, 0.37, 0, 0.045, 0.74, f.d * 0.82, brass, 0.012);
+    rounded(root, 0, 0.66, 0.025, f.w - 0.09, 0.14, f.d - 0.05, cream, 0.015);
+    rounded(root, 0, 0.65, f.d / 2, 0.18, 0.014, 0.025, brass, 0.004);
+    if (f.variant === "vanity") {
+      const o = orb(root, 0, 1.2, -f.d / 2, 0.57, 0.7, 0.035, mirror);
+      ring(root, 0, 1.2, -f.d / 2 - 0.01, 0.29, 0.014, brass).scale.y = 1.2;
+      vase(root, f.w * 0.32, 0.79, 0, true);
+    } else {
+      const laptop = new THREE.Group();
+      root.add(laptop);
+      rounded(laptop, 0, 0.79, 0, 0.35, 0.018, 0.24, steel, 0.008);
+      rounded(laptop, 0, 0.91, -0.11, 0.35, 0.23, 0.014, dark, 0.008);
+      rounded(laptop, 0, 0.91, -0.1, 0.31, 0.19, 0.004, screen, 0.004);
+      book(root, -f.w * 0.33, 0.79, 0);
+    }
+  }
+  function television(root: THREE.Group, f: Furnishing) {
+    rounded(root, 0, 1.27, -0.055, f.w, 2.52, 0.08, cream, 0.025);
+    rounded(root, 0, 0.32, 0.045, f.w, 0.28, 0.3, stone, 0.04);
+    rounded(root, 0, 1.45, 0.013, 1.99, 1.14, 0.055, dark, 0.025);
+    rounded(root, 0, 1.455, 0.047, 1.93, 1.08, 0.005, screen, 0.01);
+    rounded(root, 0, 0.57, 0.14, 0.84, 0.06, 0.06, dark, 0.02);
+    vase(root, -f.w * 0.4, 0.48, 0.07);
+    lamp(root, f.w * 0.4, 0.48, 0.05);
+  }
+  function ac(root: THREE.Group, f: Furnishing) {
+    rounded(root, 0, 0.01, 0, f.w, 0.29, 0.18, white, 0.035);
+    rounded(root, 0, -0.075, 0.098, f.w - 0.12, 0.055, 0.012, dark, 0.008);
+    for (let i = 0; i < 3; i++)
+      rounded(root, 0, -0.091 + i * 0.015, 0.108, f.w - 0.15, 0.006, 0.022, cream, 0.002);
+    orb(root, f.w * 0.35, 0, 0.102, 0.022, 0.012, 0.01, light);
+  }
+  function plant(root: THREE.Group, f: Furnishing) {
+    const h = f.h ?? 1.2;
+    const potH = h > 0.9 ? 0.36 : 0.25;
+    const pot = cyl(root, 0, potH / 2, 0, f.w * 0.43, potH, taupe, f.w * 0.31);
+    cyl(root, 0, potH + 0.006, 0, f.w * 0.38, 0.012, soil);
+    const stem = h - potH;
+    for (let b = 0; b < 5; b++) {
+      const a = b * 2.4,
+        tipX = Math.cos(a) * f.w * 0.65,
+        tipZ = Math.sin(a) * f.w * 0.65,
+        tipY = potH + stem * (0.55 + b * 0.1);
+      tube(
+        root,
+        [
+          [0, potH, 0],
+          [tipX * 0.3, potH + stem * 0.4, tipZ * 0.3],
+          [tipX, tipY, tipZ],
+        ],
+        0.009,
+        oak,
+      );
+      for (let i = 0; i < 8; i++) {
+        const t = i / 7,
+          ang = a + i * 2.1;
+        const x = tipX * (0.3 + 0.7 * t) + Math.sin(ang) * f.w * 0.15,
+          z = tipZ * (0.3 + 0.7 * t) + Math.cos(ang) * f.w * 0.15,
+          y = potH + stem * (0.3 + 0.6 * t) + 0.03 * b;
+        const leaf = orb(root, x, y, z, f.w * 0.28, 0.022, f.w * 0.13, i % 3 ? green : leafLight);
+        leaf.rotation.set(0.3 + Math.sin(ang) * 0.5, ang, Math.cos(ang) * 0.6);
+      }
+    }
+  }
+  function mug(root: THREE.Group, x: number, y: number, z: number) {
+    cyl(root, x, y + 0.055, z, 0.04, 0.1, ceramic);
+    ring(root, x + 0.046, y + 0.055, z, 0.026, 0.006, ceramic);
+    cyl(root, x, y + 0.108, z, 0.032, 0.003, taupe);
+  }
+  function coffeeMachine(root: THREE.Group, x: number, y: number, z: number) {
+    rounded(root, x, y + 0.19, z, 0.27, 0.37, 0.3, dark, 0.025);
+    rounded(root, x, y + 0.2, z + 0.16, 0.22, 0.27, 0.03, steel, 0.01);
+    rounded(root, x, y + 0.08, z + 0.17, 0.2, 0.018, 0.13, dark, 0.004);
+    cyl(root, x, y + 0.35, z + 0.172, 0.022, 0.01, steel).rotation.x = Math.PI / 2;
+    rounded(root, x, y + 0.24, z + 0.19, 0.07, 0.035, 0.07, dark, 0.007);
+    mug(root, x, y + 0.09, z + 0.18);
+  }
+  function kitchen(root: THREE.Group, f: Furnishing) {
+    cabinet(root, f, 0.86);
+    const sw = 0.68,
+      sx = 0.2,
+      d = f.d;
+    rounded(
+      root,
+      0,
+      f.variant === "hob" ? 1.23 : 0.967,
+      -d / 2 - 0.012,
+      f.w,
+      f.variant === "hob" ? 0.65 : 0.11,
+      0.025,
+      stone,
+      0.004,
+    );
+    if (f.variant === "sink") {
+      const left = sx - sw / 2 + f.w / 2,
+        right = f.w / 2 - sx - sw / 2;
+      rounded(root, -f.w / 2 + left / 2, 0.89, 0, left, 0.05, d, stone, 0.006);
+      rounded(root, sx + sw / 2 + right / 2, 0.89, 0, right, 0.05, d, stone, 0.006);
+      rounded(root, sx, 0.89, -d / 2 + 0.055, sw, 0.05, 0.11, stone, 0.006);
+      rounded(root, sx, 0.89, d / 2 - 0.055, sw, 0.05, 0.11, stone, 0.006);
+      rounded(root, sx, 0.74, 0, sw - 0.01, 0.03, d - 0.19, steel, 0.035);
+      rounded(root, sx - sw / 2 + 0.015, 0.81, 0, 0.027, 0.16, d - 0.19, steel, 0.007);
+      rounded(root, sx + sw / 2 - 0.015, 0.81, 0, 0.027, 0.16, d - 0.19, steel, 0.007);
+      for (const z of [-d / 2 + 0.11, d / 2 - 0.11])
+        rounded(root, sx, 0.81, z, sw, 0.16, 0.025, steel, 0.008);
+      faucet(root, sx, 0.915, -d / 2 + 0.07);
+      const dishX = -f.w / 2 + 0.33;
+      rounded(root, dishX, 0.47, d / 2 + 0.029, 0.55, 0.69, 0.025, white, 0.015);
+      rounded(root, dishX, 0.77, d / 2 + 0.048, 0.53, 0.08, 0.018, steel, 0.004);
+      rounded(root, dishX, 0.73, d / 2 + 0.073, 0.36, 0.018, 0.022, brass, 0.006);
+      for (let i = 0; i < 4; i++)
+        orb(root, dishX + 0.08 + i * 0.035, 0.78, d / 2 + 0.062, 0.012, 0.012, 0.005, dark);
+      const kettleX = f.w / 2 - 0.3;
+      cyl(root, kettleX, 1.02, 0, 0.085, 0.2, white, 0.1);
+      cyl(root, kettleX, 1.125, 0, 0.06, 0.018, brass);
+      tube(
+        root,
+        [
+          [kettleX + 0.06, 1.1, 0],
+          [kettleX + 0.13, 1.07, 0],
+          [kettleX + 0.13, 0.98, 0],
+          [kettleX + 0.07, 0.97, 0],
+        ],
+        0.015,
+        dark,
+      );
+    } else {
+      rounded(root, 0, 0.89, 0, f.w, 0.05, d, stone, 0.008);
+      rounded(root, 0.18, 0.925, 0, 0.66, 0.025, 0.47, dark, 0.012);
+      for (const x of [-0.03, 0.39])
+        for (const z of [-0.115, 0.115]) {
+          ring(root, x, 0.947, z, 0.073, 0.008, dark, true);
+          ring(root, x, 0.95, z, 0.052, 0.006, steel, true);
+          for (let i = 0; i < 2; i++) {
+            const grate = rounded(root, x, 0.959, z, 0.17, 0.016, 0.013, dark, 0.002);
+            grate.rotation.y = (i * Math.PI) / 2;
+          }
+        }
+      const ovenX = 0.18;
+      rounded(root, ovenX, 0.45, d / 2 + 0.022, 0.56, 0.57, 0.032, steel, 0.014);
+      rounded(root, ovenX, 0.43, d / 2 + 0.043, 0.48, 0.39, 0.017, screen, 0.01);
+      rounded(root, ovenX, 0.68, d / 2 + 0.06, 0.43, 0.025, 0.033, brass, 0.006);
+      for (const x of [ovenX - 0.17, ovenX + 0.17])
+        cyl(root, x, 0.69, d / 2 + 0.065, 0.023, 0.02, dark).rotation.x = Math.PI / 2;
+      for (const x of [-f.w / 2 + 0.32, f.w / 2 - 0.32]) {
+        rounded(root, x, 2.15, -d / 2 + 0.18, 0.58, 1.07, 0.34, cream, 0.015);
+        rounded(root, x, 2.15, -d / 2 + 0.357, 0.558, 1.04, 0.025, cream, 0.008);
+        rounded(root, x, 1.78, -d / 2 + 0.382, 0.16, 0.012, 0.024, brass, 0.005);
+      }
+      rounded(root, 0.18, 1.66, -0.06, 0.72, 0.085, 0.47, steel, 0.014);
+      rounded(root, 0.18, 2.12, -0.18, 0.33, 0.88, 0.22, cream, 0.015);
+      rounded(root, 0.18, 1.61, 0.06, 0.55, 0.014, 0.18, dark, 0.004);
+      for (const x of [-0.04, 0.4]) orb(root, x, 1.608, 0.1, 0.025, 0.01, 0.025, light);
+      cyl(root, -0.03, 1.027, -0.115, 0.071, 0.13, steel);
+      cyl(root, -0.03, 1.102, -0.115, 0.08, 0.015, steel);
+      orb(root, -0.03, 1.12, -0.115, 0.036, 0.025, 0.036, dark);
+    }
+  }
+  function fridge(root: THREE.Group, f: Furnishing) {
+    rounded(root, 0, 1.04, 0, f.w, 2.08, f.d, cream, 0.035);
+    const front = f.d / 2 + 0.015;
+    for (const x of [-f.w / 4, f.w / 4]) {
+      rounded(root, x, 1.21, front, f.w / 2 - 0.009, 1.61, 0.026, steel, 0.018);
+      rounded(root, x < 0 ? -0.032 : 0.032, 1.18, front + 0.026, 0.019, 0.55, 0.028, brass, 0.008);
+    }
+    rounded(root, 0, 0.21, front, f.w - 0.022, 0.38, 0.027, cream, 0.018);
+    rounded(root, 0.14, 1.48, front + 0.017, 0.14, 0.18, 0.012, dark, 0.008);
+    for (let i = 0; i < 3; i++)
+      rounded(root, 0.14, 1.52 - i * 0.035, front + 0.025, 0.075, 0.006, 0.005, light, 0.002);
+  }
+  function laundry(root: THREE.Group, f: Furnishing) {
+    for (let i = 0; i < 2; i++) {
+      const y = i * 0.89;
+      rounded(root, 0, y + 0.43, 0, 0.66, 0.86, 0.62, white, 0.023);
+      rounded(root, 0, y + 0.68, 0.319, 0.6, 0.17, 0.02, cream, 0.006);
+      ring(root, 0, y + 0.36, 0.337, 0.205, 0.018, steel);
+      const port = cyl(root, 0, y + 0.36, 0.332, 0.185, 0.025, screen);
+      port.rotation.x = Math.PI / 2;
+      ring(root, 0, y + 0.36, 0.355, 0.153, 0.008, dark);
+      const dial = cyl(root, 0.2, y + 0.705, 0.35, 0.039, 0.025, steel);
+      dial.rotation.x = Math.PI / 2;
+      rounded(root, -0.12, y + 0.705, 0.339, 0.22, 0.06, 0.01, dark, 0.005);
+      for (let n = 0; n < 3; n++)
+        rounded(root, -0.15 + n * 0.04, y + 0.71, 0.347, 0.025, 0.008, 0.005, light, 0.002);
+    }
+    rounded(root, 0, 1.82, 0, 0.66, 0.07, 0.62, cream, 0.008);
+    for (let i = 0; i < 3; i++)
+      rounded(root, -0.1, 1.87 + i * 0.065, 0.02, 0.38, 0.06, 0.32, linen, 0.025);
+  }
+  function vanity(root: THREE.Group, f: Furnishing) {
+    rounded(root, 0, 0.53, 0, f.w, 0.49, f.d, cream, 0.02);
+    for (const y of [0.43, 0.65]) {
+      rounded(root, 0, y, f.d / 2 + 0.012, f.w - 0.024, 0.205, 0.025, cream, 0.01);
+      rounded(root, 0, y + 0.07, f.d / 2 + 0.032, f.w * 0.45, 0.012, 0.025, brass, 0.006);
+    }
+    rounded(root, 0, 0.81, 0, f.w + 0.025, 0.045, f.d + 0.02, stone, 0.012);
+    bowl(root, 0, 0.83, 0.03, Math.min(0.58, f.w * 0.78), f.d * 0.76, 0.12);
+    faucet(root, 0, 0.85, -f.d / 2 + 0.04);
+    if (f.room !== "utility") {
+      rounded(root, 0, 1.47, -f.d / 2 + 0.035, f.w * 0.83, 0.91, 0.04, brass, 0.1);
+      rounded(root, 0, 1.47, -f.d / 2 + 0.063, f.w * 0.78, 0.86, 0.012, mirror, 0.09);
+      rounded(root, 0, 1.96, -f.d / 2 + 0.065, f.w * 0.7, 0.025, 0.045, light, 0.01);
+      cyl(root, f.w * 0.38, 0.91, 0.03, 0.027, 0.15, taupe);
+      rounded(root, f.w * 0.38, 0.998, 0.03, 0.04, 0.015, 0.045, brass, 0.005);
+      tube(
+        root,
+        [
+          [-f.w * 0.33, 0.64, f.d / 2 + 0.06],
+          [-f.w * 0.33, 0.57, f.d / 2 + 0.09],
+          [f.w * 0.33, 0.57, f.d / 2 + 0.09],
+          [f.w * 0.33, 0.64, f.d / 2 + 0.06],
+        ],
+        0.009,
+        brass,
+      );
+      rounded(root, -f.w * 0.22, 0.44, f.d / 2 + 0.105, 0.19, 0.3, 0.022, linen, 0.007);
+    }
+  }
+  function toilet(root: THREE.Group, f: Furnishing) {
+    const body = put(
+      root,
+      new THREE.LatheGeometry(
+        [
+          [0, 0],
+          [0.16, 0],
+          [0.18, 0.06],
+          [0.17, 0.24],
+          [0.22, 0.37],
+          [0.235, 0.43],
+          [0.2, 0.46],
+          [0, 0.46],
+        ].map(([r, h]) => new THREE.Vector2(r, h)),
+        32,
+      ),
+      ceramic,
+      0,
+      0,
+      0.06,
+    );
+    body.scale.set(f.w / 0.47, 1, (f.d / 0.47) * 0.83);
+    rounded(root, 0, 0.495, 0.035, f.w, 0.065, f.d * 0.88, white, 0.03);
+    rounded(root, 0, 0.51, -f.d * 0.32, f.w * 0.84, 0.26, 0.17, ceramic, 0.065);
+    rounded(root, 0, 0.654, -f.d * 0.33, 0.085, 0.012, 0.045, steel, 0.006);
+    rounded(root, f.w * 0.47, 0.48, 0.09, 0.018, 0.055, 0.18, steel, 0.008);
+  }
+  function shower(root: THREE.Group, f: Furnishing) {
+    rounded(root, 0, 0.018, 0, f.w, 0.035, f.d, stone, 0.008);
+    rounded(root, 0, 0.039, -f.d / 2 + 0.075, f.w * 0.64, 0.005, 0.043, steel, 0.006);
+    for (let i = 0; i < 10; i++)
+      rounded(
+        root,
+        -f.w * 0.28 + i * f.w * 0.062,
+        0.043,
+        -f.d / 2 + 0.075,
+        0.013,
+        0.002,
+        0.03,
+        dark,
+        0.001,
+      );
+    const back = -f.d / 2 + 0.07;
+    tube(
+      root,
+      [
+        [f.w * 0.2, 1.02, back],
+        [f.w * 0.2, 2.12, back],
+        [f.w * 0.2, 2.17, back + 0.29],
+      ],
+      0.012,
+      steel,
+    );
+    const rain = cyl(root, f.w * 0.2, 2.16, back + 0.29, 0.105, 0.024, steel);
+    for (let i = 0; i < 12; i++) {
+      const a = (i * Math.PI) / 6;
+      orb(
+        root,
+        f.w * 0.2 + Math.cos(a) * 0.075,
+        2.143,
+        back + 0.29 + Math.sin(a) * 0.075,
+        0.006,
+        0.005,
+        0.006,
+        dark,
+      );
+    }
+    rounded(root, f.w * 0.2, 1.04, back, 0.24, 0.045, 0.07, steel, 0.016);
+    tube(
+      root,
+      [
+        [f.w * 0.2, 1.02, back],
+        [f.w * 0.04, 0.55, back + 0.06],
+        [-f.w * 0.15, 0.88, back + 0.035],
+        [-f.w * 0.15, 1.42, back],
+      ],
+      0.006,
+      steel,
+    );
+    rounded(root, -f.w * 0.15, 1.49, back, 0.035, 0.17, 0.025, steel, 0.013);
+    rounded(root, -f.w * 0.29, 1.12, f.d / 2, f.w * 0.42, 2.18, 0.012, glass, 0.002);
+    for (const x of [-f.w / 2, -f.w * 0.08])
+      rounded(root, x, 1.12, f.d / 2, 0.014, 2.22, 0.018, brass, 0.003);
+    rounded(root, -f.w * 0.29, 2.235, f.d / 2, f.w * 0.42, 0.018, 0.02, brass, 0.003);
+    rounded(root, -f.w * 0.3, 1.2, back, 0.2, 0.035, 0.14, stone, 0.006);
+    for (let i = 0; i < 2; i++) {
+      cyl(root, -f.w * 0.35 + i * 0.09, 1.31, back + 0.025, 0.027, 0.17, i ? cream : taupe);
+      rounded(root, -f.w * 0.35 + i * 0.09, 1.407, back + 0.025, 0.027, 0.018, 0.027, brass, 0.004);
+    }
+  }
+  function tub(root: THREE.Group, f: Furnishing) {
+    bowl(root, 0, 0.035, 0, f.w, f.d, 0.55);
+    cyl(root, f.w * 0.36, 0.57, -f.d * 0.25, 0.02, 0.78, steel);
+    tube(
+      root,
+      [
+        [f.w * 0.36, 0.72, -f.d * 0.25],
+        [f.w * 0.36, 0.81, -f.d * 0.25],
+        [f.w * 0.26, 0.8, -f.d * 0.18],
+      ],
+      0.012,
+      steel,
+    );
+    rounded(root, -f.w * 0.32, 0.58, 0, 0.18, 0.025, f.d * 0.96, oak, 0.006);
+    mug(root, -f.w * 0.32, 0.596, 0);
+  }
+  function sideboard(root: THREE.Group, f: Furnishing) {
+    cabinet(root, f, 0.89);
+    rounded(root, 0, 0.918, 0, f.w + 0.03, 0.045, f.d + 0.025, stone, 0.015);
+    coffeeMachine(root, f.w * 0.27, 0.945, 0);
+    vase(root, -f.w * 0.27, 0.945, 0);
+  }
+  function entry(root: THREE.Group, f: Furnishing) {
+    cabinet(root, { ...f, w: f.w * 0.42 }, 2.7);
+    root.children.forEach((o) => (o.position.x -= f.w * 0.29));
+    rounded(root, f.w * 0.22, 0.43, 0, f.w * 0.53, 0.12, f.d, linen, 0.045);
+    rounded(root, f.w * 0.22, 1.51, -f.d / 2 + 0.03, f.w * 0.48, 1.65, 0.045, mirror, 0.08);
+    rounded(root, f.w * 0.22, 0.12, -0.025, f.w * 0.52, 0.24, f.d - 0.07, cream, 0.015);
+  }
+  for (const f of furnishings) {
+    const root = new THREE.Group();
+    root.name = f.id;
+    root.position.set(f.x, f.y ?? 0, f.z);
+    root.rotation.y = f.yaw ?? 0;
+    (f.kind === "pendant" ? ceilingFixtures : group).add(root);
+    switch (f.kind) {
+      case "bed":
+        bed(root, f);
+        break;
+      case "sofa":
+        sofa(root, f);
+        break;
+      case "chair":
+        chair(root, f);
+        break;
+      case "armchair":
+        chair(root, f, true);
+        break;
+      case "coffee":
+        table(root, f);
+        break;
+      case "diningtable":
+        table(root, f, true);
+        break;
+      case "wardrobe":
+        cabinet(root, f, 2.7);
+        break;
+      case "nightstand":
+        nightstand(root, f);
+        break;
+      case "desk":
+        desk(root, f);
+        break;
+      case "tvwall":
+        television(root, f);
+        break;
+      case "ac":
+        ac(root, f);
+        break;
+      case "plant":
+        plant(root, f);
+        break;
+      case "kitchenrun":
+        kitchen(root, f);
+        break;
+      case "fridge":
+        fridge(root, f);
+        break;
+      case "laundry":
+        laundry(root, f);
+        break;
+      case "vanity":
+        vanity(root, f);
+        break;
+      case "toilet":
+        toilet(root, f);
+        break;
+      case "shower":
+        shower(root, f);
+        break;
+      case "tub":
+        tub(root, f);
+        break;
+      case "sideboard":
+        sideboard(root, f);
+        break;
+      case "entrycabinet":
+        entry(root, f);
+        break;
+      case "floorlamp":
+        cyl(root, 0, 0.02, 0, 0.16, 0.04, brass);
+        cyl(root, 0, 0.76, 0, 0.012, 1.5, brass);
+        cyl(root, 0, 1.42, 0, 0.22, 0.26, linen, 0.3);
+        cyl(root, 0, 1.283, 0, 0.24, 0.013, light);
+        break;
+      case "console":
+        rounded(root, 0, 0.86, 0, f.w, 0.06, f.d, stone, 0.025);
+        for (const x of [-f.w * 0.39, f.w * 0.39])
+          rounded(root, x, 0.42, 0, 0.035, 0.84, f.d * 0.65, brass, 0.01);
+        vase(root, 0, 0.9, 0);
+        rounded(root, 0, 1.48, -f.d / 2, f.w * 0.7, 0.75, 0.035, mirror, 0.09);
+        break;
+      case "pendant":
+        for (const x of [-0.33, 0.33]) {
+          cyl(root, x, 0.32, 0, 0.005, 0.64, brass);
+          orb(root, x, -0.04, 0, 0.52, 0.25, 0.46, light);
+        }
+        rounded(root, 0, 0.69, 0, 0.83, 0.025, 0.11, brass, 0.008);
+        break;
+    }
+  }
+  // East-facing south-bedroom door, shown open inward along the north side of the room.
+  const door = new THREE.Group();
+  door.name = "南次卧东向内开门";
+  group.add(door);
+  rounded(door, 6.755, 1.17, 13.05, 0.85, 2.29, 0.04, cream, 0.012);
+  rounded(door, 6.75, 1.17, 13.024, 0.68, 2.1, 0.015, white, 0.01);
+  for (const y of [0.36, 1.16, 1.95]) cyl(door, 7.17, y, 13.05, 0.01, 0.09, brass);
+  rounded(door, 6.43, 1.03, 13.086, 0.13, 0.022, 0.022, brass, 0.008);
+  function curtain(x: number, z: number, width: number, angle: number) {
+    const root = new THREE.Group();
+    root.position.set(x, 1.43, z);
+    root.rotation.y = angle;
+    group.add(root);
+    const geometry = new THREE.PlaneGeometry(width, 2.79, 28, 16),
+      position = geometry.attributes.position;
+    for (let i = 0; i < position.count; i++) {
+      const xx = position.getX(i),
+        yy = position.getY(i);
+      position.setZ(i, Math.sin((xx / width) * Math.PI * 12) * 0.033);
+      if (yy < -0.9) position.setY(i, yy + Math.cos(xx * 32) * 0.012);
+    }
+    geometry.computeVertexNormals();
+    const cloth = linen.clone();
+    cloth.side = THREE.DoubleSide;
+    const mesh = new THREE.Mesh(geometry, cloth);
+    mesh.castShadow = false;
+    mesh.receiveShadow = true;
+    root.add(mesh);
+    cyl(root, 0, 1.4, 0, 0.013, width + 0.04, brass).rotation.z = Math.PI / 2;
+  }
+  for (const z of [5.45, 7.22, 9.57, 12.32]) curtain(2.25, z, 0.44, Math.PI / 2);
+  for (const [x, z] of [
+    [7.3, 1.61],
+    [9.91, 1.61],
+    [10.45, 1.61],
+    [13.21, 1.61],
+    [4.26, 16.49],
+    [6.95, 16.49],
+    [9.28, 16.49],
+    [12.85, 16.49],
+  ])
+    curtain(x, z, 0.35, 0);
+  const towelHooks = [
+    [15.07, 4.69, Math.PI / 2],
+    [8.86, 16.28, Math.PI / 2],
+    [13.22, 16.18, -Math.PI / 2],
+  ];
+  for (const [x, z, angle] of towelHooks) {
+    const root = new THREE.Group();
+    root.position.set(x, 0, z);
+    root.rotation.y = angle;
+    group.add(root);
+    rounded(root, 0, 1.3, 0, 0.4, 0.018, 0.02, brass, 0.006);
+    rounded(root, 0, 1.08, 0.025, 0.27, 0.43, 0.024, linen, 0.01);
+  }
+  return {
+    group,
+    ceilingFixtures,
+    obstacles: [...furnishingObstacles, ...fixtureObstacles] as Rect[],
+  };
 }
