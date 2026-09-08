@@ -14,16 +14,28 @@ import {
   ChevronRight,
   X,
   MoveUpRight,
+  SlidersHorizontal,
+  Minimize,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+  SheetClose,
+} from "@/components/ui/sheet";
 import { rooms, walls, floorRects, DIMENSIONS } from "@/lib/plan";
 import type { Mode, TourApi } from "@/lib/scene";
 
 export default function HomeTour() {
   const host = useRef<HTMLDivElement>(null),
     api = useRef<TourApi | null>(null);
+  const movementPointers = useRef(new Map<string, number>()),
+    showPosition = useRef(true);
   const [ready, setReady] = useState(false),
     [error, setError] = useState(""),
     [mode, setMode] = useState<Mode>("walk"),
@@ -33,9 +45,51 @@ export default function HomeTour() {
     [furniture, setFurniture] = useState(true),
     [roomId, setRoomId] = useState("living"),
     [source, setSource] = useState(false),
+    [mobilePanel, setMobilePanel] = useState<"rooms" | "settings" | "map" | null>(null),
+    [isMobile, setIsMobile] = useState(false),
+    [immersive, setImmersive] = useState(false),
     [mapOpen, setMapOpen] = useState(true),
     [position, setPosition] = useState({ x: 7.15, z: 10.45, yaw: 2.1 });
   const current = rooms.find((r) => r.id === roomId) ?? rooms[0];
+  showPosition.current = (!isMobile && mapOpen) || mobilePanel === "map";
+  useEffect(() => {
+    const query = window.matchMedia("(max-width:800px), (max-width:1100px) and (pointer:coarse)");
+    const update = () => {
+      setIsMobile(query.matches);
+      if (!query.matches) setMobilePanel(null);
+    };
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+  useEffect(() => {
+    api.current?.stop();
+    movementPointers.current.clear();
+  }, [source, mobilePanel, mode]);
+  useEffect(() => {
+    const clear = () => movementPointers.current.clear();
+    const visibility = () => {
+      if (document.hidden) clear();
+    };
+    window.addEventListener("blur", clear);
+    document.addEventListener("visibilitychange", visibility);
+    return () => {
+      window.removeEventListener("blur", clear);
+      document.removeEventListener("visibilitychange", visibility);
+    };
+  }, []);
+  useEffect(() => {
+    const sync = () => setImmersive(Boolean(document.fullscreenElement));
+    const escape = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && !source && !mobilePanel) setImmersive(false);
+    };
+    document.addEventListener("fullscreenchange", sync);
+    window.addEventListener("keydown", escape);
+    return () => {
+      document.removeEventListener("fullscreenchange", sync);
+      window.removeEventListener("keydown", escape);
+    };
+  }, [source, mobilePanel]);
   useEffect(() => {
     let cancelled = false;
     import("@/lib/scene")
@@ -43,7 +97,7 @@ export default function HomeTour() {
         if (cancelled || !host.current) return;
         try {
           api.current = createTour(host.current, (x, z, yaw, id) => {
-            setPosition({ x, z, yaw });
+            if (showPosition.current) setPosition({ x, z, yaw });
             setRoomId(id);
           });
           setReady(true);
@@ -69,13 +123,26 @@ export default function HomeTour() {
     setCeiling(value === "walk");
   }
   function go(id: string) {
+    setMobilePanel(null);
+    api.current?.stop();
     setRoomId(id);
     api.current?.go(id);
     changeMode("walk");
   }
-  function fullscreen() {
-    if (document.fullscreenElement) document.exitFullscreen?.();
-    else document.documentElement.requestFullscreen?.().catch(() => {});
+  async function fullscreen() {
+    if (immersive) {
+      setImmersive(false);
+      if (document.fullscreenElement) await document.exitFullscreen?.();
+      return;
+    }
+    setImmersive(true);
+    if (document.documentElement.requestFullscreen) {
+      try {
+        await document.documentElement.requestFullscreen();
+      } catch {
+        /* Safari still gets the expanded in-page view. */
+      }
+    }
   }
   function mapKey(e: React.KeyboardEvent, id: string) {
     if (e.key === "Enter" || e.key === " ") {
@@ -83,8 +150,198 @@ export default function HomeTour() {
       go(id);
     }
   }
+  function renderSettings(prefix: string) {
+    return (
+      <>
+        <div className="card-eyebrow">
+          {mode === "walk" ? "当前空间" : "全屋方案"}
+          <span>20F</span>
+        </div>
+        <h2>{mode === "walk" ? current.name : "暖白 · 浅米石纹"}</h2>
+        <p className="room-note">
+          {mode === "walk" ? current.note : "午后日光、细腻瓷砖和柔和暖光，窗外是城市天际线。"}
+        </p>
+        <div className="heights">
+          <div>
+            <b>
+              {mode === "walk" ? current.height : "3"}
+              <small>m</small>
+            </b>
+            <span>{mode === "walk" ? "本空间层高" : "普通空间层高"}</span>
+          </div>
+          <div>
+            <b>
+              6<small>m</small>
+            </b>
+            <span>挑空阳台层高</span>
+          </div>
+        </div>
+        <div className="materials">
+          <div>
+            <i className="swatch tile" />
+            <span>
+              <b>浅米石纹瓷砖</b>
+              <small>1200 × 600mm · 细缝</small>
+            </span>
+          </div>
+          <div>
+            <i className="swatch paint" />
+            <span>
+              <b>奶油白墙面</b>
+              <small>哑光乳胶漆</small>
+            </span>
+          </div>
+          <div>
+            <i className="swatch plaster" />
+            <span>
+              <b>简洁石膏板吊顶</b>
+              <small>局部边吊 150mm</small>
+            </span>
+          </div>
+        </div>
+        <div className="toggles">
+          <label htmlFor={`furniture-${prefix}`}>
+            家具与家电
+            <Switch id={`furniture-${prefix}`} checked={furniture} onCheckedChange={setFurniture} />
+          </label>
+          <label htmlFor={`ceiling-${prefix}`}>
+            吊顶与吊灯
+            <Switch id={`ceiling-${prefix}`} checked={ceiling} onCheckedChange={setCeiling} />
+          </label>
+          <label htmlFor={`cutaway-${prefix}`} className={mode === "walk" ? "disabled" : ""}>
+            剖切墙体
+            <Switch
+              id={`cutaway-${prefix}`}
+              checked={cutaway}
+              onCheckedChange={setCutaway}
+              disabled={mode === "walk"}
+            />
+          </label>
+          <label htmlFor={`dimensions-${prefix}`} className={mode === "walk" ? "disabled" : ""}>
+            空间标注
+            <Switch
+              id={`dimensions-${prefix}`}
+              checked={dimensions}
+              onCheckedChange={setDimensions}
+              disabled={mode === "walk"}
+            />
+          </label>
+        </div>
+        <p className="card-footnote">
+          {mode === "walk"
+            ? "20 层 · 午后日光 · 城市景观为示意"
+            : "剖切仅改变可见范围，不改变实际层高。"}
+        </p>
+      </>
+    );
+  }
+  function renderMap() {
+    return (
+      <svg
+        className="floor-map"
+        viewBox="-1 -1.3 18.4 20.6"
+        role="img"
+        aria-label="按户型比例绘制的空间导航，上北下南"
+      >
+        <text x="16.2" y=".5" className="north">
+          N
+        </text>
+        <path d="M16.4 1L16 .2L15.6 1" fill="none" stroke="#626b59" strokeWidth=".12" />
+        {floorRects.map((r, i) => (
+          <rect key={i} x={r[0]} y={r[1]} width={r[2] - r[0]} height={r[3] - r[1]} fill="#f3ede2" />
+        ))}
+        <rect x="8.6" y="6.6" width="7.8" height="5" fill="#e3e5e0" />
+        <rect x="11.8" y="9.4" width="4.6" height=".82" fill="#c6c8be" />
+        <text x="14.1" y="9.94" className="core-label">
+          设备井
+        </text>
+        {Array.from({ length: 10 }, (_, i) => (
+          <path
+            key={i}
+            d={`M${12.8 + (i * 2.35) / 9} 6.78v1M${12.8 + (i * 2.35) / 9} 8.18v1.06`}
+            stroke="#9ea391"
+            strokeWidth=".035"
+            fill="none"
+          />
+        ))}
+        <rect
+          x="0"
+          y="0"
+          width="4"
+          height="5"
+          fill="none"
+          stroke="#c5c9c0"
+          strokeDasharray=".22 .2"
+          strokeWidth=".06"
+        />
+        <text x="2" y="2.5" className="core-label">
+          挑空上空
+        </text>
+        {rooms.map((r) => (
+          <g
+            key={r.id}
+            role="button"
+            tabIndex={0}
+            aria-label={"进入" + r.name}
+            onClick={() => go(r.id)}
+            onKeyDown={(e) => mapKey(e, r.id)}
+            className={"map-room " + (r.id === roomId ? "active" : "")}
+          >
+            <rect
+              x={r.rect[0]}
+              y={r.rect[1]}
+              width={r.rect[2] - r.rect[0]}
+              height={r.rect[3] - r.rect[1]}
+              fill={r.id === roomId ? "#d5dfc5" : "transparent"}
+            />
+            <text x={(r.rect[0] + r.rect[2]) / 2} y={(r.rect[1] + r.rect[3]) / 2 + 0.15}>
+              {r.name}
+            </text>
+          </g>
+        ))}
+        {walls.flatMap((w, i) => {
+          const v = w.a[0] === w.b[0];
+          const len = Math.hypot(w.b[0] - w.a[0], w.b[1] - w.a[1]);
+          let last = 0;
+          const segments: React.ReactNode[] = [];
+          for (const [j, o] of [...(w.openings ?? []), { a: len, b: len, kind: "end" }].entries()) {
+            if (o.a > last)
+              segments.push(
+                <line
+                  key={`${i}-${j}`}
+                  x1={w.a[0] + (v ? 0 : last)}
+                  y1={w.a[1] + (v ? last : 0)}
+                  x2={w.a[0] + (v ? 0 : o.a)}
+                  y2={w.a[1] + (v ? o.a : 0)}
+                  stroke="#717467"
+                  strokeWidth=".14"
+                />,
+              );
+            last = o.b;
+          }
+          return segments;
+        })}
+        <path d="M0 5V17.8H4V16.7" fill="none" stroke="#8a9285" strokeWidth=".08" />
+        <path
+          d="M7.2 13.05H6.35M6.35 13.05A.9 .9 0 0 0 7.2 13.95"
+          fill="none"
+          stroke="#8b785d"
+          strokeWidth=".055"
+          pointerEvents="none"
+        />
+        {mode === "walk" && (
+          <g
+            transform={`translate(${position.x} ${position.z}) rotate(${(-position.yaw * 180) / Math.PI})`}
+          >
+            <path d="M0 -1L-.52 -.2L.52 -.2Z" fill="#65774f" opacity=".3" />
+            <circle r=".24" fill="#50693c" stroke="white" strokeWidth=".1" />
+          </g>
+        )}
+      </svg>
+    );
+  }
   return (
-    <main className="tour-shell">
+    <main className={"tour-shell" + (immersive ? " immersive" : "")}>
       <header className="topbar">
         <div className="brand">
           <span className="monogram">
@@ -111,7 +368,11 @@ export default function HomeTour() {
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        <button className="source-button" onClick={() => setSource(true)}>
+        <button
+          className="source-button"
+          aria-label="查看原图与尺寸依据"
+          onClick={() => setSource(true)}
+        >
           <FileImage size={17} />
           <span>尺寸依据</span>
         </button>
@@ -142,91 +403,16 @@ export default function HomeTour() {
           <button title="恢复视角" aria-label="恢复视角" onClick={() => api.current?.reset()}>
             <RotateCcw size={18} />
           </button>
-          <button title="全屏" aria-label="全屏" onClick={fullscreen}>
-            <Maximize size={18} />
+          <button
+            title={immersive ? "退出沉浸模式" : isMobile ? "沉浸模式" : "全屏"}
+            aria-label={immersive ? "退出沉浸模式" : isMobile ? "沉浸模式" : "全屏"}
+            aria-pressed={immersive}
+            onClick={fullscreen}
+          >
+            {immersive ? <Minimize size={18} /> : <Maximize size={18} />}
           </button>
         </div>
-        <aside className="material-card">
-          <div className="card-eyebrow">
-            {mode === "walk" ? "当前空间" : "全屋方案"}
-            <span>20F</span>
-          </div>
-          <h2>{mode === "walk" ? current.name : "暖白 · 浅米石纹"}</h2>
-          <p className="room-note">
-            {mode === "walk" ? current.note : "午后日光、细腻瓷砖和柔和暖光，窗外是城市天际线。"}
-          </p>
-          <div className="heights">
-            <div>
-              <b>
-                {mode === "walk" ? current.height : "3"}
-                <small>m</small>
-              </b>
-              <span>{mode === "walk" ? "本空间层高" : "普通空间层高"}</span>
-            </div>
-            <div>
-              <b>
-                6<small>m</small>
-              </b>
-              <span>挑空阳台层高</span>
-            </div>
-          </div>
-          <div className="materials">
-            <div>
-              <i className="swatch tile" />
-              <span>
-                <b>浅米石纹瓷砖</b>
-                <small>1200 × 600mm · 细缝</small>
-              </span>
-            </div>
-            <div>
-              <i className="swatch paint" />
-              <span>
-                <b>奶油白墙面</b>
-                <small>哑光乳胶漆</small>
-              </span>
-            </div>
-            <div>
-              <i className="swatch plaster" />
-              <span>
-                <b>简洁石膏板吊顶</b>
-                <small>局部边吊 150mm</small>
-              </span>
-            </div>
-          </div>
-          <div className="toggles">
-            <label htmlFor="furniture">
-              家具与家电
-              <Switch id="furniture" checked={furniture} onCheckedChange={setFurniture} />
-            </label>
-            <label htmlFor="ceiling">
-              吊顶与吊灯
-              <Switch id="ceiling" checked={ceiling} onCheckedChange={setCeiling} />
-            </label>
-            <label htmlFor="cutaway" className={mode === "walk" ? "disabled" : ""}>
-              剖切墙体
-              <Switch
-                id="cutaway"
-                checked={cutaway}
-                onCheckedChange={setCutaway}
-                disabled={mode === "walk"}
-              />
-            </label>
-            <label htmlFor="dimensions" className={mode === "walk" ? "disabled" : ""}>
-              空间标注
-              <Switch
-                id="dimensions"
-                checked={dimensions}
-                onCheckedChange={setDimensions}
-                disabled={mode === "walk"}
-              />
-            </label>
-          </div>
-          <p className="card-footnote">
-            {mode === "walk"
-              ? "20 层 · 午后日光 · 城市景观为示意"
-              : "剖切仅改变可见范围，不改变实际层高。"}
-          </p>
-        </aside>
+        <aside className="material-card">{renderSettings("desktop")}</aside>
         <aside className={"mini-map " + (!mapOpen ? "collapsed" : "")}>
           <button className="map-title" onClick={() => setMapOpen(!mapOpen)}>
             <span>
@@ -236,116 +422,7 @@ export default function HomeTour() {
           </button>
           {mapOpen && (
             <>
-              <svg
-                viewBox="-1 -1.3 18.4 20.6"
-                role="img"
-                aria-label="按户型比例绘制的空间导航，上北下南"
-              >
-                <text x="16.2" y=".5" className="north">
-                  N
-                </text>
-                <path d="M16.4 1L16 .2L15.6 1" fill="none" stroke="#626b59" strokeWidth=".12" />
-                {floorRects.map((r, i) => (
-                  <rect
-                    key={i}
-                    x={r[0]}
-                    y={r[1]}
-                    width={r[2] - r[0]}
-                    height={r[3] - r[1]}
-                    fill="#f3ede2"
-                  />
-                ))}
-                <rect x="8.6" y="6.6" width="7.8" height="5" fill="#e3e5e0" />
-                <rect x="11.8" y="9.4" width="4.6" height=".82" fill="#c6c8be" />
-                <text x="14.1" y="9.94" className="core-label">
-                  设备井
-                </text>
-                {Array.from({ length: 10 }, (_, i) => (
-                  <path
-                    key={i}
-                    d={`M${12.8 + (i * 2.35) / 9} 6.78v1M${12.8 + (i * 2.35) / 9} 8.18v1.06`}
-                    stroke="#9ea391"
-                    strokeWidth=".035"
-                    fill="none"
-                  />
-                ))}
-                <rect
-                  x="0"
-                  y="0"
-                  width="4"
-                  height="5"
-                  fill="none"
-                  stroke="#c5c9c0"
-                  strokeDasharray=".22 .2"
-                  strokeWidth=".06"
-                />
-                <text x="2" y="2.5" className="core-label">
-                  挑空上空
-                </text>
-                {rooms.map((r) => (
-                  <g
-                    key={r.id}
-                    role="button"
-                    tabIndex={0}
-                    aria-label={"进入" + r.name}
-                    onClick={() => go(r.id)}
-                    onKeyDown={(e) => mapKey(e, r.id)}
-                    className={"map-room " + (r.id === roomId ? "active" : "")}
-                  >
-                    <rect
-                      x={r.rect[0]}
-                      y={r.rect[1]}
-                      width={r.rect[2] - r.rect[0]}
-                      height={r.rect[3] - r.rect[1]}
-                      fill={r.id === roomId ? "#d5dfc5" : "transparent"}
-                    />
-                    <text x={(r.rect[0] + r.rect[2]) / 2} y={(r.rect[1] + r.rect[3]) / 2 + 0.15}>
-                      {r.name}
-                    </text>
-                  </g>
-                ))}
-                {walls.flatMap((w, i) => {
-                  const v = w.a[0] === w.b[0];
-                  const len = Math.hypot(w.b[0] - w.a[0], w.b[1] - w.a[1]);
-                  let last = 0;
-                  const segments: React.ReactNode[] = [];
-                  for (const [j, o] of [
-                    ...(w.openings ?? []),
-                    { a: len, b: len, kind: "end" },
-                  ].entries()) {
-                    if (o.a > last)
-                      segments.push(
-                        <line
-                          key={`${i}-${j}`}
-                          x1={w.a[0] + (v ? 0 : last)}
-                          y1={w.a[1] + (v ? last : 0)}
-                          x2={w.a[0] + (v ? 0 : o.a)}
-                          y2={w.a[1] + (v ? o.a : 0)}
-                          stroke="#717467"
-                          strokeWidth=".14"
-                        />,
-                      );
-                    last = o.b;
-                  }
-                  return segments;
-                })}
-                <path d="M0 5V17.8H4V16.7" fill="none" stroke="#8a9285" strokeWidth=".08" />
-                <path
-                  d="M7.2 13.05H6.35M6.35 13.05A.9 .9 0 0 0 7.2 13.95"
-                  fill="none"
-                  stroke="#8b785d"
-                  strokeWidth=".055"
-                  pointerEvents="none"
-                />
-                {mode === "walk" && (
-                  <g
-                    transform={`translate(${position.x} ${position.z}) rotate(${(-position.yaw * 180) / Math.PI})`}
-                  >
-                    <path d="M0 -1L-.52 -.2L.52 -.2Z" fill="#65774f" opacity=".3" />
-                    <circle r=".24" fill="#50693c" stroke="white" strokeWidth=".1" />
-                  </g>
-                )}
-              </svg>
+              {renderMap()}
               <div className="map-scale">
                 <span />
                 4m<span className="map-caption">上北下南</span>
@@ -362,18 +439,27 @@ export default function HomeTour() {
               ["KeyD", ArrowRight, "右移"],
             ].map(([key, Icon, label]) => {
               const C = Icon as typeof ArrowUp;
+              const direction = key as string;
+              const releasePointer = (event: React.PointerEvent<HTMLButtonElement>) => {
+                if (movementPointers.current.get(direction) !== event.pointerId) return;
+                movementPointers.current.delete(direction);
+                api.current?.move(direction, false);
+              };
               return (
                 <button
                   key={key as string}
                   className={key === "KeyW" ? "forward" : ""}
                   aria-label={label as string}
                   onPointerDown={(e) => {
+                    e.preventDefault();
+                    if (movementPointers.current.has(direction)) return;
+                    movementPointers.current.set(direction, e.pointerId);
                     e.currentTarget.setPointerCapture(e.pointerId);
                     api.current?.move(key as string, true);
                   }}
-                  onPointerUp={() => api.current?.move(key as string, false)}
-                  onPointerCancel={() => api.current?.move(key as string, false)}
-                  onLostPointerCapture={() => api.current?.move(key as string, false)}
+                  onPointerUp={releasePointer}
+                  onPointerCancel={releasePointer}
+                  onLostPointerCapture={releasePointer}
                   onKeyDown={(e) => {
                     if (e.key === " " || e.key === "Enter") {
                       e.preventDefault();
@@ -381,7 +467,10 @@ export default function HomeTour() {
                     }
                   }}
                   onKeyUp={() => api.current?.move(key as string, false)}
-                  onBlur={() => api.current?.move(key as string, false)}
+                  onBlur={() => {
+                    if (!movementPointers.current.has(direction))
+                      api.current?.move(direction, false);
+                  }}
                 >
                   <C size={20} />
                 </button>
@@ -393,14 +482,14 @@ export default function HomeTour() {
           {mode === "walk" ? (
             <>
               <span>拖动环顾</span>
-              <span>W A S D 行走</span>
-              <span>点击地面前往</span>
+              <span>{isMobile ? "按方向键行走" : "W A S D 行走"}</span>
+              <span>{isMobile ? "另一只手环顾" : "点击地面前往"}</span>
             </>
           ) : (
             <>
-              <span>拖动旋转</span>
-              <span>滚轮缩放</span>
-              <span>右键平移</span>
+              <span>{mode === "plan" ? "拖动平移" : "拖动旋转"}</span>
+              <span>{isMobile ? "双指缩放" : "滚轮缩放"}</span>
+              <span>{isMobile ? "双指平移" : "右键平移"}</span>
             </>
           )}
         </div>
@@ -426,6 +515,89 @@ export default function HomeTour() {
           </button>
         </div>
       </footer>
+      <nav className="mobile-bar" aria-label="手机漫游工具">
+        <button className="mobile-room-button" onClick={() => setMobilePanel("rooms")}>
+          <Footprints size={19} />
+          <span>
+            <small>切换空间</small>
+            <b>{current.name}</b>
+          </span>
+          <ChevronRight size={17} />
+        </button>
+        <button onClick={() => setMobilePanel("map")}>
+          <Scan size={20} />
+          <span>户型</span>
+        </button>
+        <button onClick={() => setMobilePanel("settings")}>
+          <SlidersHorizontal size={20} />
+          <span>设置</span>
+        </button>
+      </nav>
+      <Sheet
+        open={mobilePanel !== null}
+        onOpenChange={(open) => {
+          if (!open) setMobilePanel(null);
+        }}
+      >
+        <SheetContent side="bottom" showCloseButton={false} className="mobile-sheet">
+          <SheetHeader>
+            <SheetTitle>
+              {mobilePanel === "rooms"
+                ? "选择空间"
+                : mobilePanel === "map"
+                  ? "户型导航"
+                  : "场景设置"}
+            </SheetTitle>
+            <SheetDescription>
+              {mobilePanel === "rooms"
+                ? "点击空间即可进入漫游"
+                : mobilePanel === "map"
+                  ? "上北下南，点击房间进入"
+                  : "显示家具、吊顶或切换剖视效果"}
+            </SheetDescription>
+          </SheetHeader>
+          <SheetClose className="mobile-sheet-close" aria-label="关闭面板">
+            <X size={21} />
+          </SheetClose>
+          <div className="mobile-sheet-scroll">
+            {mobilePanel === "rooms" && (
+              <div className="mobile-rooms">
+                {rooms.map((room) => (
+                  <button
+                    key={room.id}
+                    className={room.id === roomId ? "selected" : ""}
+                    aria-current={room.id === roomId ? "location" : undefined}
+                    onClick={() => go(room.id)}
+                  >
+                    {room.name}
+                    {room.id === "terrace" && <small>6m</small>}
+                  </button>
+                ))}
+              </div>
+            )}
+            {mobilePanel === "map" && <div className="mobile-map">{renderMap()}</div>}
+            {mobilePanel === "settings" && (
+              <div className="mobile-settings">
+                {renderSettings("mobile")}
+                <p className="mobile-instructions">
+                  {mode === "walk"
+                    ? "按住左下方向键移动，同时用另一只手在画面上滑动环顾。"
+                    : "单指旋转或平移，双指缩放与平移。"}
+                </p>
+                <button
+                  className="mobile-source"
+                  onClick={() => {
+                    setMobilePanel(null);
+                    setSource(true);
+                  }}
+                >
+                  查看原图与尺寸依据 <MoveUpRight size={16} />
+                </button>
+              </div>
+            )}
+          </div>
+        </SheetContent>
+      </Sheet>
       <Dialog open={source} onOpenChange={setSource}>
         <DialogContent className="source-dialog">
           <DialogTitle>户型与尺寸依据</DialogTitle>

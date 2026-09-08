@@ -13,6 +13,7 @@ import {
 } from "./plan";
 import { buildFurnishings } from "./furnishings";
 import { buildCore } from "./core";
+import { fittedCameraDistance, LookPointer } from "./navigation";
 import { RESIDENCE, buildLowerFacade, buildPostProcessing, createTileMaterial } from "./atmosphere";
 export type Mode = "overview" | "walk" | "plan";
 export type TourOptions = {
@@ -27,6 +28,7 @@ export type TourApi = {
   go: (id: string) => void;
   reset: () => void;
   move: (direction: string, pressed: boolean) => void;
+  stop: () => void;
   dispose: () => void;
 };
 export function createTour(
@@ -37,13 +39,14 @@ export function createTour(
   const studioBackground = new THREE.Color("#e6e9e6");
   scene.background = studioBackground;
   const camera = new THREE.PerspectiveCamera(46, 1, 0.05, 1200);
+  const touchDevice = window.matchMedia("(pointer:coarse)").matches;
   camera.rotation.order = "YXZ";
   const renderer = new THREE.WebGLRenderer({
     antialias: true,
     alpha: false,
     powerPreference: "high-performance",
   });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, touchDevice ? 1.25 : 1.5));
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -53,7 +56,7 @@ export function createTour(
   renderer.domElement.tabIndex = 0;
   renderer.domElement.setAttribute(
     "aria-label",
-    "三维户型。拖动旋转；漫游模式下使用 W A S D 行走。",
+    "三维户型。漫游时拖动环顾，使用屏幕方向键或 W A S D 行走；总览时双指缩放和平移。",
   );
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
@@ -74,10 +77,7 @@ export function createTour(
   sun.position.set(-22, 23, 28);
   sun.target.position.set(7, 0, 9);
   sun.castShadow = true;
-  sun.shadow.mapSize.set(
-    window.matchMedia("(pointer:coarse)").matches ? 2048 : 4096,
-    window.matchMedia("(pointer:coarse)").matches ? 2048 : 4096,
-  );
+  sun.shadow.mapSize.set(touchDevice ? 2048 : 4096, touchDevice ? 2048 : 4096);
   Object.assign(sun.shadow.camera, {
     left: -16,
     right: 16,
@@ -462,7 +462,7 @@ export function createTour(
     undefined,
     () => console.warn("城市全景暂未载入，保留天空与室内漫游。"),
   );
-  const post = buildPostProcessing(renderer, scene, camera);
+  const post = buildPostProcessing(renderer, scene, camera, touchDevice);
   function updateRoomLight(id: string) {
     for (const [key, light] of roomLights) {
       const visible = options.mode === "walk" && options.ceiling && key === id;
@@ -558,6 +558,7 @@ export function createTour(
     prevTime = 0,
     lastReport = 0;
   const pressed = new Set<string>();
+  const lookPointer = new LookPointer();
   function applyOptions() {
     const walk = options.mode === "walk";
     controls.enabled = !walk;
@@ -573,6 +574,8 @@ export function createTour(
     caps.visible = cut;
     renderer.toneMappingExposure = walk ? 1.12 : 1.05;
     controls.enableRotate = options.mode !== "plan";
+    controls.touches.ONE = options.mode === "plan" ? THREE.TOUCH.PAN : THREE.TOUCH.ROTATE;
+    controls.touches.TWO = THREE.TOUCH.DOLLY_PAN;
     lowerFacade.visible = walk;
     studioGround.visible = !walk;
     scene.background = walk ? (panorama ?? new THREE.Color("#c6d9e8")) : studioBackground;
@@ -598,7 +601,7 @@ export function createTour(
       room.position[1],
     );
     camera.rotation.set(pitch, yaw, 0);
-    camera.fov = 65;
+    camera.fov = camera.aspect < 0.8 ? 78 : 65;
     camera.updateProjectionMatrix();
     updateRoomLight(id);
     onPosition(camera.position.x, camera.position.z, yaw, id);
@@ -610,9 +613,14 @@ export function createTour(
     }
     camera.fov = 46;
     camera.updateProjectionMatrix();
-    controls.target.set(7.6, 0, 8.9);
-    if (mode === "plan") camera.position.set(7.6, 30, 8.901);
-    else camera.position.set(27, 23, 31);
+    controls.target.set(8.2, 0, 8.9);
+    const distance = fittedCameraDistance(mode, camera.aspect, camera.fov);
+    controls.maxDistance = Math.max(48, distance * 1.5);
+    if (mode === "plan") camera.position.set(8.2, distance, 8.901);
+    else
+      camera.position
+        .copy(controls.target)
+        .add(new THREE.Vector3(19.4, 23, 22.1).normalize().multiplyScalar(distance));
     controls.update();
   }
   function canWalk(x: number, z: number) {
@@ -635,8 +643,12 @@ export function createTour(
     }
   }
   function down(e: PointerEvent) {
-    if (options.mode !== "walk") return;
-    renderer.domElement.focus();
+    if (options.mode !== "walk" || e.button > 0) return;
+    if (!lookPointer.begin(e.pointerId)) {
+      moved = Infinity;
+      return;
+    }
+    renderer.domElement.focus({ preventScroll: true });
     drag = true;
     downX = lastX = e.clientX;
     downY = lastY = e.clientY;
@@ -644,7 +656,7 @@ export function createTour(
     renderer.domElement.setPointerCapture(e.pointerId);
   }
   function motion(e: PointerEvent) {
-    if (!drag || options.mode !== "walk") return;
+    if (!drag || options.mode !== "walk" || !lookPointer.owns(e.pointerId)) return;
     const dx = e.clientX - lastX,
       dy = e.clientY - lastY;
     moved += Math.abs(dx) + Math.abs(dy);
@@ -655,9 +667,9 @@ export function createTour(
     lastY = e.clientY;
   }
   function up(e: PointerEvent) {
-    if (!drag) return;
+    if (!drag || !lookPointer.end(e.pointerId)) return;
     drag = false;
-    if (moved < 6 && options.mode === "walk") {
+    if (moved < (e.pointerType === "touch" ? 10 : 6) && options.mode === "walk" && !pressed.size) {
       const rect = renderer.domElement.getBoundingClientRect();
       const ray = new THREE.Raycaster();
       ray.setFromCamera(
@@ -702,27 +714,53 @@ export function createTour(
   const blur = () => {
     pressed.clear();
     drag = false;
+    lookPointer.reset();
+  };
+  const cancelLook = (e: PointerEvent) => {
+    if (lookPointer.end(e.pointerId)) drag = false;
+  };
+  const visibility = () => {
+    if (document.hidden) blur();
   };
   renderer.domElement.addEventListener("pointerdown", down);
   renderer.domElement.addEventListener("pointermove", motion);
   renderer.domElement.addEventListener("pointerup", up);
-  renderer.domElement.addEventListener("pointercancel", blur);
+  renderer.domElement.addEventListener("pointercancel", cancelLook);
+  renderer.domElement.addEventListener("lostpointercapture", cancelLook);
+  document.addEventListener("visibilitychange", visibility);
   window.addEventListener("keydown", keyboard);
   window.addEventListener("keyup", release);
   window.addEventListener("blur", blur);
+  let lastWidth = 0,
+    lastPortrait = false;
   const resize = new ResizeObserver(() => {
     const { width, height } = host.getBoundingClientRect();
     if (width && height) {
       renderer.setSize(width, height);
       post.resize(width, height);
       camera.aspect = width / height;
+      if (options.mode === "walk") camera.fov = camera.aspect < 0.8 ? 78 : 65;
       camera.updateProjectionMatrix();
+      const portrait = width < height;
+      if (
+        options.mode !== "walk" &&
+        (lastWidth === 0 ||
+          portrait !== lastPortrait ||
+          Math.abs(width - lastWidth) > lastWidth * 0.25)
+      )
+        view(options.mode);
+      lastWidth = width;
+      lastPortrait = portrait;
     }
   });
   resize.observe(host);
   function animate(time: number) {
     const dt = Math.min((time - prevTime) / 1000, 0.05);
     prevTime = time;
+    if (document.hidden) {
+      frame = requestAnimationFrame(animate);
+      return;
+    }
     if (options.mode === "walk") {
       let f =
         Number(pressed.has("KeyW") || pressed.has("ArrowUp")) -
@@ -762,7 +800,7 @@ export function createTour(
       const changed = options.mode !== o.mode,
         restoreFurniture = !options.furniture && o.furniture;
       options = o;
-      pressed.clear();
+      blur();
       applyOptions();
       if (changed) view(o.mode);
       else if (
@@ -773,6 +811,7 @@ export function createTour(
         setWalk(roomAt(camera.position.x, camera.position.z)?.id ?? selected);
     },
     go(id) {
+      blur();
       selected = id;
       if (options.mode === "walk") setWalk(id);
       else {
@@ -783,12 +822,14 @@ export function createTour(
       }
     },
     reset() {
+      blur();
       view(options.mode);
     },
     move(direction, active) {
       if (active) pressed.add(direction);
       else pressed.delete(direction);
     },
+    stop: blur,
     dispose() {
       disposed = true;
       cancelAnimationFrame(frame);
@@ -800,7 +841,9 @@ export function createTour(
       renderer.domElement.removeEventListener("pointerdown", down);
       renderer.domElement.removeEventListener("pointermove", motion);
       renderer.domElement.removeEventListener("pointerup", up);
-      renderer.domElement.removeEventListener("pointercancel", blur);
+      renderer.domElement.removeEventListener("pointercancel", cancelLook);
+      renderer.domElement.removeEventListener("lostpointercapture", cancelLook);
+      document.removeEventListener("visibilitychange", visibility);
       const geometries = new Set<THREE.BufferGeometry>(),
         textures = new Set<THREE.Texture>();
       scene.traverse((obj) => {

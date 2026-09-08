@@ -111,8 +111,12 @@ export function buildPostProcessing(
   renderer: THREE.WebGLRenderer,
   scene: THREE.Scene,
   camera: THREE.Camera,
+  mobile = false,
 ) {
-  const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
+  const target = new THREE.WebGLRenderTarget(1, 1, {
+    type: THREE.HalfFloatType,
+    samples: mobile ? 2 : 4,
+  });
   const composer = new EffectComposer(renderer, target);
   const render = new RenderPass(scene, camera),
     ao = new InteriorAO(scene, camera, 1, 1),
@@ -122,7 +126,7 @@ export function buildPostProcessing(
     thickness: 0.35,
     distanceExponent: 1.5,
     distanceFallOff: 0.8,
-    samples: 12,
+    samples: mobile ? 8 : 12,
   });
   ao.updatePdMaterial({ radius: 5, samples: 8 });
   ao.blendIntensity = 0.52;
@@ -136,7 +140,8 @@ export function buildPostProcessing(
     resize(width: number, height: number) {
       // The AO pass runs below display resolution; the color pass retains antialiasing.
       composer.setSize(width, height);
-      ao.setSize(Math.max(1, Math.floor(width * 0.8)), Math.max(1, Math.floor(height * 0.8)));
+      const scale = mobile ? 0.55 : 0.8;
+      ao.setSize(Math.max(1, Math.floor(width * scale)), Math.max(1, Math.floor(height * scale)));
     },
     render() {
       composer.render();
