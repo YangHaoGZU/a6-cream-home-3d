@@ -10,7 +10,8 @@
     "build": "vite build && node -e \"require('node:fs').writeFileSync('docs/.nojekyll','')\"",
     "preview": "vite preview",
     "check:geometry": "node --experimental-strip-types checks/geometry.mjs",
-    "check:mobile": "node --experimental-strip-types checks/mobile.mjs"
+    "check:mobile": "node --experimental-strip-types checks/mobile.mjs",
+    "check:panorama": "node checks/panorama.mjs"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import {
   ArrowUp,
   ArrowDown,
@@ -16,6 +16,7 @@ import {
   MoveUpRight,
   SlidersHorizontal,
   Minimize,
+  Compass,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
@@ -30,6 +31,19 @@ import {
 } from "@/components/ui/sheet";
 import { rooms, walls, floorRects, DIMENSIONS } from "@/lib/plan";
 import type { Mode, TourApi } from "@/lib/scene";
+const Panorama = lazy(() =>
+  import("./panorama").catch(() => ({
+    default: function PanoramaLoadFailure() {
+      return (
+        <div className="loading error">
+          <b>全景模块暂时未能载入</b>
+          <p>请检查网络后刷新重试。</p>
+          <button onClick={() => location.reload()}>刷新网页</button>
+        </div>
+      );
+    },
+  })),
+);
 
 export default function HomeTour() {
   const host = useRef<HTMLDivElement>(null),
@@ -48,9 +62,17 @@ export default function HomeTour() {
     [mobilePanel, setMobilePanel] = useState<"rooms" | "settings" | "map" | null>(null),
     [isMobile, setIsMobile] = useState(false),
     [immersive, setImmersive] = useState(false),
+    [panoramaOpen, setPanoramaOpen] = useState(() => location.hash.startsWith("#panorama/")),
     [mapOpen, setMapOpen] = useState(true),
     [position, setPosition] = useState({ x: 7.15, z: 10.45, yaw: 2.1 });
   const current = rooms.find((r) => r.id === roomId) ?? rooms[0];
+  const roomRef = useRef(roomId);
+  roomRef.current = roomId;
+  useEffect(() => {
+    const update = () => setPanoramaOpen(location.hash.startsWith("#panorama/"));
+    window.addEventListener("hashchange", update);
+    return () => window.removeEventListener("hashchange", update);
+  }, []);
   showPosition.current = (!isMobile && mapOpen) || mobilePanel === "map";
   useEffect(() => {
     const query = window.matchMedia("(max-width:800px), (max-width:1100px) and (pointer:coarse)");
@@ -91,6 +113,9 @@ export default function HomeTour() {
     };
   }, [source, mobilePanel]);
   useEffect(() => {
+    setReady(false);
+    setError("");
+    if (panoramaOpen) return;
     let cancelled = false;
     import("@/lib/scene")
       .then(({ createTour }) => {
@@ -100,6 +125,7 @@ export default function HomeTour() {
             if (showPosition.current) setPosition({ x, z, yaw });
             setRoomId(id);
           });
+          api.current.go(roomRef.current);
           setReady(true);
         } catch (e) {
           setError(
@@ -114,7 +140,7 @@ export default function HomeTour() {
       api.current?.dispose();
       api.current = null;
     };
-  }, []);
+  }, [panoramaOpen]);
   useEffect(() => {
     api.current?.setOptions({ mode, ceiling, cutaway, dimensions, furniture });
   }, [mode, ceiling, cutaway, dimensions, furniture, ready]);
@@ -341,7 +367,11 @@ export default function HomeTour() {
     );
   }
   return (
-    <main className={"tour-shell" + (immersive ? " immersive" : "")}>
+    <main
+      className={
+        "tour-shell" + (immersive ? " immersive" : "") + (panoramaOpen ? " panorama-active" : "")
+      }
+    >
       <header className="topbar">
         <div className="brand">
           <span className="monogram">
@@ -352,7 +382,18 @@ export default function HomeTour() {
             <p>20 层 / 190.65㎡ / 午后城市景观</p>
           </div>
         </div>
-        <Tabs value={mode} onValueChange={(v) => changeMode(v as Mode)} className="mode-tabs">
+        <Tabs
+          value={panoramaOpen ? "panorama" : mode}
+          onValueChange={(v) => {
+            setPanoramaOpen(v === "panorama");
+            if (v !== "panorama") {
+              changeMode(v as Mode);
+              if (location.hash.startsWith("#panorama/"))
+                history.replaceState(null, "", location.pathname + location.search);
+            }
+          }}
+          className="mode-tabs"
+        >
           <TabsList aria-label="场景视角">
             <TabsTrigger value="overview">
               <Layers3 />
@@ -365,6 +406,10 @@ export default function HomeTour() {
             <TabsTrigger value="plan">
               <Scan />
               俯视户型
+            </TabsTrigger>
+            <TabsTrigger value="panorama">
+              <Compass />
+              全景漫游
             </TabsTrigger>
           </TabsList>
         </Tabs>
@@ -379,14 +424,14 @@ export default function HomeTour() {
       </header>
       <section className="viewport" aria-label="户型漫游工作区">
         <div className="three-host" ref={host} />
-        {!ready && !error && (
+        {!panoramaOpen && !ready && !error && (
           <div className="loading">
             <span />
             <b>正在构建你的家</b>
             <p>载入全屋装修、城市全景与午后光线…</p>
           </div>
         )}
-        {error && (
+        {!panoramaOpen && error && (
           <div className="loading error">
             <b>暂时无法显示 3D</b>
             <p>{error}</p>
@@ -493,6 +538,23 @@ export default function HomeTour() {
             </>
           )}
         </div>
+        {panoramaOpen && (
+          <Suspense
+            fallback={
+              <div className="loading">
+                <span />
+                <b>正在打开全景漫游</b>
+              </div>
+            }
+          >
+            <Panorama
+              initialRoom={roomId}
+              onRoomChange={setRoomId}
+              onFullscreen={fullscreen}
+              immersive={immersive}
+            />
+          </Suspense>
+        )}
       </section>
       <footer className="bottom-bar">
         <div className="rooms-nav" aria-label="快速进入空间">
@@ -650,11 +712,19 @@ export default function HomeTour() {
                 </p>
               </div>
               <div>
-                <b>本阶段范围</b>
+                <b>装修与公共区</b>
                 <p>
                   床和衣柜已按房开图调整：左侧两间床头靠西，右侧两间床头靠东，衣柜与衣帽间回到图示位置。主卫从北侧衣帽间进入，保留东侧床头的完整墙面。
                   南次卧保留东向门，长阳台北端保持实墙。已补充电梯轿厢、双跑步梯、设备井和公共走廊，走廊东端封墙，电梯厅一侧的入户门南边新增鞋柜。
                   公共区未标细尺寸按图比例建模，步梯按每层 3m 设置。全部地面保持瓷砖。
+                  南次卧西北角至长阳台内侧约 1.9m 缺口已补玻璃，西侧通往挑空阳台的通道保留。
+                </p>
+              </div>
+              <div>
+                <b>全景漫游</b>
+                <p>
+                  18 个空间、24 个观察点，使用同一户型模型渲染 3072×1536
+                  全景图，可环顾、缩放和切换点位。全景图中的家具和光线固定；需要自由行走或调整家具、吊顶显示时，请切换“进入漫游”。全景为装修效果示意，并非实拍照片。
                 </p>
               </div>
             </div>

@@ -14,6 +14,7 @@ import {
 import { buildFurnishings } from "./furnishings";
 import { buildCore } from "./core";
 import { fittedCameraDistance, LookPointer } from "./navigation";
+import { floorTileCells } from "./floor-tiles";
 import { RESIDENCE, buildLowerFacade, buildPostProcessing, createTileMaterial } from "./atmosphere";
 export type Mode = "overview" | "walk" | "plan";
 export type TourOptions = {
@@ -160,23 +161,34 @@ export function createTour(
   for (const r of floorRects) {
     const [x, z, x2, z2] = r;
     box((x + x2) / 2, -0.126, (z + z2) / 2, x2 - x, 0.22, z2 - z, stoneMat, floors);
-    const material = tileMaterial(x2 - x, z2 - z);
-    box((x + x2) / 2, -0.008, (z + z2) / 2, x2 - x, 0.016, z2 - z, material, floors, false);
   }
-  // Dedicated anti-slip tile faces, continuous same cream family.
-  for (const r of rooms.filter((r) => r.outdoor)) {
-    const [x, z, x2, z2] = r.rect;
-    box(
-      (x + x2) / 2,
-      -0.0055,
-      (z + z2) / 2,
-      x2 - x,
-      0.012,
-      z2 - z,
-      tileMaterial(x2 - x, z2 - z, true),
-      floors,
-      false,
-    );
+  // One continuous, non-overlapping tiled surface. UVs preserve actual 1.2 × .6m tile size.
+  for (const outdoor of [false, true]) {
+    const positions: number[] = [],
+      uv: number[] = [];
+    for (const cell of floorTileCells().filter((c) => c.outdoor === outdoor)) {
+      const [x, z, x2, z2] = cell.rect;
+      for (const [xx, zz] of [
+        [x, z],
+        [x, z2],
+        [x2, z],
+        [x2, z],
+        [x, z2],
+        [x2, z2],
+      ]) {
+        positions.push(xx, 0, zz);
+        uv.push(xx / 1.2, -zz / 0.6);
+      }
+    }
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
+    geometry.computeVertexNormals();
+    const material = tileMaterial(1.2, 0.6, outdoor),
+      surface = new THREE.Mesh(geometry, material);
+    surface.receiveShadow = true;
+    floors.add(surface);
+    trackedMaterials.add(material);
   }
   for (const wall of walls) {
     const [ax, az] = wall.a,
@@ -382,8 +394,26 @@ export function createTour(
     const inset = 0.26;
     box((x + x2) / 2, h - 0.075, z + inset / 2, w, 0.15, inset, ceilingMat, ceilingGroup);
     box((x + x2) / 2, h - 0.075, z2 - inset / 2, w, 0.15, inset, ceilingMat, ceilingGroup);
-    box(x + inset / 2, h - 0.075, (z + z2) / 2, inset, 0.15, d, ceilingMat, ceilingGroup);
-    box(x2 - inset / 2, h - 0.075, (z + z2) / 2, inset, 0.15, d, ceilingMat, ceilingGroup);
+    box(
+      x + inset / 2,
+      h - 0.075,
+      (z + z2) / 2,
+      inset,
+      0.15,
+      d - 2 * inset,
+      ceilingMat,
+      ceilingGroup,
+    );
+    box(
+      x2 - inset / 2,
+      h - 0.075,
+      (z + z2) / 2,
+      inset,
+      0.15,
+      d - 2 * inset,
+      ceilingMat,
+      ceilingGroup,
+    );
     if (w > 2 && d > 2) {
       box((x + x2) / 2, h - 0.105, z + 0.265, w - 0.54, 0.015, 0.025, glowMat, ceilingGroup, false);
       box(
@@ -867,6 +897,7 @@ export function createTour(
       cityEnvironment?.dispose();
       environment.dispose();
       renderer.dispose();
+      renderer.forceContextLoss();
       renderer.domElement.remove();
     },
   };

@@ -1,0 +1,10 @@
+Use case: photorealistic-natural
+Asset type: seamless physically based rendering base-color texture for a Blender interior panorama.
+Primary request: Generate one square 2048 × 2048 image if supported: a seamless/tileable straight-overhead orthographic photograph of a SINGLE continuous cream ivory limestone-look porcelain surface.
+Style/medium: photorealistic scanned material albedo, natural refined porcelain with convincing microscopic mineral surface detail.
+Composition/framing: surface fills the entire square edge to edge, completely flat and uniform, no perspective, no objects, no borders. The pattern must repeat seamlessly on all four edges without visible seams or a repeating motif.
+Lighting/mood: perfectly even neutral white-balanced diffuse illumination, no directional lighting, no cast shadows, no vignetting, no gradients, no glossy highlights baked into the texture.
+Color palette: very light warm ivory white, restrained luxurious cream, neutral pale beige mineral flecks; never yellow or tan.
+Materials/textures: delicate low-contrast pale beige mineral speckles distributed uniformly and very subtle fine stone veins, realistic micro surface; extremely gentle natural variation and an overall light, calm, clean appearance.
+Constraints: a single continuous material, no tile borders, no grout lines, no text, no watermark. This is only the base color texture, not a room, not a tiled floor, not a material sphere.
+Avoid: wood grain, strong marble ribbons, pronounced veins, brown patches, dark specks, yellow tint, heavy contrast, mottled large cloudy areas, shadows, reflections, bevels, perspective.

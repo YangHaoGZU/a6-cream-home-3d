@@ -52,6 +52,9 @@ export const walls:Wall[]=[
  {a:[4,16.7],b:[15.2,16.7],external:true,openings:[win(.18,3.02),win(3.38,4.82,1.3),win(5.18,8.92),win(9.28,11.02,.8)]},
  {a:[4,12.8],b:[4,16.7],height:6,external:true},
  {a:[4,12.8],b:[7.2,12.8]},
+ // Glazed return between the long balcony inner edge and the south bedroom.
+ // The west 2.1m passage remains open to the double-height terrace.
+ {a:[2.1,12.8],b:[4,12.8],thickness:.07,openings:[win(.045,1.855,.04,2.8)]},
  {a:[7.2,12.8],b:[7.2,16.7],openings:[door(.25,1.15)]},
  {a:[7.2,14.25],b:[9,14.25],openings:[door(.2,1.08)]},
  {a:[9,11.6],b:[9,16.7],openings:[door(.35,1.4)]},

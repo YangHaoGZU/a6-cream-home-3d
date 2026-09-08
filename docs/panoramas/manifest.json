@@ -1,0 +1,170 @@
+[
+  {
+    "id": "living-entry",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 477037,
+    "previewBytes": 15454
+  },
+  {
+    "id": "living-window",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 558284,
+    "previewBytes": 20067
+  },
+  {
+    "id": "dining-west",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 531125,
+    "previewBytes": 16598
+  },
+  {
+    "id": "dining-east",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 475845,
+    "previewBytes": 14361
+  },
+  {
+    "id": "kitchen-south",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 512987,
+    "previewBytes": 17997
+  },
+  {
+    "id": "kitchen-north",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 542127,
+    "previewBytes": 20288
+  },
+  {
+    "id": "balcony-north",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 612584,
+    "previewBytes": 21486
+  },
+  {
+    "id": "balcony-south",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 720950,
+    "previewBytes": 27438
+  },
+  {
+    "id": "terrace-north",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 617598,
+    "previewBytes": 20744
+  },
+  {
+    "id": "terrace-south",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 659450,
+    "previewBytes": 22593
+  },
+  {
+    "id": "master-entry",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 456879,
+    "previewBytes": 12967
+  },
+  {
+    "id": "master-window",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 537332,
+    "previewBytes": 18601
+  },
+  {
+    "id": "south",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 418275,
+    "previewBytes": 12066
+  },
+  {
+    "id": "north",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 410958,
+    "previewBytes": 11701
+  },
+  {
+    "id": "suite",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 394255,
+    "previewBytes": 10230
+  },
+  {
+    "id": "entry",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 439689,
+    "previewBytes": 13434
+  },
+  {
+    "id": "bath1",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 553729,
+    "previewBytes": 17002
+  },
+  {
+    "id": "bath2",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 527205,
+    "previewBytes": 14533
+  },
+  {
+    "id": "bath3",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 572752,
+    "previewBytes": 16365
+  },
+  {
+    "id": "utility",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 610997,
+    "previewBytes": 24340
+  },
+  {
+    "id": "lobby",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 417780,
+    "previewBytes": 11628
+  },
+  {
+    "id": "hall",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 383456,
+    "previewBytes": 9897
+  },
+  {
+    "id": "lift",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 381734,
+    "previewBytes": 13909
+  },
+  {
+    "id": "stairs",
+    "width": 3072,
+    "height": 1536,
+    "bytes": 480330,
+    "previewBytes": 15813
+  }
+]

@@ -1,0 +1,107 @@
+{
+  "engine": "Blender Cycles",
+  "width": 3072,
+  "height": 1536,
+  "maxSamples": 32,
+  "denoising": true,
+  "sourceHash": "ec914e30509cc80070958394a8d6e0258bfafefd0ea72f1365e8a0d9348d40ae",
+  "cameraHeight": 1.65,
+  "rendered": [
+    {
+      "id": "living-entry",
+      "seconds": 137.6
+    },
+    {
+      "id": "living-window",
+      "seconds": 128.8
+    },
+    {
+      "id": "dining-west",
+      "seconds": 133.0
+    },
+    {
+      "id": "dining-east",
+      "seconds": 139.6
+    },
+    {
+      "id": "kitchen-south",
+      "seconds": 125.9
+    },
+    {
+      "id": "kitchen-north",
+      "seconds": 123.3
+    },
+    {
+      "id": "balcony-north",
+      "seconds": 101.7
+    },
+    {
+      "id": "balcony-south",
+      "seconds": 86.1
+    },
+    {
+      "id": "terrace-north",
+      "seconds": 76.4
+    },
+    {
+      "id": "terrace-south",
+      "seconds": 62.8
+    },
+    {
+      "id": "master-entry",
+      "seconds": 133.4
+    },
+    {
+      "id": "master-window",
+      "seconds": 117.4
+    },
+    {
+      "id": "south",
+      "seconds": 135.6
+    },
+    {
+      "id": "north",
+      "seconds": 134.6
+    },
+    {
+      "id": "suite",
+      "seconds": 134.4
+    },
+    {
+      "id": "entry",
+      "seconds": 136.0
+    },
+    {
+      "id": "bath1",
+      "seconds": 119.7
+    },
+    {
+      "id": "bath2",
+      "seconds": 135.9
+    },
+    {
+      "id": "bath3",
+      "seconds": 122.8
+    },
+    {
+      "id": "utility",
+      "seconds": 107.5
+    },
+    {
+      "id": "lobby",
+      "seconds": 134.4
+    },
+    {
+      "id": "hall",
+      "seconds": 119.9
+    },
+    {
+      "id": "lift",
+      "seconds": 88.2
+    },
+    {
+      "id": "stairs",
+      "seconds": 135.2
+    }
+  ]
+}
