@@ -508,6 +508,7 @@ export async function createTour(
     modelMeshes.push(o);
     for (let parent: THREE.Object3D | null = o; parent; parent = parent.parent) { if (parent.userData.category) { o.userData.category = parent.userData.category; break; } }
     o.castShadow = true; o.receiveShadow = true;
+    o.material = Array.isArray(o.material) ? o.material.map(m => m.clone()) : o.material.clone();
     const materials = Array.isArray(o.material) ? o.material : [o.material];
     for (const m of materials) {
       trackedMaterials.add(m);

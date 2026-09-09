@@ -32,9 +32,14 @@ const can=(x,z)=>floorRects.some(r=>contains(r,x,z))&&!obstacles.some(r=>x>r[0]-
 for(const r of rooms)assert.ok(can(...r.position),`room spawn blocked ${r.id}`);
 const start=rooms[0].position.map(v=>Math.round(v*10));
 const seen=new Set(),q=[start];const key=(x,z)=>x+','+z;seen.add(key(...start));for(let i=0;i<q.length;i++){const[x,z]=q[i];for(const[dx,dz]of [[1,0],[-1,0],[0,1],[0,-1]]){const a=x+dx,b=z+dz,k=key(a,b);if(!seen.has(k)&&can(a/10,b/10)&&Math.abs(floorElevation(a/10,b/10)-floorElevation(x/10,z/10))<.2){seen.add(k);q.push([a,b]);}}}
-for(const r of rooms)assert.ok(seen.has(key(Math.round(r.position[0]*10),Math.round(r.position[1]*10))),`No walk path to ${r.id}`);
+const publicRooms = new Set(['lobby','hall','lift','stairs']);
+for(const r of rooms.filter(r=>!publicRooms.has(r.id)))assert.ok(seen.has(key(Math.round(r.position[0]*10),Math.round(r.position[1]*10))),`No walk path to ${r.id}`);
+assert.ok(!seen.has(key(106,106)), 'Closed entrance must separate apartment and lobby');
+const publicSeen=new Set(), publicQueue=[[106,106]];publicSeen.add(key(106,106));
+for(let i=0;i<publicQueue.length;i++){const[x,z]=publicQueue[i];for(const[dx,dz]of [[1,0],[-1,0],[0,1],[0,-1]]){const a=x+dx,b=z+dz,k=key(a,b);if(!publicSeen.has(k)&&can(a/10,b/10)&&Math.abs(floorElevation(a/10,b/10)-floorElevation(x/10,z/10))<.2){publicSeen.add(k);publicQueue.push([a,b]);}}}
+for(const r of rooms.filter(r=>publicRooms.has(r.id)))assert.ok(publicSeen.has(key(Math.round(r.position[0]*10),Math.round(r.position[1]*10))),`No public path to ${r.id}`);
 for(const f of furnishings.filter(f=>f.kind==='shower'))assert.ok(seen.has(key(Math.round(f.x*10),Math.round(f.z*10))),`Shower inaccessible: ${f.id}`);
-assert.ok(seen.has(key(124,72)),'Upper stair landing must be reachable via both flights');
+assert.ok(publicSeen.has(key(124,72)),'Upper stair landing must be reachable via both flights');
 assert.equal(floorElevation(12.4,7.2),3);
 assert.equal(floorElevation(15.6,8),1.5);
-console.log(`PASS: developer-plan bed directions and wardrobes; clear entry and shoe cabinet; closed corridor end; preserved door/balcony fixes; four dimension chains; 3m/6m heights; ${furnishings.length} furnishings; ${rooms.length} valid spawns; all rooms and showers reachable; both stair flights climbable; ${seen.size} reachable floor-grid points.`);
+console.log(`PASS: developer-plan bed directions and wardrobes; clear entry and shoe cabinet; closed corridor end; preserved door/balcony fixes; four dimension chains; 3m/6m heights; ${furnishings.length} furnishings; ${rooms.length} valid spawns; rooms reachable within apartment/public sections; closed entrance blocks passage; both stair flights climbable; ${seen.size} reachable floor-grid points.`);

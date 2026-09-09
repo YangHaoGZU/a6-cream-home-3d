@@ -121,11 +121,12 @@ export default function HomeTour() {
       .then(async ({ createTour }) => {
         if (cancelled || !host.current) return;
         try {
-          api.current = await createTour(host.current, (x, z, yaw, id) => {
+          const instance = await createTour(host.current, (x, z, yaw, id) => {
             if (showPosition.current) setPosition({ x, z, yaw });
             setRoomId(id);
           }, () => cancelled);
-          if (cancelled || !api.current) return;
+          if (cancelled || !instance) return;
+          api.current = instance;
           api.current.go(roomRef.current);
           setReady(true);
         } catch (e) {
@@ -207,7 +208,7 @@ export default function HomeTour() {
           <div>
             <i className="swatch tile" />
             <span>
-              <b>浅米石纹瓷砖</b>
+              <b>浅灰石纹瓷砖</b>
               <small>1200 × 600mm · 细缝</small>
             </span>
           </div>
