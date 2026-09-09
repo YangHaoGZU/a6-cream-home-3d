@@ -16,7 +16,7 @@
       "name": "IKEA LISABO · 200x78餐桌",
       "product": "LISABO 305.637.72",
       "dimensions": [
-        2.0,
+        2,
         0.78,
         0.74
       ],
@@ -98,7 +98,7 @@
       "dimensions": [
         1.96,
         2.09,
-        1.0
+        1
       ],
       "url": "https://www.ikea.com/au/en/p/malm-bed-frame-high-white-s09931601/"
     },
@@ -108,7 +108,7 @@
       "dimensions": [
         1.66,
         2.09,
-        1.0
+        1
       ],
       "url": "https://www.ikea.cn/cn/zh/p/malm-ma-er-mu-gao-chuang-jia-bai-se-00274924/"
     },
@@ -118,7 +118,7 @@
       "dimensions": [
         1.66,
         2.09,
-        1.0
+        1
       ],
       "url": "https://www.ikea.cn/cn/zh/p/malm-ma-er-mu-gao-chuang-jia-bai-se-00274924/"
     },
@@ -128,7 +128,7 @@
       "dimensions": [
         1.96,
         2.09,
-        1.0
+        1
       ],
       "url": "https://www.ikea.com/au/en/p/malm-bed-frame-high-white-s09931601/"
     },
@@ -151,6 +151,7 @@
     "originalBytes": 30942724,
     "bytes": 7038068,
     "triangles": 823104,
-    "removedUnusedUVs": true
+    "removedUnusedUVs": true,
+    "transferBytes": 3178780
   }
 }

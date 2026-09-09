@@ -81,3 +81,5 @@ node checks/blender-model.mjs
 24 张全景以及城市背景、户型图使用用户提供的压缩文件，保持原始分辨率；手机预览同步重新生成。网页 GLB 从 30,942,724 字节压缩至 7,038,068 字节，保留 823,104 个三角面及四个显示分类。使用 Meshopt 压缩与 16 位位置量化，去除无纹理材质未使用的 UV；分类包围盒误差小于 5 mm。移除了隐藏旧模型的构建过程，切换回实时模式复用压缩模型数据。
 
 重新导出 GLB 后，发布前运行 `node scripts/optimize-web-model.mjs public/models/a6-modern-v3.glb`，再构建网站。完整 Blender 模型未修改。
+
+支持 DecompressionStream 的浏览器优先下载 3,178,780 字节的 gzip 文件并在本地解压；旧浏览器使用 7 MB GLB。GitHub Pages 无需额外响应头配置。

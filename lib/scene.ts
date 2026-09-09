@@ -35,11 +35,19 @@ export type TourApi = {
 // while disposed GPU resources are not retained on phones. Failed requests remain retryable.
 let modelBytes: Promise<ArrayBuffer> | undefined;
 function loadModelBytes() {
-  return modelBytes ??= fetch("./models/a6-modern-v3.glb?v=meshopt-v1").then(response => {
+  return modelBytes ??= (async () => {
+    // Pages does not gzip GLB responses. Decode our precompressed file locally.
+    if (typeof DecompressionStream !== "undefined") {
+      const compressed = await fetch("./models/a6-modern-v3.glb.gz?v=meshopt-gzip-v1");
+      if (compressed.ok && compressed.body)
+        return new Response(compressed.body.pipeThrough(new DecompressionStream("gzip"))).arrayBuffer();
+    }
+    const response = await fetch("./models/a6-modern-v3.glb?v=meshopt-v1");
     if (!response.ok) throw new Error(`模型下载失败 (${response.status})`);
     return response.arrayBuffer();
-  }).catch(error => { modelBytes = undefined; throw error; });
+  })().catch(error => { modelBytes = undefined; throw error; });
 }
+
 export async function createTour(
   host: HTMLElement,
   onPosition: (x: number, z: number, yaw: number, id: string) => void,

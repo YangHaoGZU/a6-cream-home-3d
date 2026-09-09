@@ -3,6 +3,7 @@ import {ALL_EXTENSIONS} from '@gltf-transform/extensions';
 import {dedup, meshopt, prune} from '@gltf-transform/functions';
 import {MeshoptEncoder, MeshoptDecoder} from 'meshoptimizer';
 import fs from 'node:fs/promises';
+import {gzipSync} from 'node:zlib';
 const input=process.argv[2];
 if (!input) throw new Error('Usage: node scripts/optimize-web-model.mjs source.glb');
 await MeshoptEncoder.ready;
@@ -19,3 +20,5 @@ await doc.transform(prune(),dedup(),meshopt({encoder:MeshoptEncoder,level:'mediu
 const output='public/models/a6-modern-v3.glb';
 await io.write(output,doc);
 console.log('Optimized model bytes:',(await fs.stat(output)).size);
+
+await fs.writeFile(output+".gz",gzipSync(await fs.readFile(output),{level:9}));
