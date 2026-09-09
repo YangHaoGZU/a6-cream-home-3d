@@ -6,5 +6,11 @@
   "bytes": 6716207,
   "sha256": "cbc1891457ad903b1f0cf9a364457c99448e5fa96194109abdaad12ce836e20a",
   "textures": "packed",
-  "new_panoramas_rendered": false
+  "new_panoramas_rendered": true,
+  "panorama_points": 24,
+  "panorama_resolution": [
+    3072,
+    1536
+  ],
+  "web_model": "../public/models/a6-modern-v3.glb"
 }
