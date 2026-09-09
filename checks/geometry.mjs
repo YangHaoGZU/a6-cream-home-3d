@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {buildWalkCollisions} from '../lib/walk-collisions.ts';
 import {DIMENSIONS as d,rooms,walls,floorRects,contains,coreObstacles,floorElevation} from '../lib/plan.ts';
 import {furnishings,furnishingObstacles,fixtureObstacles,furnishingBounds} from '../lib/furniture-layout.ts';
 const sum=a=>a.reduce((x,y)=>x+y,0);for(const [a,b] of [[d.northChain,15.2],[d.southChain,15.2],[d.westChain,17.8],[d.eastChain,16.7]])assert.ok(Math.abs(sum(a)-b)<1e-8);
@@ -43,3 +44,11 @@ assert.ok(publicSeen.has(key(124,72)),'Upper stair landing must be reachable via
 assert.equal(floorElevation(12.4,7.2),3);
 assert.equal(floorElevation(15.6,8),1.5);
 console.log(`PASS: developer-plan bed directions and wardrobes; clear entry and shoe cabinet; closed corridor end; preserved door/balcony fixes; four dimension chains; 3m/6m heights; ${furnishings.length} furnishings; ${rooms.length} valid spawns; rooms reachable within apartment/public sections; closed entrance blocks passage; both stair flights climbable; ${seen.size} reachable floor-grid points.`);
+
+const actualObstacles=[...buildWalkCollisions(),...furnishingObstacles,...fixtureObstacles];
+const actualCan=(x,z)=>floorRects.some(r=>contains(r,x,z))&&!actualObstacles.some(r=>x>r[0]-.16&&x<r[2]+.16&&z>r[1]-.16&&z<r[3]+.16);
+for(const room of rooms)assert.ok(actualCan(...room.position),`Runtime spawn blocked: ${room.id}`);
+assert.ok(!actualCan(8.6,9.7),'Runtime closed entrance must block passage');
+assert.ok(!actualCan(3.0,12.8),'Runtime terrace north glass must block passage');
+assert.ok(actualCan(1.2,12.8),'Runtime terrace passage must remain open');
+console.log('PASS: optimized runtime collision data preserves all room spawns, closed entrance and balcony glass/passage.');

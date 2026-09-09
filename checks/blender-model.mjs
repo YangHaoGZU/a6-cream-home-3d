@@ -1,12 +1,13 @@
 import fs from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import * as THREE from 'three';
 import {build} from 'esbuild';
 const bundled=await build({stdin:{contents:"export {rooms,floorElevation} from './lib/plan';",resolveDir:process.cwd()},bundle:true,platform:'node',format:'esm',write:false});
 const {rooms,floorElevation}=await import('data:text/javascript;base64,'+Buffer.from(bundled.outputFiles[0].text).toString('base64'));
 const buf=await fs.readFile('public/models/a6-modern-v3.glb');
-const gltf=await new Promise((resolve,reject)=>new GLTFLoader().parse(buf.buffer.slice(buf.byteOffset,buf.byteOffset+buf.byteLength),'',resolve,reject));
+const gltf=await new Promise((resolve,reject)=>new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parse(buf.buffer.slice(buf.byteOffset,buf.byteOffset+buf.byteLength),'',resolve,reject));
 gltf.scene.updateMatrixWorld(true);
 const cats=new Set();let tris=0;
 gltf.scene.traverse(o=>{if(o.userData.category)cats.add(o.userData.category);if(o.isMesh)tris+=(o.geometry.index?.count??o.geometry.attributes.position.count)/3;});

@@ -247,5 +247,7 @@
       ],
       "bytes": 450940
     }
-  ]
+  ],
+  "compression": "User-supplied TinyPNG images; original render provenance retained",
+  "assetRevision": "modern-v3-tinified"
 }

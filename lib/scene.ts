@@ -1,22 +1,20 @@
 import * as THREE from "three";
+import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import {
   rooms,
   floorRects,
-  walls,
   contains,
   roomAt,
-  coreObstacles,
   floorElevation,
   type Rect,
 } from "./plan";
-import { buildFurnishings } from "./furnishings";
-import { buildCore } from "./core";
+import { furnishingObstacles, fixtureObstacles } from "./furniture-layout";
+import { buildWalkCollisions } from "./walk-collisions";
 import { fittedCameraDistance, LookPointer } from "./navigation";
-import { floorTileCells } from "./floor-tiles";
-import { RESIDENCE, buildLowerFacade, buildPostProcessing, createTileMaterial } from "./atmosphere";
+import { RESIDENCE, buildPostProcessing } from "./atmosphere";
 export type Mode = "overview" | "walk" | "plan";
 export type TourOptions = {
   mode: Mode;
@@ -33,12 +31,23 @@ export type TourApi = {
   stop: () => void;
   dispose: () => void;
 };
+// Cache compressed bytes only: switching back from panoramas avoids another download,
+// while disposed GPU resources are not retained on phones. Failed requests remain retryable.
+let modelBytes: Promise<ArrayBuffer> | undefined;
+function loadModelBytes() {
+  return modelBytes ??= fetch("./models/a6-modern-v3.glb?v=meshopt-v1").then(response => {
+    if (!response.ok) throw new Error(`模型下载失败 (${response.status})`);
+    return response.arrayBuffer();
+  }).catch(error => { modelBytes = undefined; throw error; });
+}
 export async function createTour(
   host: HTMLElement,
   onPosition: (x: number, z: number, yaw: number, id: string) => void,
   shouldCancel: () => boolean = () => false,
 ): Promise<TourApi | null> {
-  const loaded = await new GLTFLoader().loadAsync("./models/a6-modern-v3.glb?v=closed-door");
+  const bytes = await loadModelBytes();
+  if (shouldCancel()) return null;
+  const loaded = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(bytes, "./models/");
   if (shouldCancel()) {
     loaded.scene.traverse(o => { if (o instanceof THREE.Mesh) { o.geometry.dispose(); for (const m of Array.isArray(o.material) ? o.material : [o.material]) m.dispose(); } });
     return null;
@@ -100,364 +109,16 @@ export async function createTour(
   sun.shadow.autoUpdate = false;
   sun.shadow.needsUpdate = true;
   scene.add(sun, sun.target);
-  const wallMat = new THREE.MeshStandardMaterial({ color: "#f4ecdf", roughness: 0.88 });
-  const stoneMat = new THREE.MeshStandardMaterial({ color: "#ddd0b8", roughness: 0.72 });
-  const trimMat = new THREE.MeshStandardMaterial({ color: "#e7ddca", roughness: 0.63 });
-  const ceilingMat = new THREE.MeshStandardMaterial({ color: "#fff9ee", roughness: 0.92 });
-  const frameMat = new THREE.MeshStandardMaterial({
-    color: "#817b6d",
-    roughness: 0.43,
-    metalness: 0.55,
-  });
-  const glassMat = new THREE.MeshPhysicalMaterial({
-    color: "#e6f1ee",
-    roughness: 0.065,
-    metalness: 0,
-    transparent: true,
-    opacity: 0.11,
-    depthWrite: false,
-    clearcoat: 1,
-    clearcoatRoughness: 0.05,
-    envMapIntensity: 1.2,
-  });
-  const railMat = new THREE.MeshStandardMaterial({
-    color: "#62665e",
-    metalness: 0.45,
-    roughness: 0.53,
-  });
-  const glowMat = new THREE.MeshStandardMaterial({
-    color: "#fff2c9",
-    emissive: "#ffe2a0",
-    emissiveIntensity: 2,
-  });
-  const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
-  const floors = new THREE.Group();
-  const wallGroup = new THREE.Group();
-  const ceilingGroup = new THREE.Group();
   const dimGroup = new THREE.Group();
-  const caps = new THREE.Group();
-  scene.add(floors, wallGroup, ceilingGroup, dimGroup, caps);
-  const collisions: Rect[] = [];
-  const solidParts: { x: number; z: number; w: number; d: number; b: number; t: number }[] = [];
+  scene.add(dimGroup);
+  const collisions = buildWalkCollisions();
+  const furnitureCollisions = [...furnishingObstacles, ...fixtureObstacles];
   const trackedMaterials = new Set<THREE.Material>();
-  const claddingMaterials: THREE.Material[] = [];
-  function box(
-    x: number,
-    y: number,
-    z: number,
-    w: number,
-    h: number,
-    d: number,
-    mat: THREE.Material,
-    parent: THREE.Object3D = scene,
-    shadow = true,
-  ) {
-    if (w <= 0 || h <= 0 || d <= 0) return;
-    const mesh = new THREE.Mesh(boxGeometry, mat);
-    mesh.position.set(x, y, z);
-    mesh.scale.set(w, h, d);
-    mesh.castShadow = shadow;
-    mesh.receiveShadow = true;
-    parent.add(mesh);
-    trackedMaterials.add(mat);
-    return mesh;
-  }
-  function tileMaterial(w: number, d: number, outdoor = false) {
-    return createTileMaterial(w, d, Math.min(8, renderer.capabilities.getMaxAnisotropy()), outdoor);
-  }
-  for (const r of floorRects) {
-    const [x, z, x2, z2] = r;
-    box((x + x2) / 2, -0.126, (z + z2) / 2, x2 - x, 0.22, z2 - z, stoneMat, floors);
-  }
-  // One continuous, non-overlapping tiled surface. UVs preserve actual 1.2 × .6m tile size.
-  for (const outdoor of [false, true]) {
-    const positions: number[] = [],
-      uv: number[] = [];
-    for (const cell of floorTileCells().filter((c) => c.outdoor === outdoor)) {
-      const [x, z, x2, z2] = cell.rect;
-      for (const [xx, zz] of [
-        [x, z],
-        [x, z2],
-        [x2, z],
-        [x2, z],
-        [x, z2],
-        [x2, z2],
-      ]) {
-        positions.push(xx, 0, zz);
-        uv.push(xx / 1.2, -zz / 0.6);
-      }
-    }
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
-    geometry.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
-    geometry.computeVertexNormals();
-    const material = tileMaterial(1.2, 0.6, outdoor),
-      surface = new THREE.Mesh(geometry, material);
-    surface.receiveShadow = true;
-    floors.add(surface);
-    trackedMaterials.add(material);
-  }
-  for (const wall of walls) {
-    const [ax, az] = wall.a,
-      [bx, bz] = wall.b;
-    const vertical = ax === bx;
-    const length = Math.hypot(bx - ax, bz - az),
-      height = wall.height ?? 3,
-      th = wall.thickness ?? (wall.external ? 0.2 : 0.12);
-    const openings = [...(wall.openings ?? [])].sort((a, b) => a.a - b.a);
-    function part(
-      start: number,
-      end: number,
-      bottom: number,
-      top: number,
-      mat: THREE.Material = wallMat,
-    ) {
-      if (end - start < 0.001 || top - bottom < 0.001) return;
-      const mid = (start + end) / 2;
-      const x = vertical ? ax : ax + mid,
-        z = vertical ? az + mid : az;
-      const w = vertical ? th : end - start,
-        d = vertical ? end - start : th;
-      box(x, (bottom + top) / 2, z, w, top - bottom, d, mat, wallGroup);
-      if (bottom < 1.9 && top > 0.25) collisions.push([x - w / 2, z - d / 2, x + w / 2, z + d / 2]);
-      solidParts.push({ x, z, w, d, b: bottom, t: top });
-      if (bottom === 0) {
-        box(x, 0.044, z, w + 0.014, 0.088, d + 0.014, trimMat, wallGroup, false);
-      }
-      for (const bathroom of rooms.filter((r) => r.id.startsWith("bath"))) {
-        const r = bathroom.rect;
-        let from: number, to: number, offset: number;
-        if (vertical) {
-          if (Math.abs(ax - r[0]) < 0.01) offset = th / 2 + 0.01;
-          else if (Math.abs(ax - r[2]) < 0.01) offset = -th / 2 - 0.01;
-          else continue;
-          from = Math.max(az + start, r[1]);
-          to = Math.min(az + end, r[3]);
-        } else {
-          if (Math.abs(az - r[1]) < 0.01) offset = th / 2 + 0.01;
-          else if (Math.abs(az - r[3]) < 0.01) offset = -th / 2 - 0.01;
-          else continue;
-          from = Math.max(ax + start, r[0]);
-          to = Math.min(ax + end, r[2]);
-        }
-        const hi = Math.min(top, 2.85);
-        if (to - from > 0.015 && hi > bottom) {
-          const finish = tileMaterial(to - from, hi - bottom);
-          finish.roughness = 0.43;
-          claddingMaterials.push(finish);
-          box(
-            vertical ? ax + offset : (from + to) / 2,
-            (hi + bottom) / 2,
-            vertical ? (from + to) / 2 : az + offset,
-            vertical ? 0.016 : to - from,
-            hi - bottom,
-            vertical ? to - from : 0.016,
-            finish,
-            wallGroup,
-            false,
-          );
-        }
-      }
-    }
-    let cursor = 0;
-    for (const opening of openings) {
-      part(cursor, opening.a, 0, height);
-      part(opening.a, opening.b, 0, opening.bottom);
-      part(opening.a, opening.b, opening.top, height);
-      const a = opening.a,
-        b = opening.b,
-        lo = opening.bottom,
-        hi = opening.top;
-      const frame = (s: number, e: number, l: number, h: number) => {
-        const mid = (s + e) / 2;
-        box(
-          vertical ? ax : ax + mid,
-          (l + h) / 2,
-          vertical ? az + mid : az,
-          vertical ? th + 0.02 : e - s,
-          h - l,
-          vertical ? e - s : th + 0.02,
-          opening.kind === "door" ? trimMat : frameMat,
-          wallGroup,
-        );
-      };
-      frame(a, a + 0.045, lo, hi);
-      frame(b - 0.045, b, lo, hi);
-      frame(a, b, hi - 0.045, hi);
-      if (opening.kind === "window") {
-        frame(a, b, lo, lo + 0.04);
-        const subdivisions = Math.max(1, Math.ceil((b - a) / 1.25));
-        for (let i = 1; i < subdivisions; i++) {
-          const p = a + ((b - a) * i) / subdivisions;
-          frame(p - 0.018, p + 0.018, lo, hi);
-        }
-        const mid = (a + b) / 2;
-        box(
-          vertical ? ax : ax + mid,
-          (lo + hi) / 2,
-          vertical ? az + mid : az,
-          vertical ? 0.015 : b - a,
-          hi - lo,
-          vertical ? b - a : 0.015,
-          glassMat,
-          wallGroup,
-          false,
-        );
-        if (lo < 1.9)
-          collisions.push(
-            vertical
-              ? [ax - 0.06, az + a, ax + 0.06, az + b]
-              : [ax + a, az - 0.06, ax + b, az + 0.06],
-          );
-      }
-      cursor = b;
-    }
-    part(cursor, length, 0, height);
-  }
-  // Balcony guardrails / genuine six-metre terrace columns; no mezzanine floor.
-  function rail(ax: number, az: number, bx: number, bz: number) {
-    const vertical = ax === bx,
-      length = Math.hypot(bx - ax, bz - az);
-    box(
-      (ax + bx) / 2,
-      0.1,
-      (az + bz) / 2,
-      vertical ? 0.14 : length,
-      0.2,
-      vertical ? length : 0.14,
-      stoneMat,
-    );
-    box(
-      (ax + bx) / 2,
-      1.15,
-      (az + bz) / 2,
-      vertical ? 0.05 : length,
-      0.045,
-      vertical ? length : 0.05,
-      railMat,
-    );
-    for (let t = 0; t <= length; t += 0.13)
-      box(
-        vertical ? ax : ax + t,
-        0.65,
-        vertical ? az + t : az,
-        0.018,
-        1,
-        0.018,
-        railMat,
-        scene,
-        false,
-      );
-    collisions.push([
-      Math.min(ax, bx) - 0.1,
-      Math.min(az, bz) - 0.1,
-      Math.max(ax, bx) + 0.1,
-      Math.max(az, bz) + 0.1,
-    ]);
-  }
-  rail(0, 5, 0, 17.8);
-  rail(0, 17.8, 4, 17.8);
-  rail(4, 16.7, 4, 17.8);
-  for (const [x, z, h] of [
-    [0, 5, 3],
-    [0, 12.8, 6],
-    [0, 17.8, 6],
-    [4, 17.8, 6],
-  ]) {
-    box(x, h / 2, z, 0.32, h, 0.32, wallMat);
-    collisions.push([x - 0.16, z - 0.16, x + 0.16, z + 0.16]);
-  }
-  const core = buildCore();
-  scene.add(core.group);
-  ceilingGroup.add(core.ceiling);
-  collisions.push(...coreObstacles);
-  // Exact structural heights: ceiling surface at 3m / 6m; shallow perimeter soffit at 2.85m / 5.85m.
-  const ceilingRects: Rect[] = [
-    [4, 0, 7, 1.4],
-    [4, 1.4, 7, 5],
-    [7, 1.4, 10.2, 5],
-    [10.2, 1.4, 13.5, 6.6],
-    [13.5, 2.3, 15.2, 6.6],
-    [8.6, 5, 10.2, 6.6],
-    [2.1, 5, 8.6, 11.6],
-    [2.1, 11.6, 9, 12.8],
-    [0, 5, 2.1, 12.8],
-    [4, 12.8, 7.2, 16.7],
-    [7.2, 12.8, 9, 16.7],
-    [9, 11.6, 13.1, 16.7],
-    [13.1, 11.6, 15.2, 16.7],
-    [0, 12.8, 4, 17.8],
-    [8.6, 8.95, 11.8, 11.6],
-    [11.8, 10.22, 16.4, 11.6],
-    [8.6, 6.6, 10.85, 8.95],
-    [10.85, 6.6, 11.8, 8.95],
-  ];
-  for (const r of ceilingRects) {
-    const [x, z, x2, z2] = r,
-      w = x2 - x,
-      d = z2 - z,
-      h = x === 0 && z === 12.8 ? 6 : 3;
-    box((x + x2) / 2, h + 0.07, (z + z2) / 2, w, 0.14, d, ceilingMat, ceilingGroup);
-    const inset = 0.26;
-    box((x + x2) / 2, h - 0.075, z + inset / 2, w, 0.15, inset, ceilingMat, ceilingGroup);
-    box((x + x2) / 2, h - 0.075, z2 - inset / 2, w, 0.15, inset, ceilingMat, ceilingGroup);
-    box(
-      x + inset / 2,
-      h - 0.075,
-      (z + z2) / 2,
-      inset,
-      0.15,
-      d - 2 * inset,
-      ceilingMat,
-      ceilingGroup,
-    );
-    box(
-      x2 - inset / 2,
-      h - 0.075,
-      (z + z2) / 2,
-      inset,
-      0.15,
-      d - 2 * inset,
-      ceilingMat,
-      ceilingGroup,
-    );
-    if (w > 2 && d > 2) {
-      box((x + x2) / 2, h - 0.105, z + 0.265, w - 0.54, 0.015, 0.025, glowMat, ceilingGroup, false);
-      box(
-        (x + x2) / 2,
-        h - 0.105,
-        z2 - 0.265,
-        w - 0.54,
-        0.015,
-        0.025,
-        glowMat,
-        ceilingGroup,
-        false,
-      );
-      for (const xx of [x + 0.55, x2 - 0.55])
-        for (const zz of [z + 0.55, z2 - 0.55]) {
-          const disc = new THREE.Mesh(new THREE.CylinderGeometry(0.042, 0.042, 0.014, 16), glowMat);
-          disc.position.set(xx, h - 0.16, zz);
-          ceilingGroup.add(disc);
-        }
-    }
-  }
-  const fitted = buildFurnishings();
-  scene.add(fitted.group, fitted.ceilingFixtures);
-  const lowerFacade = buildLowerFacade();
-  scene.add(lowerFacade);
-  // The studio plinth is only visible in diagram views. In walkthrough the home is elevated.
-  const studioGround = box(
-    7.6,
-    -0.47,
-    8.9,
-    200,
-    0.08,
-    200,
-    new THREE.MeshStandardMaterial({ color: "#e0e3dd", roughness: 1 }),
-    scene,
-    false,
-  )!;
+  const studioGround = new THREE.Mesh(new THREE.BoxGeometry(200,.08,200),
+    new THREE.MeshStandardMaterial({color: "#e0e3dd", roughness: 1}));
+  studioGround.position.set(7.6,-.47,8.9);
+  studioGround.receiveShadow = true;
+  scene.add(studioGround);
   const roomLights = new Map<string, THREE.SpotLight>();
   for (const room of rooms.filter((r) => !r.outdoor)) {
     const [x, z, x2, z2] = room.rect,
@@ -474,9 +135,7 @@ export async function createTour(
     light.visible = false;
     roomLights.set(room.id, light);
     scene.add(light, light.target);
-    const lens = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.055, 0.016, 16), glowMat);
-    lens.position.set(cx, room.id === "stairs" ? 5.836 : 2.836, cz);
-    ceilingGroup.add(lens);
+
   }
   let panorama: THREE.Texture | null = null,
     cityEnvironment: THREE.WebGLRenderTarget | null = null,
@@ -499,7 +158,7 @@ export async function createTour(
     undefined,
     () => console.warn("城市全景暂未载入，保留天空与室内漫游。"),
   );
-  const legacyVisuals = scene.children.filter(o => o !== dimGroup && o !== studioGround && !(o instanceof THREE.Light) && (o instanceof THREE.Mesh || o instanceof THREE.Group));
+
   const model = loaded.scene;
   scene.add(model);
   const modelMeshes: THREE.Mesh[] = [];
@@ -593,8 +252,6 @@ export async function createTour(
   label("挑空 · 无楼板", 2, 0.1, 2.5, 2);
   label("公共电梯 / 楼梯", 12.7, 0.11, 9.1, 2.5);
   const clipPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), 1.2);
-  for (const p of solidParts)
-    if (p.b < 1.2 && p.t > 1.2) box(p.x, 1.198, p.z, p.w, 0.008, p.d, trimMat, caps, false);
   let options: TourOptions = {
     mode: "overview",
     ceiling: false,
@@ -619,21 +276,12 @@ export async function createTour(
   function applyOptions() {
     const walk = options.mode === "walk";
     controls.enabled = !walk;
-    ceilingGroup.visible = options.ceiling;
-    fitted.group.visible = options.furniture;
-    fitted.ceilingFixtures.visible = options.ceiling && options.furniture;
     dimGroup.visible = options.dimensions && !walk;
     const cut = options.cutaway && !walk;
-    for (const mat of [wallMat, trimMat, frameMat, glassMat, ...claddingMaterials]) {
-      mat.clippingPlanes = cut ? [clipPlane] : [];
-      mat.needsUpdate = true;
-    }
-    caps.visible = cut;
     renderer.toneMappingExposure = walk ? 1.12 : 1.05;
     controls.enableRotate = options.mode !== "plan";
     controls.touches.ONE = options.mode === "plan" ? THREE.TOUCH.PAN : THREE.TOUCH.ROTATE;
     controls.touches.TWO = THREE.TOUCH.DOLLY_PAN;
-    lowerFacade.visible = walk;
     studioGround.visible = !walk;
     scene.background = walk ? (panorama ?? new THREE.Color("#c6d9e8")) : studioBackground;
     scene.backgroundIntensity = 0.8;
@@ -646,8 +294,6 @@ export async function createTour(
     sun.shadow.needsUpdate = true;
     for (const light of roomLights.values()) light.shadow.needsUpdate = true;
     updateRoomLight(roomAt(camera.position.x, camera.position.z)?.id ?? selected);
-    for (const o of legacyVisuals) o.visible = false;
-    caps.visible = false;
     for (const o of modelMeshes) {
       const category = o.userData.category ?? o.name;
       o.visible = category === "ceilings" ? options.ceiling : category === "facade" ? walk : category === "furniture" ? options.furniture : true;
@@ -695,7 +341,7 @@ export async function createTour(
     if (!floorRects.some((r) => contains(r, x, z))) return false;
     const hits = (r: Rect) =>
       x > r[0] - radius && x < r[2] + radius && z > r[1] - radius && z < r[3] + radius;
-    return !collisions.some(hits) && (!options.furniture || !fitted.obstacles.some(hits));
+    return !collisions.some(hits) && (!options.furniture || !furnitureCollisions.some(hits));
   }
   function advance(dx: number, dz: number) {
     const steps = Math.max(1, Math.ceil(Math.hypot(dx, dz) / 0.07));

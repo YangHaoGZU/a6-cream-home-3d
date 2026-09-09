@@ -5,7 +5,7 @@ import { GTAOPass } from "three/addons/postprocessing/GTAOPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 import { floorRects } from "./plan";
 
-export const RESIDENCE = { floor: 20, elevation: 57, panorama: "./city-panorama.png" } as const;
+export const RESIDENCE = { floor: 20, elevation: 57, panorama: "./city-panorama.png?v=tinified" } as const;
 
 // Keep architectural coordinates at finished floor = 0. Only the exterior moves down.
 export function buildLowerFacade() {

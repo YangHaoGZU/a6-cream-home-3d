@@ -34,6 +34,7 @@ for (const point of panoramaPoints) {
   await sharp(filename).resize(768, 384).jpeg({ quality: 78, mozjpeg: true }).toFile(preview);
   manifest.push({
     id: point.id,
+    revision: "modern-v3-tinified",
     width: meta.width,
     height: meta.height,
     bytes: (await fs.stat(filename)).size,

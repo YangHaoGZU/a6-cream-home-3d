@@ -131,7 +131,7 @@ export default function HomeTour() {
           setReady(true);
         } catch (e) {
           setError(
-            "此浏览器未能启动 3D 图形。请使用启用硬件加速的 Chrome、Edge 或 Safari，刷新后重试。",
+            "场景下载或 3D 初始化失败。请检查网络，并使用启用硬件加速的浏览器重试。",
           );
           console.error(e);
         }
@@ -669,9 +669,9 @@ export default function HomeTour() {
             以原图标注尺寸控制模型比例；这张房开图未提供全部施工尺寸，不能保证毫米级还原。
           </DialogDescription>
           <div className="source-scroll">
-            <a href="./floorplan.jpg" target="_blank" rel="noreferrer">
+            <a href="./floorplan.jpg?v=tinified" target="_blank" rel="noreferrer">
               <img
-                src="./floorplan.jpg"
+                src="./floorplan.jpg?v=tinified"
                 alt="用户提供的 A6 原始户型图，左结构平面，右装修示意及尺寸链"
               />
             </a>

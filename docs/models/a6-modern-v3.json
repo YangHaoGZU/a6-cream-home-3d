@@ -145,5 +145,12 @@
   ],
   "units": "metres",
   "axes": "Three.js Y-up, north=-Z",
-  "closedEntrance": true
+  "closedEntrance": true,
+  "webOptimization": {
+    "compression": "EXT_meshopt_compression",
+    "originalBytes": 30942724,
+    "bytes": 7038068,
+    "triangles": 823104,
+    "removedUnusedUVs": true
+  }
 }

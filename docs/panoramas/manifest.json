@@ -3,192 +3,192 @@
     "id": "living-entry",
     "width": 3072,
     "height": 1536,
-    "bytes": 447467,
-    "previewBytes": 18994,
-    "revision": "modern-v3-closed-door"
+    "bytes": 103817,
+    "previewBytes": 14133,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "living-window",
     "width": 3072,
     "height": 1536,
-    "bytes": 533587,
-    "previewBytes": 24633,
-    "revision": "modern-v3-closed-door"
+    "bytes": 139217,
+    "previewBytes": 18638,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "dining-west",
     "width": 3072,
     "height": 1536,
-    "bytes": 492050,
-    "previewBytes": 20087,
-    "revision": "modern-v3-closed-door"
+    "bytes": 112460,
+    "previewBytes": 14786,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "dining-east",
     "width": 3072,
     "height": 1536,
-    "bytes": 468579,
-    "previewBytes": 20069,
-    "revision": "modern-v3-closed-door"
+    "bytes": 107546,
+    "previewBytes": 14904,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "kitchen-south",
     "width": 3072,
     "height": 1536,
-    "bytes": 516111,
-    "previewBytes": 25673,
-    "revision": "modern-v3-closed-door"
+    "bytes": 131357,
+    "previewBytes": 19366,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "kitchen-north",
     "width": 3072,
     "height": 1536,
-    "bytes": 541207,
-    "previewBytes": 27753,
-    "revision": "modern-v3-closed-door"
+    "bytes": 142571,
+    "previewBytes": 21179,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "balcony-north",
     "width": 3072,
     "height": 1536,
-    "bytes": 521399,
-    "previewBytes": 21748,
-    "revision": "modern-v3-closed-door"
+    "bytes": 129286,
+    "previewBytes": 16293,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "balcony-south",
     "width": 3072,
     "height": 1536,
-    "bytes": 677076,
-    "previewBytes": 34373,
-    "revision": "modern-v3-closed-door"
+    "bytes": 178049,
+    "previewBytes": 26307,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "terrace-north",
     "width": 3072,
     "height": 1536,
-    "bytes": 673372,
-    "previewBytes": 30888,
-    "revision": "modern-v3-closed-door"
+    "bytes": 190449,
+    "previewBytes": 23435,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "terrace-south",
     "width": 3072,
     "height": 1536,
-    "bytes": 768027,
-    "previewBytes": 35559,
-    "revision": "modern-v3-closed-door"
+    "bytes": 227487,
+    "previewBytes": 26626,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "master-entry",
     "width": 3072,
     "height": 1536,
-    "bytes": 432869,
-    "previewBytes": 16261,
-    "revision": "modern-v3-closed-door"
+    "bytes": 96556,
+    "previewBytes": 11916,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "master-window",
     "width": 3072,
     "height": 1536,
-    "bytes": 514081,
-    "previewBytes": 23447,
-    "revision": "modern-v3-closed-door"
+    "bytes": 130097,
+    "previewBytes": 17516,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "south",
     "width": 3072,
     "height": 1536,
-    "bytes": 401520,
-    "previewBytes": 15241,
-    "revision": "modern-v3-closed-door"
+    "bytes": 85587,
+    "previewBytes": 11340,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "north",
     "width": 3072,
     "height": 1536,
-    "bytes": 396303,
-    "previewBytes": 15180,
-    "revision": "modern-v3-closed-door"
+    "bytes": 83739,
+    "previewBytes": 11248,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "suite",
     "width": 3072,
     "height": 1536,
-    "bytes": 377103,
-    "previewBytes": 13095,
-    "revision": "modern-v3-closed-door"
+    "bytes": 75814,
+    "previewBytes": 9537,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "entry",
     "width": 3072,
     "height": 1536,
-    "bytes": 429821,
-    "previewBytes": 17941,
-    "revision": "modern-v3-closed-door"
+    "bytes": 98367,
+    "previewBytes": 13283,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "bath1",
     "width": 3072,
     "height": 1536,
-    "bytes": 504576,
-    "previewBytes": 19725,
-    "revision": "modern-v3-closed-door"
+    "bytes": 110437,
+    "previewBytes": 14858,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "bath2",
     "width": 3072,
     "height": 1536,
-    "bytes": 490259,
-    "previewBytes": 17980,
-    "revision": "modern-v3-closed-door"
+    "bytes": 104071,
+    "previewBytes": 13209,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "bath3",
     "width": 3072,
     "height": 1536,
-    "bytes": 507816,
-    "previewBytes": 18772,
-    "revision": "modern-v3-closed-door"
+    "bytes": 107863,
+    "previewBytes": 14029,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "utility",
     "width": 3072,
     "height": 1536,
-    "bytes": 637528,
-    "previewBytes": 35222,
-    "revision": "modern-v3-closed-door"
+    "bytes": 188132,
+    "previewBytes": 26916,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "lobby",
     "width": 3072,
     "height": 1536,
-    "bytes": 389353,
-    "previewBytes": 14341,
-    "revision": "modern-v3-closed-door"
+    "bytes": 81064,
+    "previewBytes": 10528,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "hall",
     "width": 3072,
     "height": 1536,
-    "bytes": 363008,
-    "previewBytes": 13101,
-    "revision": "modern-v3-closed-door"
+    "bytes": 74753,
+    "previewBytes": 9305,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "lift",
     "width": 3072,
     "height": 1536,
-    "bytes": 361615,
-    "previewBytes": 17109,
-    "revision": "modern-v3-closed-door"
+    "bytes": 78828,
+    "previewBytes": 12926,
+    "revision": "modern-v3-tinified"
   },
   {
     "id": "stairs",
     "width": 3072,
     "height": 1536,
-    "bytes": 450940,
-    "previewBytes": 19274,
-    "revision": "modern-v3-closed-door"
+    "bytes": 96603,
+    "previewBytes": 14383,
+    "revision": "modern-v3-tinified"
   }
 ]
