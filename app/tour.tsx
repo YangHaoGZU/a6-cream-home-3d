@@ -118,13 +118,14 @@ export default function HomeTour() {
     if (panoramaOpen) return;
     let cancelled = false;
     import("@/lib/scene")
-      .then(({ createTour }) => {
+      .then(async ({ createTour }) => {
         if (cancelled || !host.current) return;
         try {
-          api.current = createTour(host.current, (x, z, yaw, id) => {
+          api.current = await createTour(host.current, (x, z, yaw, id) => {
             if (showPosition.current) setPosition({ x, z, yaw });
             setRoomId(id);
-          });
+          }, () => cancelled);
+          if (cancelled || !api.current) return;
           api.current.go(roomRef.current);
           setReady(true);
         } catch (e) {
@@ -213,7 +214,7 @@ export default function HomeTour() {
           <div>
             <i className="swatch paint" />
             <span>
-              <b>奶油白墙面</b>
+              <b>中性白墙面</b>
               <small>哑光乳胶漆</small>
             </span>
           </div>
@@ -378,7 +379,7 @@ export default function HomeTour() {
             A<span>6</span>
           </span>
           <div>
-            <h1>奶油风 · 全屋漫游</h1>
+            <h1>现代简约 · 全屋漫游</h1>
             <p>20 层 / 190.65㎡ / 午后城市景观</p>
           </div>
         </div>
@@ -723,7 +724,7 @@ export default function HomeTour() {
               <div>
                 <b>全景漫游</b>
                 <p>
-                  18 个空间、24 个观察点，使用同一户型模型渲染 3072×1536
+                  当前全景为旧版奶油风，现代简约全景正在更新。旧版包含18个空间、24个观察点、3072×1536
                   全景图，可环顾、缩放和切换点位。全景图中的家具和光线固定；需要自由行走或调整家具、吊顶显示时，请切换“进入漫游”。全景为装修效果示意，并非实拍照片。
                 </p>
               </div>

@@ -1,0 +1,149 @@
+{
+  "revision": "modern-v3-closed-door",
+  "sourceSHA256": "cbc1891457ad903b1f0cf9a364457c99448e5fa96194109abdaad12ce836e20a",
+  "furniture": [
+    {
+      "name": "IKEA KIVIK · 228cm灰色三人沙发",
+      "product": "KIVIK 994.848.76",
+      "dimensions": [
+        2.28,
+        0.95,
+        0.83
+      ],
+      "url": "https://www.ikea.cn/cn/en/p/kivik-3-seat-sofa-gunnared-medium-grey-s99484876/"
+    },
+    {
+      "name": "IKEA LISABO · 200x78餐桌",
+      "product": "LISABO 305.637.72",
+      "dimensions": [
+        2.0,
+        0.78,
+        0.74
+      ],
+      "url": "https://www.ikea.cn/cn/zh/p/lisabo-li-sa-bo-zhuo-zi-bai-zha-mu-tie-mian-30563772/"
+    },
+    {
+      "name": "IKEA LISABO · 北侧餐椅0",
+      "product": "LISABO 104.572.30",
+      "dimensions": [
+        0.46,
+        0.51,
+        0.8
+      ],
+      "url": "https://www.ikea.cn/cn/zh/p/10457230/?artType=ART"
+    },
+    {
+      "name": "IKEA LISABO · 南侧餐椅0",
+      "product": "LISABO 104.572.30",
+      "dimensions": [
+        0.46,
+        0.51,
+        0.8
+      ],
+      "url": "https://www.ikea.cn/cn/zh/p/10457230/?artType=ART"
+    },
+    {
+      "name": "IKEA LISABO · 北侧餐椅1",
+      "product": "LISABO 104.572.30",
+      "dimensions": [
+        0.46,
+        0.51,
+        0.8
+      ],
+      "url": "https://www.ikea.cn/cn/zh/p/10457230/?artType=ART"
+    },
+    {
+      "name": "IKEA LISABO · 南侧餐椅1",
+      "product": "LISABO 104.572.30",
+      "dimensions": [
+        0.46,
+        0.51,
+        0.8
+      ],
+      "url": "https://www.ikea.cn/cn/zh/p/10457230/?artType=ART"
+    },
+    {
+      "name": "IKEA LISABO · 西端餐椅",
+      "product": "LISABO 104.572.30",
+      "dimensions": [
+        0.46,
+        0.51,
+        0.8
+      ],
+      "url": "https://www.ikea.cn/cn/zh/p/10457230/?artType=ART"
+    },
+    {
+      "name": "IKEA LISABO · 东端餐椅",
+      "product": "LISABO 104.572.30",
+      "dimensions": [
+        0.46,
+        0.51,
+        0.8
+      ],
+      "url": "https://www.ikea.cn/cn/zh/p/10457230/?artType=ART"
+    },
+    {
+      "name": "IKEA LISABO · 长阳台阅读椅",
+      "product": "LISABO 104.572.30",
+      "dimensions": [
+        0.46,
+        0.51,
+        0.8
+      ],
+      "url": "https://www.ikea.cn/cn/zh/p/10457230/?artType=ART"
+    },
+    {
+      "name": "IKEA MALM · master",
+      "product": "MALM 180x200",
+      "dimensions": [
+        1.96,
+        2.09,
+        1.0
+      ],
+      "url": "https://www.ikea.com/au/en/p/malm-bed-frame-high-white-s09931601/"
+    },
+    {
+      "name": "IKEA MALM · south",
+      "product": "MALM 150x200",
+      "dimensions": [
+        1.66,
+        2.09,
+        1.0
+      ],
+      "url": "https://www.ikea.cn/cn/zh/p/malm-ma-er-mu-gao-chuang-jia-bai-se-00274924/"
+    },
+    {
+      "name": "IKEA MALM · north",
+      "product": "MALM 150x200",
+      "dimensions": [
+        1.66,
+        2.09,
+        1.0
+      ],
+      "url": "https://www.ikea.cn/cn/zh/p/malm-ma-er-mu-gao-chuang-jia-bai-se-00274924/"
+    },
+    {
+      "name": "IKEA MALM · suite",
+      "product": "MALM 180x200",
+      "dimensions": [
+        1.96,
+        2.09,
+        1.0
+      ],
+      "url": "https://www.ikea.com/au/en/p/malm-bed-frame-high-white-s09931601/"
+    },
+    {
+      "name": "IKEA LISABO · 南次卧书桌椅",
+      "product": "LISABO 104.572.30",
+      "dimensions": [
+        0.46,
+        0.51,
+        0.8
+      ],
+      "url": "https://www.ikea.cn/cn/zh/p/10457230/?artType=ART"
+    }
+  ],
+  "units": "metres",
+  "axes": "Three.js Y-up, north=-Z",
+  "closedEntrance": true
+}

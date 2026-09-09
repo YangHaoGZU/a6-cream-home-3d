@@ -2,14 +2,14 @@ import type { Rect } from './plan';
 export type Furnishing = { id:string;room:string;kind:string;x:number;z:number;w:number;d:number;h?:number;y?:number;yaw?:number;solid?:boolean;variant?:string };
 const p=Math.PI;
 export const furnishings:Furnishing[]=[
- {id:'living-sofa',room:'living',kind:'sofa',x:5.15,z:9.04,w:3.25,d:1.02},
+ {id:'living-sofa',room:'living',kind:'sofa',x:5.15,z:9.04,w:2.28,d:.95},
  {id:'living-coffee',room:'living',kind:'coffee',x:5.25,z:10.75,w:1.25,d:.8},
  {id:'living-lounge',room:'living',kind:'armchair',x:3.2,z:10.9,w:.78,d:.85,yaw:.7},
  {id:'living-tv',room:'living',kind:'tvwall',x:5.58,z:12.64,w:2.9,d:.22,yaw:p,solid:false},
  {id:'living-lamp',room:'living',kind:'floorlamp',x:2.65,z:11.7,w:.35,d:.35,solid:false},
  {id:'living-plant',room:'living',kind:'plant',x:3,z:12.23,w:.48,d:.48,h:1.45},
  {id:'living-ac',room:'living',kind:'ac',x:8.43,z:8.1,w:.95,d:.18,y:2.48,yaw:-p/2,solid:false},
- {id:'dining-table',room:'dining',kind:'diningtable',x:5.4,z:6.7,w:1.85,d:.88},
+ {id:'dining-table',room:'dining',kind:'diningtable',x:5.4,z:6.7,w:2,d:.78},
  ...[-.55,.55].flatMap((dx,i)=>[-1,1].map((s,j)=>({id:`dining-chair-${i}-${j}`,room:'dining',kind:'chair',x:5.4+dx,z:6.7+s*.83,w:.48,d:.53,yaw:s===-1?0:p}))),
  {id:'dining-chair-west',room:'dining',kind:'chair',x:4.06,z:6.7,w:.48,d:.53,yaw:p/2},
  {id:'dining-chair-east',room:'dining',kind:'chair',x:6.74,z:6.7,w:.48,d:.53,yaw:-p/2},
@@ -33,24 +33,24 @@ export const furnishings:Furnishing[]=[
  {id:'entry-shoes',room:'entry',kind:'entrycabinet',x:8.33,z:11.03,w:.95,d:.4,yaw:-p/2},
  {id:'entry-console',room:'entry',kind:'console',x:8.38,z:8.45,w:.85,d:.3,yaw:-p/2},
  {id:'lobby-shoes',room:'lobby',kind:'entrycabinet',x:8.96,z:10.97,w:.96,d:.44,yaw:p/2},
- {id:'master-bed',room:'master',kind:'bed',x:11.87,z:15.01,w:1.8,d:2.16,yaw:-p/2},
+ {id:'master-bed',room:'master',kind:'bed',x:11.87,z:15.01,w:1.96,d:2.09,yaw:-p/2},
  {id:'master-nightstand-a',room:'master',kind:'nightstand',x:12.77,z:13.79,w:.44,d:.42,yaw:-p/2},
  {id:'master-nightstand-b',room:'master',kind:'nightstand',x:12.77,z:16.24,w:.4,d:.42,yaw:-p/2},
  {id:'master-wardrobe',room:'master',kind:'wardrobe',x:12.69,z:11.99,w:4.72,d:.54},
  {id:'master-wardrobe-return',room:'master',kind:'wardrobe',x:10.42,z:12.83,w:1.12,d:.54,yaw:p/2},
  {id:'master-vanity',room:'master',kind:'desk',x:9.4,z:15.25,w:1.05,d:.44,yaw:p/2,variant:'vanity'},
  {id:'master-ac',room:'master',kind:'ac',x:9.14,z:14,w:.85,d:.18,y:2.48,yaw:p/2,solid:false},
- {id:'south-bed',room:'south',kind:'bed',x:5.23,z:14.64,w:1.5,d:2.1,yaw:p/2},
+ {id:'south-bed',room:'south',kind:'bed',x:5.23,z:14.64,w:1.66,d:2.09,yaw:p/2},
  {id:'south-nightstand',room:'south',kind:'nightstand',x:4.4,z:13.65,w:.28,d:.35,yaw:p/2,solid:false},
  {id:'south-wardrobe',room:'south',kind:'wardrobe',x:5.13,z:13.16,w:1.84,d:.52},
  {id:'south-desk',room:'south',kind:'desk',x:5.12,z:16.24,w:1.25,d:.42,yaw:p},
- {id:'south-chair',room:'south',kind:'chair',x:5.12,z:15.73,w:.45,d:.47},
+ {id:'south-chair',room:'south',kind:'chair',x:5.12,z:15.79,w:.46,d:.51},
  {id:'south-ac',room:'south',kind:'ac',x:4.14,z:15.75,w:.85,d:.18,y:2.48,yaw:p/2,solid:false},
- {id:'north-bed',room:'north',kind:'bed',x:8.23,z:3.12,w:1.5,d:2.1,yaw:p/2},
+ {id:'north-bed',room:'north',kind:'bed',x:8.23,z:3.12,w:1.66,d:2.09,yaw:p/2},
  {id:'north-nightstand',room:'north',kind:'nightstand',x:7.4,z:2.05,w:.4,d:.4,yaw:p/2},
  {id:'north-wardrobe',room:'north',kind:'wardrobe',x:8.06,z:4.65,w:1.82,d:.52,yaw:p},
  {id:'north-ac',room:'north',kind:'ac',x:7.14,z:4.3,w:.85,d:.18,y:2.48,yaw:p/2,solid:false},
- {id:'suite-bed',room:'suite',kind:'bed',x:12.26,z:3.38,w:1.7,d:2.16,yaw:-p/2},
+ {id:'suite-bed',room:'suite',kind:'bed',x:12.26,z:3.38,w:1.96,d:2.09,yaw:-p/2},
  {id:'suite-nightstand-a',room:'suite',kind:'nightstand',x:13.12,z:2.13,w:.36,d:.38,yaw:-p/2,solid:false},
  {id:'suite-nightstand-b',room:'suite',kind:'nightstand',x:13.12,z:4.61,w:.38,d:.4,yaw:-p/2},
  {id:'suite-wardrobe',room:'suite',kind:'wardrobe',x:13.31,z:6.23,w:3.52,d:.52,yaw:p},
@@ -68,7 +68,7 @@ export const furnishings:Furnishing[]=[
  {id:'bath3-tub',room:'bath3',kind:'tub',x:14.14,z:16.15,w:1.7,d:.75},
 ];
 export function furnishingBounds(f:Furnishing):Rect{const a=f.yaw??0;const w=Math.abs(Math.cos(a))*f.w+Math.abs(Math.sin(a))*f.d,d=Math.abs(Math.sin(a))*f.w+Math.abs(Math.cos(a))*f.d;return[f.x-w/2,f.z-d/2,f.x+w/2,f.z+d/2]}
-export const furnishingObstacles=furnishings.filter(f=>f.solid!==false).map(furnishingBounds);
+export const furnishingObstacles=furnishings.filter(f=>f.solid!==false && !['living-lounge','terrace-sofa','terrace-chair','balcony-chair-a','balcony-chair-b'].includes(f.id)).map(furnishingBounds);
 export const fixtureObstacles:Rect[]=[[6.33,13.02,7.18,13.085],...furnishings.filter(f=>f.kind==='shower').map(f=>{
  const a=f.yaw??0,cx=-f.w*.29,cz=f.d/2;
  return furnishingBounds({id:f.id+'-glass',room:f.room,kind:'glass',x:f.x+cx*Math.cos(a)+cz*Math.sin(a),z:f.z-cx*Math.sin(a)+cz*Math.cos(a),w:f.w*.42,d:.018,yaw:a});

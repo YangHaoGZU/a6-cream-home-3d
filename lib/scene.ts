@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import {
@@ -32,10 +33,16 @@ export type TourApi = {
   stop: () => void;
   dispose: () => void;
 };
-export function createTour(
+export async function createTour(
   host: HTMLElement,
   onPosition: (x: number, z: number, yaw: number, id: string) => void,
-): TourApi {
+  shouldCancel: () => boolean = () => false,
+): Promise<TourApi | null> {
+  const loaded = await new GLTFLoader().loadAsync("./models/a6-modern-v3.glb?v=closed-door");
+  if (shouldCancel()) {
+    loaded.scene.traverse(o => { if (o instanceof THREE.Mesh) { o.geometry.dispose(); for (const m of Array.isArray(o.material) ? o.material : [o.material]) m.dispose(); } });
+    return null;
+  }
   const scene = new THREE.Scene();
   const studioBackground = new THREE.Color("#e6e9e6");
   scene.background = studioBackground;
@@ -72,9 +79,9 @@ export function createTour(
   scene.environmentIntensity = 0.25;
   envScene.dispose();
   pmrem.dispose();
-  const skyLight = new THREE.HemisphereLight(0xe6efff, 0xc6ad8d, 1.2);
+  const skyLight = new THREE.HemisphereLight(0xe6efff, 0xc6c9cc, 1.2);
   scene.add(skyLight);
-  const sun = new THREE.DirectionalLight(0xffe8c4, 3.5);
+  const sun = new THREE.DirectionalLight(0xfff5e6, 3.5);
   sun.position.set(-22, 23, 28);
   sun.target.position.set(7, 0, 9);
   sun.castShadow = true;
@@ -456,7 +463,7 @@ export function createTour(
     const [x, z, x2, z2] = room.rect,
       cx = (x + x2) / 2,
       cz = (z + z2) / 2;
-    const light = new THREE.SpotLight(0xffddb0, 32, 6.5, Math.PI * 0.39, 0.75, 2);
+    const light = new THREE.SpotLight(0xfff1de, 32, 6.5, Math.PI * 0.39, 0.75, 2);
     light.position.set(cx, room.id === "stairs" ? 5.76 : room.id === "lift" ? 2.4 : 2.76, cz);
     light.target.position.set(cx, 0, cz);
     light.castShadow = true;
@@ -492,6 +499,25 @@ export function createTour(
     undefined,
     () => console.warn("城市全景暂未载入，保留天空与室内漫游。"),
   );
+  const legacyVisuals = scene.children.filter(o => o !== dimGroup && o !== studioGround && !(o instanceof THREE.Light) && (o instanceof THREE.Mesh || o instanceof THREE.Group));
+  const model = loaded.scene;
+  scene.add(model);
+  const modelMeshes: THREE.Mesh[] = [];
+  model.traverse(o => {
+    if (!(o instanceof THREE.Mesh)) return;
+    modelMeshes.push(o);
+    for (let parent: THREE.Object3D | null = o; parent; parent = parent.parent) { if (parent.userData.category) { o.userData.category = parent.userData.category; break; } }
+    o.castShadow = true; o.receiveShadow = true;
+    const materials = Array.isArray(o.material) ? o.material : [o.material];
+    for (const m of materials) {
+      trackedMaterials.add(m);
+      if (m instanceof THREE.MeshPhysicalMaterial && m.transmission > 0) {
+        // Thin window panes use alpha in real-time; full refraction stays in panoramas.
+        m.transmission = 0; m.transparent = true; m.opacity = m.roughness > .2 ? .30 : .09;
+        m.depthWrite = false; o.castShadow = false;
+      }
+    }
+  });
   const post = buildPostProcessing(renderer, scene, camera, touchDevice);
   function updateRoomLight(id: string) {
     for (const [key, light] of roomLights) {
@@ -619,6 +645,16 @@ export function createTour(
     sun.shadow.needsUpdate = true;
     for (const light of roomLights.values()) light.shadow.needsUpdate = true;
     updateRoomLight(roomAt(camera.position.x, camera.position.z)?.id ?? selected);
+    for (const o of legacyVisuals) o.visible = false;
+    caps.visible = false;
+    for (const o of modelMeshes) {
+      const category = o.userData.category ?? o.name;
+      o.visible = category === "ceilings" ? options.ceiling : category === "facade" ? walk : category === "furniture" ? options.furniture : true;
+      for (const m of Array.isArray(o.material) ? o.material : [o.material]) {
+        m.clippingPlanes = cut && category === "architecture" ? [clipPlane] : [];
+        m.needsUpdate = true;
+      }
+    }
   }
   function setWalk(id: string) {
     const room = rooms.find((r) => r.id === id) ?? rooms[0];
@@ -709,7 +745,7 @@ export function createTour(
         ),
         camera,
       );
-      const hit = ray.intersectObjects([...floors.children, ...core.surfaces], false)[0];
+      const hit = ray.intersectObjects(modelMeshes.filter(o => o.visible), false).find(h => h.face && h.face.normal.clone().transformDirection(h.object.matrixWorld).y > .65 && h.point.y < .5 + floorElevation(h.point.x, h.point.z));
       if (hit && hit.distance < 12) {
         advance(hit.point.x - camera.position.x, hit.point.z - camera.position.z);
       }
