@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
-import {buildWalkCollisions} from '../lib/walk-collisions.ts';
+import {build} from 'esbuild';
+const compiledCollisions=await build({stdin:{contents:"export {buildWalkCollisions} from './lib/walk-collisions';",resolveDir:process.cwd()},bundle:true,platform:'node',format:'esm',write:false});
+const {buildWalkCollisions}=await import('data:text/javascript;base64,'+Buffer.from(compiledCollisions.outputFiles[0].text).toString('base64'));
 import {DIMENSIONS as d,rooms,walls,floorRects,contains,coreObstacles,floorElevation} from '../lib/plan.ts';
 import {furnishings,furnishingObstacles,fixtureObstacles,furnishingBounds} from '../lib/furniture-layout.ts';
 const sum=a=>a.reduce((x,y)=>x+y,0);for(const [a,b] of [[d.northChain,15.2],[d.southChain,15.2],[d.westChain,17.8],[d.eastChain,16.7]])assert.ok(Math.abs(sum(a)-b)<1e-8);

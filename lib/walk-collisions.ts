@@ -1,4 +1,4 @@
-import {walls, coreObstacles, type Rect} from './plan.ts';
+import {walls, coreObstacles, type Rect} from './plan';
 // Navigation only: the Blender model supplies every visible surface.
 export function buildWalkCollisions(): Rect[] {
   const collisions: Rect[] = [];
