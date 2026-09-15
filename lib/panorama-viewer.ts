@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { panoramaUrl, type PanoramaPoint } from "./panorama-data";
 import { OverviewTap } from "./overview-gesture";
+import { panoramaDefaultFov, panoramaFovBounds } from "./panorama-fov";
 export type PanoramaViewer = ReturnType<typeof createPanoramaViewer>;
 export function createPanoramaViewer(host: HTMLElement, onDraw: () => void, hotspots?: {
   pick: (clientX: number, clientY: number) => string | null;
@@ -44,7 +45,8 @@ export function createPanoramaViewer(host: HTMLElement, onDraw: () => void, hots
     if (!disposed && !frame) frame = requestAnimationFrame(draw);
   };
   const changeFov = (fov: number) => {
-    camera.fov = THREE.MathUtils.clamp(fov, 40, 100);
+    const [minimum, maximum] = panoramaFovBounds(camera.aspect);
+    camera.fov = THREE.MathUtils.clamp(fov, minimum, maximum);
     camera.updateProjectionMatrix();
     invalidate();
   };
@@ -52,9 +54,9 @@ export function createPanoramaViewer(host: HTMLElement, onDraw: () => void, hots
     const { width, height } = host.getBoundingClientRect();
     if (!width || !height) return;
     renderer.setSize(width, height);
+    const zoomRatio = camera.fov / panoramaDefaultFov(camera.aspect);
     camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-    invalidate();
+    changeFov(panoramaDefaultFov(camera.aspect) * zoomRatio);
   });
   resize.observe(host);
   function down(event: PointerEvent) {
@@ -160,7 +162,7 @@ export function createPanoramaViewer(host: HTMLElement, onDraw: () => void, hots
       tap.reset();
       startYaw = yaw = point.yaw;
       pitch = 0;
-      changeFov(camera.aspect < 0.8 ? 84 : 75);
+      changeFov(panoramaDefaultFov(camera.aspect));
       // Keep a neutral canvas until this location's preview arrives; never label the previous room as the new one.
       material.map = null;
       material.needsUpdate = true;
@@ -186,7 +188,7 @@ export function createPanoramaViewer(host: HTMLElement, onDraw: () => void, hots
     reset() {
       yaw = startYaw;
       pitch = 0;
-      changeFov(camera.aspect < 0.8 ? 84 : 75);
+      changeFov(panoramaDefaultFov(camera.aspect));
     },
     zoom(delta: number) {
       changeFov(camera.fov + delta);

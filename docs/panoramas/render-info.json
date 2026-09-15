@@ -1,20 +1,20 @@
 {
   "engine": "OpenAI built-in image generation",
-  "revision": "french-natural-v1-tinypng",
+  "revision": "french-structure-v2-tinypng",
   "created": "2026-09-15",
-  "projection": "2:1 equirectangular with the existing north-centred camera reference",
-  "style": "French natural: warm ivory plaster and restrained molding, ivory linen, pale oak, cane chairs, botanical rugs and herringbone wood-look porcelain tiles; consistent southwest afternoon daylight",
-  "reference": "Previous 24 structural panoramas and three user-approved French natural living/dining/master style images",
-  "limitations": "AI decoration visualization, not photography or a measured model render. Local geometry and cross-view details can vary.",
+  "projection": "2:1 AI panorama edited from original north-centred Blender equirectangular reference; projection fidelity visually reviewed, not mathematically certified",
+  "style": "Restrained French natural: warm ivory plaster and fine molding, ivory linen, pale oak, herringbone wood-look porcelain tiles in living/bedrooms, stone-look porcelain in wet rooms; original object footprints take priority over decoration",
+  "reference": "Original Blender v3 panoramas, one original image as sole geometry reference per point; no previous AI derivative supplied as geometry reference; no new Blender rendering",
+  "limitations": "AI decoration visualization, not photography or a measured model render. Main openings and furniture silhouettes visually compared with original Blender images. Local furniture contours, shower curbs, railing details, molding and cross-view flooring/lighting can still vary. Model coordinates describe the reference, not verified AI pixel geometry.",
   "compression": {
     "provider": "TinyPNG (tinypng.com)",
-    "method": "All 24 full-size JPEGs, 24 mobile previews and floor-plan image uploaded to TinyPNG web compressor and downloaded; generated original PNGs retained locally",
-    "files": 49,
-    "inputBytes": 12557632,
-    "outputBytes": 7056559,
-    "savedPercent": 43.81,
-    "panoramaBytes": 6005814,
-    "previewBytes": 961959
+    "method": "All 24 full-size JPEGs and 24 mobile previews uploaded to TinyPNG web compressor and downloaded; unchanged floor-plan retains previous TinyPNG compression; generated PNGs retained locally",
+    "files": 48,
+    "inputBytes": 10137301,
+    "outputBytes": 5467880,
+    "savedPercent": 46.06,
+    "panoramaBytes": 4651289,
+    "previewBytes": 816591
   },
   "viewpoints": [
     {
@@ -215,393 +215,507 @@
       "file": "living-entry.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 464074,
-      "outputBytes": 241956,
-      "sha256": "a8b0204cf6c34ab6ed75c26db7b44777cdf1358384d3b87acd4681d9281b6a11"
+      "inputBytes": 360656,
+      "outputBytes": 184879,
+      "sha256": "4b1a63b3e5bcc7af8523d501bb5da1d6f2bbbc7485ee9b66351e184d0969a40e"
     },
     {
       "file": "living-entry-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 43990,
-      "outputBytes": 37287,
-      "sha256": "3faf9bc0b0a37b26d0a4f38fa73a94730f9a9b0c4fa4058173d46c862e0abefe"
+      "inputBytes": 40880,
+      "outputBytes": 32861,
+      "sha256": "69971033415de58382eb8c44f87c7f101d089c760418acc3b4231fb55a26eadb"
     },
     {
       "file": "living-window.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 530480,
-      "outputBytes": 253783,
-      "sha256": "6ab971430fe58801b386aec0256c5b93b303c81ef1cf99cac8eee8df7f64fa42"
+      "inputBytes": 395269,
+      "outputBytes": 208594,
+      "sha256": "02579e9a2527fd83d3f9e70c42c6c9d481586f43d4b2fee1bdd4e7ab86312bb4"
     },
     {
       "file": "living-window-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 53077,
-      "outputBytes": 45920,
-      "sha256": "6df0c974edc97efbcaf7a59424582b0dff85fd5049720f423873ccb2b83d4a65"
+      "inputBytes": 46473,
+      "outputBytes": 37398,
+      "sha256": "59d004fb22c32965288969192a0d913d53cd75d22cbda7e5bf0b7ebc37d5c145"
     },
     {
       "file": "dining-west.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 453263,
-      "outputBytes": 241385,
-      "sha256": "19240be59e2430061b29f69df9ad9139f62c02246d0b5fafe7dce3e868c27a26"
+      "inputBytes": 386099,
+      "outputBytes": 221912,
+      "sha256": "f47a3e711674b1971831c4c262077be8c5d7621f4884c0aa8736c182f098cb86"
     },
     {
       "file": "dining-west-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 41543,
-      "outputBytes": 35510,
-      "sha256": "9f3a5fb076eb47e219997adbab1f7b0aa098d35037316ea014943ca930d50234"
+      "inputBytes": 41024,
+      "outputBytes": 32281,
+      "sha256": "b813d104d36a019e791f8d123799b9e8600cf78fc06ac51cac1f1336361c9239"
     },
     {
       "file": "dining-east.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 501146,
-      "outputBytes": 275228,
-      "sha256": "b00101d4ab0625c8196ef0c9f6081333ac7acff2884fe8e5f5f90bed1607bd44"
+      "inputBytes": 374949,
+      "outputBytes": 191984,
+      "sha256": "ef2eac0d63bedb495de361073629a0d378e746b233ead556b5bb5d6e152eb697"
     },
     {
       "file": "dining-east-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 48361,
-      "outputBytes": 42829,
-      "sha256": "7643c68b0ec472b884d83fef534128d1b7a32a78069be673331f216e118a601c"
+      "inputBytes": 41532,
+      "outputBytes": 32218,
+      "sha256": "fda59687fd60d38d872a1e69b461b3f929d40788ee0e2080a5b1872aad8aa236"
     },
     {
       "file": "kitchen-south.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 491509,
-      "outputBytes": 243986,
-      "sha256": "9b468f947d128c06c4f6b47fe5ab1fbc3f483ff9365ec3b11f7acb33f9a1a626"
+      "inputBytes": 411226,
+      "outputBytes": 198382,
+      "sha256": "92a029218be80bb0d88a972d7979172f22c30c354572876c0da478feec11e89a"
     },
     {
       "file": "kitchen-south-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 49239,
-      "outputBytes": 42935,
-      "sha256": "496a74f00e8ba29e26ea6c446c2d71c6c2bbd3099f6c6702b3c23775444a96ce"
+      "inputBytes": 48179,
+      "outputBytes": 38606,
+      "sha256": "a40abadddc90106982e2228d739f0ed891eb47ccb3151a0e3fef122aa9272e6f"
     },
     {
       "file": "kitchen-north.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 487572,
-      "outputBytes": 233321,
-      "sha256": "b74326aad27e62e5247207dbfeb68f09c126f2b75d08f688947871360a98db7e"
+      "inputBytes": 428033,
+      "outputBytes": 210722,
+      "sha256": "b7e66770caf019b1f8b1eb5ce2ab3e8b1ae4b78837d6da0b426ed91ad2e3f96e"
     },
     {
       "file": "kitchen-north-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 50356,
-      "outputBytes": 42161,
-      "sha256": "67f0c2448d0de339dc31fc2e0a8596398b49b1a29326cc0c61600a743394a1cf"
+      "inputBytes": 51836,
+      "outputBytes": 40749,
+      "sha256": "fc7349d4027fbb7c3a832085937adf8f11570c94138c22ed4ab1f856e6196884"
     },
     {
       "file": "balcony-north.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 493135,
-      "outputBytes": 261631,
-      "sha256": "146f6983d12188a616aa12994d0ea7cdfbf7557e2de77d75011a0026296f3f03"
+      "inputBytes": 378163,
+      "outputBytes": 217174,
+      "sha256": "c271b7bcf36df396ad2af4b38ab285fbb376cf087a3c75692ede7ccc401b3ecf"
     },
     {
       "file": "balcony-north-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 47928,
-      "outputBytes": 41722,
-      "sha256": "f05654c0b53a85a6460eb4cac0fc74c166bf374a78e6f0bde8c9050c7ee0401c"
+      "inputBytes": 42873,
+      "outputBytes": 33470,
+      "sha256": "560bd1ef91764eeea8478ad9b1e67842b2cae5e8b44bd9b9b50edd24ef0977a6"
     },
     {
       "file": "balcony-south.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 584050,
-      "outputBytes": 264189,
-      "sha256": "5ff95bc671e5447c9f44f35cae42b6fec69475ad544876a5aa77388d5f077a9d"
+      "inputBytes": 471268,
+      "outputBytes": 233865,
+      "sha256": "e77aa6760fa638475cb9ce2a0c26e3dbbf77cd0028ed0d06b9e9e60118ae39a8"
     },
     {
       "file": "balcony-south-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 60299,
-      "outputBytes": 51529,
-      "sha256": "a37bf15289eb53a730b5dab97aca40f883025afa42a3bf8c49de974cd1f62e12"
+      "inputBytes": 63166,
+      "outputBytes": 49498,
+      "sha256": "8d258624545e0f9d63696590cae717981feee1c7c145b264615410f67ab2576b"
     },
     {
       "file": "terrace-north.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 561855,
-      "outputBytes": 301043,
-      "sha256": "d219221abb08a6ed097afba3d11ef547915ca84abe6d651f6810e7b849059ceb"
+      "inputBytes": 463846,
+      "outputBytes": 274241,
+      "sha256": "1219d28190a13303122c42b634c0d6e22a8c9740954b7045f707805ef72267d0"
     },
     {
       "file": "terrace-north-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 55444,
-      "outputBytes": 48379,
-      "sha256": "005d621f43f5ba3ceb1e252ad28bfbeeee16fc4b0f4fb6f3a72b5575e9eaaa6c"
+      "inputBytes": 55878,
+      "outputBytes": 44476,
+      "sha256": "442a32a04c2c8b3aec68d5d733024f7502a426a609c2d56f3057182f7d5261d4"
     },
     {
       "file": "terrace-south.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 577091,
-      "outputBytes": 350018,
-      "sha256": "384cabc67c11eeb7d2b2e326f6aafd3ce4e9fb40218694b3d385cf2a43ca1fca"
+      "inputBytes": 553467,
+      "outputBytes": 332632,
+      "sha256": "9ffa34cefe1ea4e578e3e08418eca091bf334b34769bc8a7d218b82957e37cc5"
     },
     {
       "file": "terrace-south-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 57673,
-      "outputBytes": 50305,
-      "sha256": "63e872e42bbaeb014922d4a88d2cefd38b6ac1c68247847590b41ab4962f14b2"
+      "inputBytes": 66076,
+      "outputBytes": 53366,
+      "sha256": "f8722384542c5b5ac835a751932a6d0c78befc4749c62e85de535c5f4e0a910b"
     },
     {
       "file": "master-entry.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 426931,
-      "outputBytes": 254971,
-      "sha256": "235818f10de3a1d1bdde59212cf4aa3b1acdacdd99ff0fe469a72824b5d5afa8"
+      "inputBytes": 337898,
+      "outputBytes": 170078,
+      "sha256": "a5b18793cdac2dad3f2377ace05b6c1421f69e13f7e905a7e8b8c8a0a382c6c8"
     },
     {
       "file": "master-entry-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 41853,
-      "outputBytes": 35776,
-      "sha256": "010e4f6aab1e4864a35da3dba74d78fa472d4ffd1beea353fc8484154e009434"
+      "inputBytes": 36531,
+      "outputBytes": 28525,
+      "sha256": "55149d0935aaafbc738e8adbfb666598417683311c9d5057f87eadcc5c0275ba"
     },
     {
       "file": "master-window.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 473170,
-      "outputBytes": 231539,
-      "sha256": "bf96f3dee5c1d20e4faeedaa321425cbf2a2cb687d408276a8c27205ecba5513"
+      "inputBytes": 393047,
+      "outputBytes": 182669,
+      "sha256": "c570721b49068cea3d291362c4cf924db7225e4cfafabbf17599cdfb924b8a91"
     },
     {
       "file": "master-window-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 49207,
-      "outputBytes": 42751,
-      "sha256": "7c997c671fbbc1e8313d0f30e47df00b118d64641d6fa0118610df7a2a766993"
+      "inputBytes": 48410,
+      "outputBytes": 38149,
+      "sha256": "bfe6897accc6de1fd156df48e141056ee569786049d4c6b9fa891f90bd2b4c0e"
     },
     {
       "file": "south.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 438994,
-      "outputBytes": 233418,
-      "sha256": "189d05e99d0c68fcfcfbb57b50d0ebfbd94e58ecf142ec56e3baa7d9822a6dbb"
+      "inputBytes": 319370,
+      "outputBytes": 152064,
+      "sha256": "33861913448f9a3d6a18ed1bdbbbcaced22572ff5be7946ecc3c943cff6f9d26"
     },
     {
       "file": "south-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 41766,
-      "outputBytes": 35887,
-      "sha256": "68e03744a8399441aa778598f34d8126b4da72da2d32988a8343514667fcd105"
+      "inputBytes": 34496,
+      "outputBytes": 27092,
+      "sha256": "4dc5791d3555d1f662f63c3b73f54a7a15e87f9e3b9693e81ef4bb222bc95488"
     },
     {
       "file": "north.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 405110,
-      "outputBytes": 235002,
-      "sha256": "b4b5d96e454b530ed70de5193e80ceb67203d3e43314ee84944184ec3109fc57"
+      "inputBytes": 311962,
+      "outputBytes": 140271,
+      "sha256": "ce502590ba89a61a8d6cd91b4d4929daff14a3bd89c146d83f0cc5e74da3cc13"
     },
     {
       "file": "north-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 38198,
-      "outputBytes": 32920,
-      "sha256": "53d8addc9d91b5026de08c4478f020d1084537a0965dcc6f7df05a37c8dfe9c7"
+      "inputBytes": 33879,
+      "outputBytes": 25499,
+      "sha256": "b26ad4b5f68960b75337142989a64f74b46785320d04d56fc97cf567f34fbcad"
     },
     {
       "file": "suite.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 439820,
-      "outputBytes": 257019,
-      "sha256": "16b6b8d5bfc038098c565e706d177b1958b9902d4d482d5cfca2b7618da88cd4"
+      "inputBytes": 310962,
+      "outputBytes": 166216,
+      "sha256": "c5925e4263e93fdec75b6e5a9569fab0b8ca6994419a69dec96cedbd0926401d"
     },
     {
       "file": "suite-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 41020,
-      "outputBytes": 36053,
-      "sha256": "5d182d337ef61a4a93cdd56a8b91b19059e5f8fdd86052e3daf787b28691bc2b"
+      "inputBytes": 31285,
+      "outputBytes": 24226,
+      "sha256": "7e9ec2a796f4870816f324762207a6019181fc45e9f6e2bedc6a793462757fa8"
     },
     {
       "file": "entry.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 416560,
-      "outputBytes": 245035,
-      "sha256": "efa82644048ceb56e639e36b578b1c3ad8f6e3ffe83e2329ecae0b38291bd3ee"
+      "inputBytes": 379063,
+      "outputBytes": 190757,
+      "sha256": "4fc7f137b915e18db469c69bef0cd5e7c823fa184dc1e5447f8a95a09d0cbff2"
     },
     {
       "file": "entry-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 39514,
-      "outputBytes": 33395,
-      "sha256": "30d0beed84ef05ff91136e5a23c58b5c5f24f0338ae704a8846fbf074e62c7a7"
+      "inputBytes": 42916,
+      "outputBytes": 33999,
+      "sha256": "f160f39ab1ccf687f24dcfd7b45aec16acd93550299f1a0d462036b029063853"
     },
     {
       "file": "bath1.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 443107,
-      "outputBytes": 226021,
-      "sha256": "afca1187df3d20ad82043aadd9bfd0d203beb70dab13c1f6f9d3cf6187b280c9"
+      "inputBytes": 391576,
+      "outputBytes": 193507,
+      "sha256": "b7c41657e255a372c64ee5273161780b0c4f89ac68aab70d5bb739cc02821a9d"
     },
     {
       "file": "bath1-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 42486,
-      "outputBytes": 36634,
-      "sha256": "0eca5a443c959b71a78132e4083e4b4db3c7b51b852dd9100387d2709c2e35ac"
+      "inputBytes": 42878,
+      "outputBytes": 34622,
+      "sha256": "f8c35d830639dd062ed779aff2bf0b77a3f9c6fcad2b4f25b2122aab4fc326a2"
     },
     {
       "file": "bath2.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 496529,
-      "outputBytes": 264428,
-      "sha256": "c6cea55cb9dea9c0a55cd6a96efea4287839e255958ab6a5a29f7887e9d0028b"
+      "inputBytes": 370114,
+      "outputBytes": 181323,
+      "sha256": "6888bbf2760aa81b4ed0831a4df98d16d2e74fbea3dd9fa9f996c4a11b3672b2"
     },
     {
       "file": "bath2-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 44995,
-      "outputBytes": 39630,
-      "sha256": "5e47f856f20e757b61dd70a5be8cea12521a8d10de35858bf631dceb6c4241c9"
+      "inputBytes": 40710,
+      "outputBytes": 32947,
+      "sha256": "63654cb51c192e7ec9e25d0ed2a3af4aec41df0e59e49e4035b11e0e1d796a1f"
     },
     {
       "file": "bath3.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 473039,
-      "outputBytes": 313297,
-      "sha256": "d55c35addbb973848df3d17478604c2f2cf13a8c0c9d29c3b6aedc439b30328b"
+      "inputBytes": 334258,
+      "outputBytes": 147897,
+      "sha256": "4d863265e0cfd8bcf7c55df29b3e27c6479977e935e2a1e7ed39517ac26627a5"
     },
     {
       "file": "bath3-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 43088,
-      "outputBytes": 39167,
-      "sha256": "b671ca273808f13f06323e98b8a1df2de694987da6f53fa3753ff3cf21d24749"
+      "inputBytes": 36957,
+      "outputBytes": 28335,
+      "sha256": "5c47d3d14b41d8cefaabde185dfb3712cb41309f54bb7bacd7f7e881efa8b95f"
     },
     {
       "file": "utility.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 547055,
-      "outputBytes": 231100,
-      "sha256": "943d22d57c1c18fd5f5afc082b38c8cd02b8e042a6fbd1581b31e2ead4597d46"
+      "inputBytes": 431797,
+      "outputBytes": 195715,
+      "sha256": "a73c1fbd7ba28ecc9a7a425a5fd71c4ddf29f1fbee48f99f114acfba18a8755b"
     },
     {
       "file": "utility-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 60157,
-      "outputBytes": 50990,
-      "sha256": "b1cbac47698bc4535128fd3ca30530b298c7ea6f90f3c00fe3a1bff34f07b8fa"
+      "inputBytes": 59788,
+      "outputBytes": 47493,
+      "sha256": "ae4693c578f4e432cc3b8e73e011c25abdcd47b9d5a9e3b773b609891e227230"
     },
     {
       "file": "lobby.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 458142,
-      "outputBytes": 221415,
-      "sha256": "a69dffb36e4b4b7c2121cb1866b3be342d9b2e7c54238ffeef325c1b8c2d5c6a"
+      "inputBytes": 329166,
+      "outputBytes": 160764,
+      "sha256": "ca491f3920986959d4a4315ebbb3db5ec1f2cc30438dfdc0c3f45a8dd86c8910"
     },
     {
       "file": "lobby-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 45768,
-      "outputBytes": 39566,
-      "sha256": "dc6af532ac83c0b51a1867a6f0aa6c22a4dfa2daca4407955cbc100effa8983a"
+      "inputBytes": 32887,
+      "outputBytes": 26065,
+      "sha256": "216b9eb84b76170cc5727b2b955f54006f6fce0dbd36d306ff8b5cc848d458db"
     },
     {
       "file": "hall.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 431950,
-      "outputBytes": 233549,
-      "sha256": "fbc6e96d03b86c38dec344e8a404d048e6ca934f37c29bc3664e675ef9865f98"
+      "inputBytes": 332682,
+      "outputBytes": 171972,
+      "sha256": "44b051ede1ba4db21d104b7270df9d3b365139bedbb7697c3c4f2ed474c69120"
     },
     {
       "file": "hall-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 43426,
-      "outputBytes": 36824,
-      "sha256": "abff2d50ca57e47097c426da8bcf920dc2bf3ae8e74690b3c84ea4c71f90be9f"
+      "inputBytes": 29124,
+      "outputBytes": 23000,
+      "sha256": "be54bae7b3765a79fac62635dfedd0aad52d4904916243bd90e958e7783209a2"
     },
     {
       "file": "lift.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 363949,
-      "outputBytes": 188410,
-      "sha256": "11f6b8ac0dbeb83bc42ef2b3f1dfb0d9411bf68fa2769da60279f2d0df536689"
+      "inputBytes": 313368,
+      "outputBytes": 169919,
+      "sha256": "bc29435aea9eebc5ad016aecea6076b12c10b31843a86ca015704871fbf19b55"
     },
     {
       "file": "lift-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 36717,
-      "outputBytes": 29913,
-      "sha256": "8a79b0a0cb0ec5d708f88268da9377cb9f87d7a51f79436f04d93e7c4b541015"
+      "inputBytes": 33872,
+      "outputBytes": 25048,
+      "sha256": "8ba746fac68bc6caee1adcb8cf34ee91e52d97b9285036fb512c5e066735db6e"
     },
     {
       "file": "stairs.jpg",
       "width": 1774,
       "height": 887,
-      "inputBytes": 390366,
-      "outputBytes": 204070,
-      "sha256": "1725a8fba1242032874173a0fdfc487206e2de17918fb17fb48e114c2af8fcac"
+      "inputBytes": 321549,
+      "outputBytes": 153752,
+      "sha256": "5c07050d0f5692e25aa3331644657eb9288eeb71b8e6def7dd10c04a53a9a101"
     },
     {
       "file": "stairs-preview.jpg",
       "width": 768,
       "height": 384,
-      "inputBytes": 37783,
-      "outputBytes": 33876,
-      "sha256": "2f7b84be63d18c60bf32cf6c13e53277985066c57f21df3028c9194949a7e435"
+      "inputBytes": 35863,
+      "outputBytes": 26668,
+      "sha256": "c89587614f179d8632e0c93d60dcd8e552498d23c3a0b296095c03303c8626db"
+    }
+  ],
+  "geometrySources": [
+    {
+      "id": "living-entry",
+      "file": "exports/v3-panoramas/living-entry.jpg",
+      "sha256": "c3ff1dfe724c5ade777963e58934d9fbefcfbd053bd270939b3156fc64e59b5f"
     },
     {
-      "file": "floorplan.jpg",
-      "width": 1440,
-      "height": 977,
-      "inputBytes": 94847,
-      "outputBytes": 88786,
-      "sha256": "adfe3570a1fcebee1c10f10c3a0ae9409be9a3dffdd397747b40e6f7779873ae"
+      "id": "living-window",
+      "file": "exports/v3-panoramas/living-window.jpg",
+      "sha256": "40bc894093de21411bd7acc649b9644f25871a128167d0a96765807d9292006e"
+    },
+    {
+      "id": "dining-west",
+      "file": "exports/v3-panoramas/dining-west.jpg",
+      "sha256": "3aabd880ed2025dd31f2b4c521d01c1a4c6e0c58892a5c6b2f0efcbd0cffc6d0"
+    },
+    {
+      "id": "dining-east",
+      "file": "exports/v3-panoramas/dining-east.jpg",
+      "sha256": "146aba5c2e20eeb38f1b407e15ffa89d55aad2e805917ba4883398ef27df1088"
+    },
+    {
+      "id": "kitchen-south",
+      "file": "exports/v3-panoramas/kitchen-south.jpg",
+      "sha256": "b0e94d4aede1af3e28c6af2560d96b1509e994c9df0da3b962c0c514f57e1c28"
+    },
+    {
+      "id": "kitchen-north",
+      "file": "exports/v3-panoramas/kitchen-north.jpg",
+      "sha256": "f251ae4adc0e72bb1e2a97f1ea955b470e89404ae1ddefea9dec6af6e31d0ec7"
+    },
+    {
+      "id": "balcony-north",
+      "file": "exports/v3-panoramas/balcony-north.jpg",
+      "sha256": "436f7226a3d62af32b16b839e103b6e949c448272317daff8e4bd21cac588beb"
+    },
+    {
+      "id": "balcony-south",
+      "file": "exports/v3-panoramas/balcony-south.jpg",
+      "sha256": "c857892c03eec06bc752661c466b9524aecf53a32d204aaa30b0339516bfcee9"
+    },
+    {
+      "id": "terrace-north",
+      "file": "exports/v3-panoramas/terrace-north.jpg",
+      "sha256": "15a1ecf610e987dd80d12d14263a97c99032f8b70509668414a43385110d1f89"
+    },
+    {
+      "id": "terrace-south",
+      "file": "exports/v3-panoramas/terrace-south.jpg",
+      "sha256": "f82a65eba3b0d4fdfa886daf80f54598947472c223b02046995575328a07d3c6"
+    },
+    {
+      "id": "master-entry",
+      "file": "exports/v3-panoramas/master-entry.jpg",
+      "sha256": "15fce2fab7121a50c7f14a6e86f7023b641b31bda213c7e063892fb193288d7b"
+    },
+    {
+      "id": "master-window",
+      "file": "exports/v3-panoramas/master-window.jpg",
+      "sha256": "b283c09b51bf886e7c3aba9ad0ad64f7e3bc738825c8254543c5e6c8dffe3472"
+    },
+    {
+      "id": "south",
+      "file": "exports/v3-panoramas/south.jpg",
+      "sha256": "d92c2905f5db479c1e1b75d4cf3d05ab8b580cc81780348ac473adaf5e6b6fdd"
+    },
+    {
+      "id": "north",
+      "file": "exports/v3-panoramas/north.jpg",
+      "sha256": "4280b2f96e770c54c589423303335a81d45613ad2a88ec9fbda530d4164eeb1a"
+    },
+    {
+      "id": "suite",
+      "file": "exports/v3-panoramas/suite.jpg",
+      "sha256": "e43c2e2de0eb7204153ab206f951f2b0d6645c0f30b9aa0a1f8dbcf48dc8fc4d"
+    },
+    {
+      "id": "entry",
+      "file": "exports/v3-panoramas/entry.jpg",
+      "sha256": "066eda3f8b10a292a5f516bbf6814acc18aeb51a1a05917a6f4c1f4fbba9c38b"
+    },
+    {
+      "id": "bath1",
+      "file": "exports/v3-panoramas/bath1.jpg",
+      "sha256": "84650ae6e05d60f2d61e292e637eeb4d021c6af9db87eba36da81bf41c6bde83"
+    },
+    {
+      "id": "bath2",
+      "file": "exports/v3-panoramas/bath2.jpg",
+      "sha256": "3792e867d11656abf1f056125547e1badecd88a1495eb13fb7a78753a81311cf"
+    },
+    {
+      "id": "bath3",
+      "file": "exports/v3-panoramas/bath3.jpg",
+      "sha256": "74052f3f3e02280d3f743b4709faeb90b593b7b2e8ef4910eb485e762d814973"
+    },
+    {
+      "id": "utility",
+      "file": "exports/v3-panoramas/utility.jpg",
+      "sha256": "d988f2eeb97bd3eac97dea17d7052a7ee76e26b479c9c9b85f11e2d758ad879b"
+    },
+    {
+      "id": "lobby",
+      "file": "exports/v3-panoramas/lobby.jpg",
+      "sha256": "ac80d86a074fbb8690642f9637eb18bed59d30af03b4cbf49f419e6af80e11da"
+    },
+    {
+      "id": "hall",
+      "file": "exports/v3-panoramas/hall.jpg",
+      "sha256": "348d5e3accd9f23383ce4820a5edf02aab9dd43d86da82b568e80c6a7f6dcce8"
+    },
+    {
+      "id": "lift",
+      "file": "exports/v3-panoramas/lift.jpg",
+      "sha256": "4857086799f1f94e44647f3799e244c27aefd7a67b838d1d3e4b4e2eac27d997"
+    },
+    {
+      "id": "stairs",
+      "file": "exports/v3-panoramas/stairs.jpg",
+      "sha256": "5959260beb2031a736954d2e273fc588dd251a6c462b0183f6ce8562bbf828c5"
     }
   ]
 }

@@ -1,194 +1,194 @@
 [
   {
     "id": "living-entry",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 241956,
-    "previewBytes": 37287
+    "bytes": 184879,
+    "previewBytes": 32861
   },
   {
     "id": "living-window",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 253783,
-    "previewBytes": 45920
+    "bytes": 208594,
+    "previewBytes": 37398
   },
   {
     "id": "dining-west",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 241385,
-    "previewBytes": 35510
+    "bytes": 221912,
+    "previewBytes": 32281
   },
   {
     "id": "dining-east",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 275228,
-    "previewBytes": 42829
+    "bytes": 191984,
+    "previewBytes": 32218
   },
   {
     "id": "kitchen-south",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 243986,
-    "previewBytes": 42935
+    "bytes": 198382,
+    "previewBytes": 38606
   },
   {
     "id": "kitchen-north",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 233321,
-    "previewBytes": 42161
+    "bytes": 210722,
+    "previewBytes": 40749
   },
   {
     "id": "balcony-north",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 261631,
-    "previewBytes": 41722
+    "bytes": 217174,
+    "previewBytes": 33470
   },
   {
     "id": "balcony-south",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 264189,
-    "previewBytes": 51529
+    "bytes": 233865,
+    "previewBytes": 49498
   },
   {
     "id": "terrace-north",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 301043,
-    "previewBytes": 48379
+    "bytes": 274241,
+    "previewBytes": 44476
   },
   {
     "id": "terrace-south",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 350018,
-    "previewBytes": 50305
+    "bytes": 332632,
+    "previewBytes": 53366
   },
   {
     "id": "master-entry",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 254971,
-    "previewBytes": 35776
+    "bytes": 170078,
+    "previewBytes": 28525
   },
   {
     "id": "master-window",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 231539,
-    "previewBytes": 42751
+    "bytes": 182669,
+    "previewBytes": 38149
   },
   {
     "id": "south",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 233418,
-    "previewBytes": 35887
+    "bytes": 152064,
+    "previewBytes": 27092
   },
   {
     "id": "north",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 235002,
-    "previewBytes": 32920
+    "bytes": 140271,
+    "previewBytes": 25499
   },
   {
     "id": "suite",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 257019,
-    "previewBytes": 36053
+    "bytes": 166216,
+    "previewBytes": 24226
   },
   {
     "id": "entry",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 245035,
-    "previewBytes": 33395
+    "bytes": 190757,
+    "previewBytes": 33999
   },
   {
     "id": "bath1",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 226021,
-    "previewBytes": 36634
+    "bytes": 193507,
+    "previewBytes": 34622
   },
   {
     "id": "bath2",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 264428,
-    "previewBytes": 39630
+    "bytes": 181323,
+    "previewBytes": 32947
   },
   {
     "id": "bath3",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 313297,
-    "previewBytes": 39167
+    "bytes": 147897,
+    "previewBytes": 28335
   },
   {
     "id": "utility",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 231100,
-    "previewBytes": 50990
+    "bytes": 195715,
+    "previewBytes": 47493
   },
   {
     "id": "lobby",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 221415,
-    "previewBytes": 39566
+    "bytes": 160764,
+    "previewBytes": 26065
   },
   {
     "id": "hall",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 233549,
-    "previewBytes": 36824
+    "bytes": 171972,
+    "previewBytes": 23000
   },
   {
     "id": "lift",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 188410,
-    "previewBytes": 29913
+    "bytes": 169919,
+    "previewBytes": 25048
   },
   {
     "id": "stairs",
-    "revision": "french-natural-v1-tinypng",
+    "revision": "french-structure-v2-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 204070,
-    "previewBytes": 33876
+    "bytes": 153752,
+    "previewBytes": 26668
   }
 ]

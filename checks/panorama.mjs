@@ -6,7 +6,7 @@ import sharp from "sharp";
 const result = await build({
   stdin: {
     contents:
-      "export * from './lib/panorama-data';export * from './lib/plan';export * from './lib/floor-tiles';export * from './lib/furniture-layout';",
+      "export * from './lib/panorama-data';export * from './lib/plan';export * from './lib/floor-tiles';export * from './lib/furniture-layout';export * from './lib/panorama-fov';",
     resolveDir: process.cwd(),
   },
   bundle: true,
@@ -26,6 +26,8 @@ const {
   coreObstacles,
   furnishingObstacles,
   fixtureObstacles,
+  panoramaDefaultFov,
+  panoramaFovBounds,
 } = await import(
   "data:text/javascript;base64," + Buffer.from(result.outputFiles[0].text).toString("base64")
 );
@@ -100,7 +102,7 @@ for (const p of panoramaPoints) {
       }
   assert.equal(seen.size, panoramaPoints.length, p.id + " cannot reach all viewpoints");
 }
-// Panorama references and generated images retain the north-centred projection.
+// Verify the viewer UV convention; this cannot certify the contents of AI images.
 const sphere = new THREE.SphereGeometry(10, 64, 40);
 sphere.scale(-1, 1, 1);
 sphere.rotateY(-Math.PI / 2);
@@ -119,6 +121,13 @@ const north = hotspotDirection({ position: [0, 0] }, { position: [0, -1] });
 assert.equal(Math.abs(north.yaw), 0);
 const east = hotspotDirection({ position: [0, 0] }, { position: [1, 0] });
 assert.ok(Math.abs(east.yaw + Math.PI / 2) < 1e-8);
+for (const aspect of [.45, .75, 1, 16/9, 2.7]) {
+  const vertical = panoramaDefaultFov(aspect);
+  const horizontal = 2 * Math.atan(Math.tan(vertical * Math.PI / 360) * aspect) * 180 / Math.PI;
+  const [minimum, maximum] = panoramaFovBounds(aspect);
+  assert.ok(vertical <= 75 && horizontal <= 90.000001, 'Default panorama view is excessively wide');
+  assert.ok(minimum < vertical && maximum > vertical, 'Zoom must work in both directions');
+}
 const cells = floorTileCells(),
   area = (r) => (r[2] - r[0]) * (r[3] - r[1]);
 for (let i = 0; i < cells.length; i++)
@@ -138,5 +147,5 @@ assert.ok(
   "floor union area changed",
 );
 console.log(
-  `PASS: ${panoramaPoints.length} unobstructed cameras, ${rooms.length} spaces, all points reachable, compass/UV alignment, ${cells.length} non-overlapping floor cells.`,
+  `PASS: image files, ${panoramaPoints.length} model camera coordinates, ${rooms.length} spaces, navigation links, viewer UV/FOV, ${cells.length} floor cells. AI image geometry requires separate visual review.`,
 );
