@@ -5,8 +5,8 @@ export const DIMENSIONS = { width:15.2, westLength:17.8, eastLength:16.7, height
 export type Rect = [number,number,number,number];
 export type Room = {id:string;name:string;rect:Rect;height:number;position:[number,number];yaw:number;note:string;outdoor?:boolean};
 export const rooms:Room[] = [
- {id:'living',name:'客厅',rect:[2.1,7.6,8.6,12.8],height:3,position:[7.15,10.45],yaw:2.1,note:'电视置于南侧实墙，灰色 KIVIK 沙发朝南，搭配浅石色茶几。'},
- {id:'dining',name:'餐厅',rect:[2.1,5,8.6,7.6],height:3,position:[3.1,6.4],yaw:-1.57,note:'200cm LISABO 餐桌、六把曲木餐椅与餐边柜，北接厨房。'},
+ {id:'living',name:'客厅',rect:[2.1,7.6,8.6,12.8],height:3,position:[7.15,10.45],yaw:2.1,note:'电视置于南侧实墙，米白亚麻沙发朝南，搭配浅石色茶几。'},
+ {id:'dining',name:'餐厅',rect:[2.1,5,8.6,7.6],height:3,position:[3.1,6.4],yaw:-1.57,note:'浅木色餐桌、六把藤编餐椅与餐边柜，北接厨房。'},
  {id:'kitchen',name:'厨房',rect:[4,1.4,7,5],height:3,position:[5.5,3.4],yaw:0,note:'图示开间 3m；保留北侧生活阳台通道。'},
  {id:'balcony',name:'长阳台',rect:[0,5,2.1,12.8],height:3,position:[1.05,8.6],yaw:Math.PI,note:'西侧 7.8m 长段，层高 3m，防滑瓷砖。',outdoor:true},
  {id:'terrace',name:'挑空阳台',rect:[0,12.8,4,17.8],height:6,position:[2.9,14],yaw:.6,note:'4×5m、层高 6m；遮阳伞、木制桌椅与绿植。',outdoor:true},

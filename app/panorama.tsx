@@ -78,6 +78,16 @@ export default function Panorama({
           if (visible && p) placed.push({ x: p.x, y: p.y, width });
           if (p) button.style.transform = `translate(${p.x}px,${p.y}px) translate(-50%,-50%)`;
         }
+      }, {
+        pick: (x, y) => {
+          for (const [id, button] of hotspots.current) {
+            if (button.style.display === "none") continue;
+            const rect = button.getBoundingClientRect();
+            if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) return id;
+          }
+          return null;
+        },
+        select: (id) => { setPointId(id); setRailOpen(false); },
       });
       setReady(true);
     } catch {
@@ -168,7 +178,7 @@ export default function Panorama({
                   else hotspots.current.delete(id);
                 }}
                 style={{ display: "none" }}
-                onClick={() => go(id)}
+                onClick={(event) => { if (event.detail === 0) go(id); }}
                 aria-label={"前往" + target.name}
               >
                 <ArrowUpRight size={19} />

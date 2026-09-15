@@ -1,194 +1,194 @@
 [
   {
     "id": "living-entry",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 144819,
-    "previewBytes": 18725
+    "bytes": 241956,
+    "previewBytes": 37287
   },
   {
     "id": "living-window",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 159558,
-    "previewBytes": 24815
+    "bytes": 253783,
+    "previewBytes": 45920
   },
   {
     "id": "dining-west",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 156842,
-    "previewBytes": 17837
+    "bytes": 241385,
+    "previewBytes": 35510
   },
   {
     "id": "dining-east",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 157505,
-    "previewBytes": 18408
+    "bytes": 275228,
+    "previewBytes": 42829
   },
   {
     "id": "kitchen-south",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 161128,
-    "previewBytes": 24267
+    "bytes": 243986,
+    "previewBytes": 42935
   },
   {
     "id": "kitchen-north",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 140409,
-    "previewBytes": 24772
+    "bytes": 233321,
+    "previewBytes": 42161
   },
   {
     "id": "balcony-north",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 170329,
-    "previewBytes": 20524
+    "bytes": 261631,
+    "previewBytes": 41722
   },
   {
     "id": "balcony-south",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 165241,
-    "previewBytes": 29689
+    "bytes": 264189,
+    "previewBytes": 51529
   },
   {
     "id": "terrace-north",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 207878,
-    "previewBytes": 28714
+    "bytes": 301043,
+    "previewBytes": 48379
   },
   {
     "id": "terrace-south",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 240511,
-    "previewBytes": 29789
+    "bytes": 350018,
+    "previewBytes": 50305
   },
   {
     "id": "master-entry",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 135864,
-    "previewBytes": 16531
+    "bytes": 254971,
+    "previewBytes": 35776
   },
   {
     "id": "master-window",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 165736,
-    "previewBytes": 22743
+    "bytes": 231539,
+    "previewBytes": 42751
   },
   {
     "id": "south",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 129343,
-    "previewBytes": 15440
+    "bytes": 233418,
+    "previewBytes": 35887
   },
   {
     "id": "north",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 124556,
-    "previewBytes": 14762
+    "bytes": 235002,
+    "previewBytes": 32920
   },
   {
     "id": "suite",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 151716,
-    "previewBytes": 13052
+    "bytes": 257019,
+    "previewBytes": 36053
   },
   {
     "id": "entry",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 141326,
-    "previewBytes": 16962
+    "bytes": 245035,
+    "previewBytes": 33395
   },
   {
     "id": "bath1",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 139045,
-    "previewBytes": 17053
+    "bytes": 226021,
+    "previewBytes": 36634
   },
   {
     "id": "bath2",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 163705,
-    "previewBytes": 17873
+    "bytes": 264428,
+    "previewBytes": 39630
   },
   {
     "id": "bath3",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 147500,
-    "previewBytes": 16462
+    "bytes": 313297,
+    "previewBytes": 39167
   },
   {
     "id": "utility",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 189836,
-    "previewBytes": 30375
+    "bytes": 231100,
+    "previewBytes": 50990
   },
   {
     "id": "lobby",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 133156,
-    "previewBytes": 14550
+    "bytes": 221415,
+    "previewBytes": 39566
   },
   {
     "id": "hall",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 131747,
-    "previewBytes": 12517
+    "bytes": 233549,
+    "previewBytes": 36824
   },
   {
     "id": "lift",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 120855,
-    "previewBytes": 16005
+    "bytes": 188410,
+    "previewBytes": 29913
   },
   {
     "id": "stairs",
-    "revision": "ai-photo-v1-tinypng",
+    "revision": "french-natural-v1-tinypng",
     "width": 1774,
     "height": 887,
-    "bytes": 159887,
-    "previewBytes": 16374
+    "bytes": 204070,
+    "previewBytes": 33876
   }
 ]

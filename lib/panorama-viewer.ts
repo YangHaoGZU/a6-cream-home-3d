@@ -1,7 +1,11 @@
 import * as THREE from "three";
 import { panoramaUrl, type PanoramaPoint } from "./panorama-data";
+import { OverviewTap } from "./overview-gesture";
 export type PanoramaViewer = ReturnType<typeof createPanoramaViewer>;
-export function createPanoramaViewer(host: HTMLElement, onDraw: () => void) {
+export function createPanoramaViewer(host: HTMLElement, onDraw: () => void, hotspots?: {
+  pick: (clientX: number, clientY: number) => string | null;
+  select: (id: string) => void;
+}) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "low-power" });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -27,6 +31,7 @@ export function createPanoramaViewer(host: HTMLElement, onDraw: () => void) {
     abort: AbortController | null = null;
   let currentTexture: THREE.Texture | null = null;
   const pointers = new Map<number, { x: number; y: number }>();
+  const tap = new OverviewTap();
   const draw = () => {
     frame = 0;
     if (disposed) return;
@@ -55,11 +60,14 @@ export function createPanoramaViewer(host: HTMLElement, onDraw: () => void) {
   function down(event: PointerEvent) {
     if (event.button > 0) return;
     event.preventDefault();
+    tap.begin(event.pointerId, event.clientX, event.clientY, event.timeStamp,
+      hotspots?.pick(event.clientX, event.clientY) ?? null, event.pointerType === "touch", event.button);
     canvas.focus({ preventScroll: true });
     pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
     canvas.setPointerCapture(event.pointerId);
   }
   function motion(event: PointerEvent) {
+    tap.move(event.pointerId, event.clientX, event.clientY);
     const previous = pointers.get(event.pointerId);
     if (!previous) return;
     if (pointers.size === 1) {
@@ -79,11 +87,17 @@ export function createPanoramaViewer(host: HTMLElement, onDraw: () => void) {
     invalidate();
   }
   function up(event: PointerEvent) {
+    if (event.type === "pointerup") {
+      const id = tap.end(event.pointerId, event.clientX, event.clientY, event.timeStamp,
+        hotspots?.pick(event.clientX, event.clientY) ?? null);
+      if (id) hotspots?.select(id);
+    } else tap.cancel(event.pointerId);
     pointers.delete(event.pointerId);
     if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
   }
   function wheel(event: WheelEvent) {
     event.preventDefault();
+    tap.invalidate();
     changeFov(camera.fov + event.deltaY * 0.035);
   }
   function keyboard(event: KeyboardEvent) {
@@ -98,7 +112,7 @@ export function createPanoramaViewer(host: HTMLElement, onDraw: () => void) {
     if (event.key === "-") changeFov(camera.fov + 5);
     invalidate();
   }
-  const blur = () => pointers.clear();
+  const blur = () => { pointers.clear(); tap.reset(); };
   canvas.addEventListener("pointerdown", down);
   canvas.addEventListener("pointermove", motion);
   canvas.addEventListener("pointerup", up);
@@ -143,6 +157,7 @@ export function createPanoramaViewer(host: HTMLElement, onDraw: () => void) {
       abort = new AbortController();
       const signal = abort.signal;
       pointers.clear();
+      tap.reset();
       startYaw = yaw = point.yaw;
       pitch = 0;
       changeFov(camera.aspect < 0.8 ? 84 : 75);
