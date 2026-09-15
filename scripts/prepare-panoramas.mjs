@@ -39,7 +39,7 @@ for (const point of panoramaPoints) {
     throw new Error("Incorrect preview size: " + point.id);
   manifest.push({
     id: point.id,
-    revision: "french-structure-v2-tinypng",
+    revision: "french-local-v3-tinypng",
     width: meta.width,
     height: meta.height,
     bytes: (await fs.stat(filename)).size,

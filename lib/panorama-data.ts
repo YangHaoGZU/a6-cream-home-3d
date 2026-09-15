@@ -198,7 +198,7 @@ export function pointForRoom(room: string) {
   return panoramaPoints.find((point) => point.room === room) ?? panoramaPoints[0];
 }
 export function panoramaUrl(id: string, preview = false) {
-  return `./panoramas/${id}${preview ? "-preview" : ""}.jpg?v=french-structure-v2-tinypng`;
+  return `./panoramas/${id}${preview ? "-preview" : ""}.jpg?v=french-local-v3-tinypng`;
 }
 export function hotspotDirection(from: PanoramaPoint, to: PanoramaPoint) {
   const dx = to.position[0] - from.position[0],

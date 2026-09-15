@@ -92,9 +92,10 @@ export function buildOverviewModel() {
     const legs=(w:number,d:number,h=.67)=>{for(const x of [-w/2+.065,w/2-.065])for(const z of [-d/2+.065,d/2-.065])local('oak',x,h/2,z,.06,h,.06);};
     switch(f.kind) {
       case 'bed':
+        local('rug',0,.047,.25,f.w+.65,.02,f.d+.55);
         local('oak',0,.2,0,f.w,.32,f.d);
         local('linen',0,.47,0,f.w-.04,.23,f.d-.06);
-        local('linen',0,.64,-f.d/2+.06,f.w,.72,.12);
+        local('linen',0,.82,-f.d/2+.06,f.w+.06,.78,.12);
         local('stone',0,.61,.45,f.w-.08,.035,.48);
         for(const x of [-f.w*.24,f.w*.24]) local('plaster',x,.65,-f.d*.31,f.w*.4,.15,.38);
         break;
@@ -102,19 +103,19 @@ export function buildOverviewModel() {
         const wide=f.kind==='sofa',w=f.w,d=f.d;
         local('oak',0,.13,0,w-.12,.17,d-.12);
         local('linen',0,.4,0,w,.4,d);
-        local('linen',0,.59,-d/2+.11,w,.48,.21);
+        local('linen',0,.72,-d/2+.11,w,.48,.21);
         for(const x of [-w/2+.1,w/2-.1])local('linen',x,.55,0,.2,.5,d);
         for(const x of wide?[-w*.26,w*.26]:[0])local('plaster',x,.62,-.15,wide?.58:.38,.26,.21);
         break;
       }
       case 'diningtable':
-        local('oak',0,.695,0,f.w,.09,f.d);
-        legs(f.w,f.d,.65);break;
+        local('oak',0,.74,0,f.w,.09,f.d);
+        local('oak',-.55,.36,0,.27,.72,.52);local('oak',.55,.36,0,.27,.72,.52);break;
       case 'chair':
         legs(f.w,f.d,.43);local('linen',0,.46,0,f.w,.09,f.d);
-        local('oak',0,.61,-f.d/2+.03,f.w,.38,.05);local('rug',0,.62,-f.d/2-.002,f.w-.08,.28,.015);break;
+        local('oak',0,.75,-f.d/2+.03,f.w,.5,.05);local('rug',0,.76,-f.d/2-.002,f.w-.08,.35,.015);break;
       case 'coffee':
-        local('stone',0,.39,0,f.w,.09,f.d);legs(f.w,f.d,.345);break;
+        cyl('stone',f.x,.39,f.z,f.w*.5,.09,f.d*.5);cyl('stone',f.x,.2,f.z,f.w*.22,.34,f.d*.25);break;
       case 'tvwall':
         local('oak',0,.29,0,f.w,.52,.36);local('dark',0,.93,-.02,f.w*.72,.68,.055);break;
       case 'wardrobe': case 'entrycabinet':
@@ -147,6 +148,7 @@ export function buildOverviewModel() {
       // High pendants and AC units are omitted in the open-top miniature.
     }
   }
+  rect([3.75,9.65,6.8,11.82],.038,.02,'rug');
   // Outdoor umbrella uses only ten triangles per surface.
   cyl('oak',1.6,1.1,15.3,.035,2.2);
   const canopy=new THREE.ConeGeometry(1.2,.38,10,1,true);
