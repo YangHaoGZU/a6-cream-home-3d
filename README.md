@@ -19,7 +19,7 @@
 - 原始户型图及尺寸依据可在页面内查看。
 - 南次卧西北角至长阳台内侧、挑空阳台北面约 1.9m 缺口补设落地玻璃，保留西侧长阳台与挑空阳台的通道。
 - 新增独立的全景漫游：18 个空间、24 个观察点，包含客餐厅、厨房、四间卧室、三卫、阳台、玄关和公共区。支持点位跳转、房间筛选、缩略图选择、环顾和缩放。
-- 全景来自同一户型模型的 Cycles 离线光线追踪，3072×1536；按需加载高清图及 768×384 预览。全景模式会释放实时场景，降低手机内存占用。材质、渲染脚本和复现记录见 `render-assets/README.md`。
+- 全景为基于既有户型视角和已确认样图的 AI 写实效果图，原生 1774×887；24 张全景及 768×384 手机预览均经 TinyPNG 压缩。按需加载，进入全景时释放实时场景以降低手机内存占用。AI 局部细节可能与模型存在差异，不作为测量或施工依据；实时漫游仍使用 Blender 模型。
 - 手机使用底部抽屉切换房间、查看户型和调整设置；48px 方向键支持一指行走、另一指拖动环顾。总览支持单指旋转、双指缩放和平移，俯视支持单指平移。横竖屏自动调整画面取景，并适配安全区域和动态视口。
 - 沉浸模式隐藏导航，支持系统全屏的浏览器会同时进入全屏；手机采用较低的像素倍率、阴影分辨率和接触阴影采样，后台暂停渲染。
 
@@ -74,7 +74,7 @@ node checks/blender-model.mjs
 
 ## 从 Blender 更新漫游
 
-`models/A6-modern-minimalist-v3.blend` 是当前装修版本来源。运行 Blender 后台脚本 `scripts/export-blender-web.py` 导出网页模型，运行 `scripts/render-blender-panoramas.py` 渲染24张全景，再运行 `node scripts/prepare-panoramas.mjs` 生成手机预览，最后构建网站。旧的 `scripts/render-panoramas.py` 是历史版本转换脚本。
+`models/A6-modern-minimalist-v3.blend` 是实时漫游的装修版本来源，运行 `scripts/export-blender-web.py` 导出网页模型。全景已独立更新为 AI 生图；`scripts/render-blender-panoramas.py` 和 `scripts/render-panoramas.py` 仅保留为历史渲染流程，不应覆盖当前图片。替换经 TinyPNG 压缩的全景和预览后，运行 `node scripts/prepare-panoramas.mjs --keep-previews` 验证尺寸并更新清单，保留已压缩的预览，然后构建网站。资源来源与压缩统计见 `public/panoramas/render-info.json`。
 
 ### 加载优化（2026-09-09）
 

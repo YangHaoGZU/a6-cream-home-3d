@@ -1,253 +1,504 @@
 {
-  "engine": "Blender Cycles",
-  "revision": "modern-v3-closed-door",
-  "sourceHash": "cbc1891457ad903b1f0cf9a364457c99448e5fa96194109abdaad12ce836e20a",
-  "width": 3072,
-  "height": 1536,
-  "maxSamples": 48,
-  "denoising": true,
-  "rendered": [
+  "engine": "OpenAI built-in image generation",
+  "revision": "ai-photo-v1-tinypng",
+  "created": "2026-09-15",
+  "width": 1774,
+  "height": 887,
+  "projection": "2:1 equirectangular, north-centred layout reference",
+  "style": "Modern minimalist; southwest afternoon daylight and warm indoor lighting",
+  "reference": "Previous modern-v3-closed-door panoramas and two user-approved living-room samples",
+  "limitations": "AI-generated decoration visualization, not photography or a geometrically exact model render; local details and cross-view consistency may vary.",
+  "compression": {
+    "provider": "TinyPNG (tinypng.com)",
+    "method": "JPEG quality 95 source conversion; 768x384 quality 85 previews; all 48 files uploaded to TinyPNG web compressor and downloaded",
+    "inputBytes": 6485627,
+    "outputBytes": 4216731,
+    "savedPercent": 34.98,
+    "panoramaBytes": 3738492,
+    "previewBytes": 478239
+  },
+  "viewpoints": [
     {
       "id": "living-entry",
-      "seconds": 203.7,
-      "position": [
+      "referencePosition": [
         7.150000095367432,
         -10.449999809265137,
         1.649999976158142
-      ],
-      "bytes": 447467
+      ]
     },
     {
       "id": "living-window",
-      "seconds": 188.4,
-      "position": [
+      "referencePosition": [
         3.9000000953674316,
         -11.850000381469727,
         1.649999976158142
-      ],
-      "bytes": 533587
+      ]
     },
     {
       "id": "dining-west",
-      "seconds": 200.8,
-      "position": [
+      "referencePosition": [
         3.0999999046325684,
         -6.400000095367432,
         1.649999976158142
-      ],
-      "bytes": 492050
+      ]
     },
     {
       "id": "dining-east",
-      "seconds": 203.1,
-      "position": [
+      "referencePosition": [
         7.449999809265137,
         -6.699999809265137,
         1.649999976158142
-      ],
-      "bytes": 468579
+      ]
     },
     {
       "id": "kitchen-south",
-      "seconds": 175.5,
-      "position": [
+      "referencePosition": [
         5.5,
         -3.4000000953674316,
         1.649999976158142
-      ],
-      "bytes": 516111
+      ]
     },
     {
       "id": "kitchen-north",
-      "seconds": 168.1,
-      "position": [
+      "referencePosition": [
         5.550000190734863,
         -1.9800000190734863,
         1.649999976158142
-      ],
-      "bytes": 541207
+      ]
     },
     {
       "id": "balcony-north",
-      "seconds": 200.0,
-      "position": [
+      "referencePosition": [
         1.350000023841858,
         -6.150000095367432,
         1.649999976158142
-      ],
-      "bytes": 521399
+      ]
     },
     {
       "id": "balcony-south",
-      "seconds": 184.9,
-      "position": [
+      "referencePosition": [
         1.0499999523162842,
         -11.899999618530273,
         1.649999976158142
-      ],
-      "bytes": 677076
+      ]
     },
     {
       "id": "terrace-north",
-      "seconds": 134.3,
-      "position": [
+      "referencePosition": [
         2.9000000953674316,
-        -14.0,
+        -14,
         1.649999976158142
-      ],
-      "bytes": 673372
+      ]
     },
     {
       "id": "terrace-south",
-      "seconds": 106.7,
-      "position": [
+      "referencePosition": [
         2.799999952316284,
         -15.800000190734863,
         1.649999976158142
-      ],
-      "bytes": 768027
+      ]
     },
     {
       "id": "master-entry",
-      "seconds": 195.8,
-      "position": [
+      "referencePosition": [
         10.100000381469727,
         -14.25,
         1.649999976158142
-      ],
-      "bytes": 432869
+      ]
     },
     {
       "id": "master-window",
-      "seconds": 166.9,
-      "position": [
+      "referencePosition": [
         10.449999809265137,
         -16.049999237060547,
         1.649999976158142
-      ],
-      "bytes": 514081
+      ]
     },
     {
       "id": "south",
-      "seconds": 195.9,
-      "position": [
+      "referencePosition": [
         6.650000095367432,
         -14.050000190734863,
         1.649999976158142
-      ],
-      "bytes": 401520
+      ]
     },
     {
       "id": "north",
-      "seconds": 194.1,
-      "position": [
+      "referencePosition": [
         9.649999618530273,
         -4.349999904632568,
         1.649999976158142
-      ],
-      "bytes": 396303
+      ]
     },
     {
       "id": "suite",
-      "seconds": 199.7,
-      "position": [
+      "referencePosition": [
         10.649999618530273,
         -4.5,
         1.649999976158142
-      ],
-      "bytes": 377103
+      ]
     },
     {
       "id": "entry",
-      "seconds": 204.3,
-      "position": [
+      "referencePosition": [
         7.800000190734863,
         -9.649999618530273,
         1.649999976158142
-      ],
-      "bytes": 429821
+      ]
     },
     {
       "id": "bath1",
-      "seconds": 181.5,
-      "position": [
+      "referencePosition": [
         14.399999618530273,
         -4.5,
         1.649999976158142
-      ],
-      "bytes": 504576
+      ]
     },
     {
       "id": "bath2",
-      "seconds": 203.7,
-      "position": [
+      "referencePosition": [
         8.149999618530273,
         -14.600000381469727,
         1.649999976158142
-      ],
-      "bytes": 490259
+      ]
     },
     {
       "id": "bath3",
-      "seconds": 182.5,
-      "position": [
+      "referencePosition": [
         13.649999618530273,
         -14.399999618530273,
         1.649999976158142
-      ],
-      "bytes": 507816
+      ]
     },
     {
       "id": "utility",
-      "seconds": 127.1,
-      "position": [
+      "referencePosition": [
         5.5,
         -0.699999988079071,
         1.649999976158142
-      ],
-      "bytes": 637528
+      ]
     },
     {
       "id": "lobby",
-      "seconds": 186.0,
-      "position": [
+      "referencePosition": [
         10.649999618530273,
         -10.550000190734863,
         1.649999976158142
-      ],
-      "bytes": 389353
+      ]
     },
     {
       "id": "hall",
-      "seconds": 163.9,
-      "position": [
+      "referencePosition": [
         14.350000381469727,
         -10.880000114440918,
         1.649999976158142
-      ],
-      "bytes": 363008
+      ]
     },
     {
       "id": "lift",
-      "seconds": 116.2,
-      "position": [
+      "referencePosition": [
         9.720000267028809,
         -7.849999904632568,
         1.649999976158142
-      ],
-      "bytes": 361615
+      ]
     },
     {
       "id": "stairs",
-      "seconds": 185.8,
-      "position": [
+      "referencePosition": [
         12.300000190734863,
         -8.699999809265137,
         1.649999976158142
-      ],
-      "bytes": 450940
+      ]
     }
   ],
-  "compression": "User-supplied TinyPNG images; original render provenance retained",
-  "assetRevision": "modern-v3-tinified"
+  "files": [
+    {
+      "file": "balcony-north-preview.jpg",
+      "inputBytes": 31119,
+      "outputBytes": 20524,
+      "sha256": "abc29fbaeeb23e5a53d9f4bfa9739b361dec14d69067ed096877755d8a237c16"
+    },
+    {
+      "file": "balcony-north.jpg",
+      "inputBytes": 248184,
+      "outputBytes": 170329,
+      "sha256": "f8857fc8a61c21f6d0ec67ac128ce24b302ec01346047c6fda57811a61bea3d3"
+    },
+    {
+      "file": "balcony-south-preview.jpg",
+      "inputBytes": 43610,
+      "outputBytes": 29689,
+      "sha256": "908eca41df6e0f4c6c4f2b82eebf498307a6b2cf95529dc699907e3c26895adc"
+    },
+    {
+      "file": "balcony-south.jpg",
+      "inputBytes": 310213,
+      "outputBytes": 165241,
+      "sha256": "9246b7ab38efb71d7dc695902c446bdccd487b5c3bf1291ddeb0e355ea50347f"
+    },
+    {
+      "file": "bath1-preview.jpg",
+      "inputBytes": 26468,
+      "outputBytes": 17053,
+      "sha256": "2b72a603b47a054dc6877f7d15974cd8006579153c51d8c0111eb9222c305862"
+    },
+    {
+      "file": "bath1.jpg",
+      "inputBytes": 213049,
+      "outputBytes": 139045,
+      "sha256": "dae3e5791ea66b225ce7dfa37b6e90ccf8fa0b80c19ba8c2a703f0a6368e9a55"
+    },
+    {
+      "file": "bath2-preview.jpg",
+      "inputBytes": 28890,
+      "outputBytes": 17873,
+      "sha256": "9d4c75929c442739edc273eecdb65e60393679b986d5cf7ffd5c34fbca617ba6"
+    },
+    {
+      "file": "bath2.jpg",
+      "inputBytes": 236815,
+      "outputBytes": 163705,
+      "sha256": "a8a2ab937860e1d28d64edaaa2ee0b3002e457c3af32d44dfcb1afab72532a24"
+    },
+    {
+      "file": "bath3-preview.jpg",
+      "inputBytes": 26039,
+      "outputBytes": 16462,
+      "sha256": "46a256e1c234186137a74e11f5e6365ea0325d89f1a647e0b8492b4c8c1a0d26"
+    },
+    {
+      "file": "bath3.jpg",
+      "inputBytes": 213448,
+      "outputBytes": 147500,
+      "sha256": "75ed8fe1805430a449189134e74d6c0100e45fbb26fca3b0b1fc0f4612f9bac6"
+    },
+    {
+      "file": "dining-east-preview.jpg",
+      "inputBytes": 28376,
+      "outputBytes": 18408,
+      "sha256": "bbecb3a3ad67fc5bdc90a4b58e8bf607f6e6c627654fecf2640ca6facc055b0e"
+    },
+    {
+      "file": "dining-east.jpg",
+      "inputBytes": 232861,
+      "outputBytes": 157505,
+      "sha256": "d175db0a3cf8f317601cb58ed0c48e366ba5a6cfd656c2f0eba4f4c589e06536"
+    },
+    {
+      "file": "dining-west-preview.jpg",
+      "inputBytes": 27569,
+      "outputBytes": 17837,
+      "sha256": "5308feef22780633cda3f2fce2ae709f2ea86e2b2c606b7e15b6d66d185a7b03"
+    },
+    {
+      "file": "dining-west.jpg",
+      "inputBytes": 226336,
+      "outputBytes": 156842,
+      "sha256": "09262963642bb02a50a8e07fe19f545470f57acfb401aaeeeb8430afae1c3165"
+    },
+    {
+      "file": "entry-preview.jpg",
+      "inputBytes": 26309,
+      "outputBytes": 16962,
+      "sha256": "8ddff73565e8bac419a2183918fb089361d58792f30a3573842fb6f4e0982fe8"
+    },
+    {
+      "file": "entry.jpg",
+      "inputBytes": 210197,
+      "outputBytes": 141326,
+      "sha256": "0e58327e1db90e4144104c70be6a9962fb375ed1abb2c106349d9b7d760c20d4"
+    },
+    {
+      "file": "hall-preview.jpg",
+      "inputBytes": 19752,
+      "outputBytes": 12517,
+      "sha256": "05833f67ddb977a5f36bd3c1d736e5f5af5379b88acacdfa7411af5977d2366a"
+    },
+    {
+      "file": "hall.jpg",
+      "inputBytes": 188757,
+      "outputBytes": 131747,
+      "sha256": "831d04f0a1c68dcbb8678515f943eed6858889c9dc99df24b75544263a2a4b3a"
+    },
+    {
+      "file": "kitchen-north-preview.jpg",
+      "inputBytes": 36417,
+      "outputBytes": 24772,
+      "sha256": "f82181b5416b90ecf95912881d9a5611fb58d0ae97c0e70d24c9dc1604ded62f"
+    },
+    {
+      "file": "kitchen-north.jpg",
+      "inputBytes": 243754,
+      "outputBytes": 140409,
+      "sha256": "5c6ca06a60b86efa9dcaf8e96dc10311679c3f843e3e228b813682fdc5f4bfa7"
+    },
+    {
+      "file": "kitchen-south-preview.jpg",
+      "inputBytes": 36109,
+      "outputBytes": 24267,
+      "sha256": "defec33e479a1810f726aa3f45c4b9ffd644bb8d6d65d558554148a129ab7341"
+    },
+    {
+      "file": "kitchen-south.jpg",
+      "inputBytes": 255223,
+      "outputBytes": 161128,
+      "sha256": "07da4d9207149ae6ec3d908ef18bfeceb78a8863b47517c82db0744c5bc25df2"
+    },
+    {
+      "file": "lift-preview.jpg",
+      "inputBytes": 25117,
+      "outputBytes": 16005,
+      "sha256": "259b02f4fbda97f54817da12d16de0737d49f4bd2eaabde32fecad24e9280b9c"
+    },
+    {
+      "file": "lift.jpg",
+      "inputBytes": 197971,
+      "outputBytes": 120855,
+      "sha256": "8b371a9a1f027a1a58c902750ed443ea831cbe8aba157d3dc37b8f413ec390b1"
+    },
+    {
+      "file": "living-entry-preview.jpg",
+      "inputBytes": 28724,
+      "outputBytes": 18725,
+      "sha256": "c37eecc7bab63b7ab214592c0d47762970eac61cf8df9b1e6ac2c2ddbbf2af6c"
+    },
+    {
+      "file": "living-entry.jpg",
+      "inputBytes": 226045,
+      "outputBytes": 144819,
+      "sha256": "5977ba924d2e80b9f75f14ff98f3db3f074a1df3319d6f7d930fb692a8926e22"
+    },
+    {
+      "file": "living-window-preview.jpg",
+      "inputBytes": 37247,
+      "outputBytes": 24815,
+      "sha256": "a28a40ab5199f0d4fa2195352400896b90ff22679acbf4112d02f8dbb081a684"
+    },
+    {
+      "file": "living-window.jpg",
+      "inputBytes": 266468,
+      "outputBytes": 159558,
+      "sha256": "d4c8212f44761440b0b638eb6719eba325ea68550ee516bb25fe95f659ed90fb"
+    },
+    {
+      "file": "lobby-preview.jpg",
+      "inputBytes": 22666,
+      "outputBytes": 14550,
+      "sha256": "45016c61583ed563605f8c999cace2be85d8e9900d3696ab8c976d10b937bfe7"
+    },
+    {
+      "file": "lobby.jpg",
+      "inputBytes": 200905,
+      "outputBytes": 133156,
+      "sha256": "2ad99cdb10234dd36e6c33f7269e6f028089f2852248c589de99d4ff424239cb"
+    },
+    {
+      "file": "master-entry-preview.jpg",
+      "inputBytes": 25619,
+      "outputBytes": 16531,
+      "sha256": "e0c3d849bfac15c5b63838db43e61f5250e16938ec6634034ac3575af140c4cb"
+    },
+    {
+      "file": "master-entry.jpg",
+      "inputBytes": 202266,
+      "outputBytes": 135864,
+      "sha256": "54b281e62b05387ae0e38d89cbe192b160c815f1173fd079ae896f52e3757f48"
+    },
+    {
+      "file": "master-window-preview.jpg",
+      "inputBytes": 34266,
+      "outputBytes": 22743,
+      "sha256": "24d4289332acdbc4bb270de18320207c0cbb3bbaebd7baf0a9f8ee52d7f5facf"
+    },
+    {
+      "file": "master-window.jpg",
+      "inputBytes": 250659,
+      "outputBytes": 165736,
+      "sha256": "323865a499c8207e0d2e089cbce248debb06043af2268b5bf3b0d547efe5f514"
+    },
+    {
+      "file": "north-preview.jpg",
+      "inputBytes": 22699,
+      "outputBytes": 14762,
+      "sha256": "75c12dbb35b272877db3af2729c0a8687fb70468c486e8d008927c43a912efef"
+    },
+    {
+      "file": "north.jpg",
+      "inputBytes": 190199,
+      "outputBytes": 124556,
+      "sha256": "bb36f8a4ca3beb1c177f7761f0496a8831564049b606b7c683681be29fbfc24f"
+    },
+    {
+      "file": "south-preview.jpg",
+      "inputBytes": 24057,
+      "outputBytes": 15440,
+      "sha256": "99e270ce6ab9ad60fa3564fa0738536182bcd6fe72d631f8354fbeaa30672db4"
+    },
+    {
+      "file": "south.jpg",
+      "inputBytes": 192959,
+      "outputBytes": 129343,
+      "sha256": "2551fc758ec65b5e2c4379410faa2b6316df670860a1b51b2cd8702ef30896a6"
+    },
+    {
+      "file": "stairs-preview.jpg",
+      "inputBytes": 25269,
+      "outputBytes": 16374,
+      "sha256": "cfe6a50a9e40e36333021e3da85bdba6ed38ea8de492af6c88622f9aea24fcd3"
+    },
+    {
+      "file": "stairs.jpg",
+      "inputBytes": 222746,
+      "outputBytes": 159887,
+      "sha256": "99e2b281f71c1362d6a78eb605b9f6698dbf485306b807ec80b9ff66b247a210"
+    },
+    {
+      "file": "suite-preview.jpg",
+      "inputBytes": 20695,
+      "outputBytes": 13052,
+      "sha256": "fa18a03638bd24796555788fc757c115ef3a78d6e5737fe8e2110005c43b8fbb"
+    },
+    {
+      "file": "suite.jpg",
+      "inputBytes": 211001,
+      "outputBytes": 151716,
+      "sha256": "63d87e0a9a2ffeec125bd1aff2b8c5ef43a487964dcbe1fcbee6eeb72fc1d151"
+    },
+    {
+      "file": "terrace-north-preview.jpg",
+      "inputBytes": 43006,
+      "outputBytes": 28714,
+      "sha256": "d61c1c346c50a3933bb7f360ad9d9d373f532cb846e21949db8b2e0037ee9d63"
+    },
+    {
+      "file": "terrace-north.jpg",
+      "inputBytes": 332478,
+      "outputBytes": 207878,
+      "sha256": "8e18f92dfd8c9358341bd4bdcd71b9e3d24cfce5eede5a5844cf34f1c5508760"
+    },
+    {
+      "file": "terrace-south-preview.jpg",
+      "inputBytes": 45014,
+      "outputBytes": 29789,
+      "sha256": "28f7167292d624c90dfd7f7066636ed4fc797fcf8b3e9898064d8c4be05643af"
+    },
+    {
+      "file": "terrace-south.jpg",
+      "inputBytes": 360405,
+      "outputBytes": 240511,
+      "sha256": "6f03cd97d5436b50c7307a04b3111ee929f528de671a3f1e6c6b8d44337dd108"
+    },
+    {
+      "file": "utility-preview.jpg",
+      "inputBytes": 45242,
+      "outputBytes": 30375,
+      "sha256": "5eff10f1ae7b222102fcba944061e4f1f1178fa09010a19e3cb08725dd77d1a8"
+    },
+    {
+      "file": "utility.jpg",
+      "inputBytes": 322409,
+      "outputBytes": 189836,
+      "sha256": "4308343086718e8982a37b18087b221984a8bb771c86ad410dd94164945f2e90"
+    }
+  ]
 }

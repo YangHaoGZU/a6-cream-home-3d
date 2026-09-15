@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { build } from "esbuild";
 import * as THREE from "three";
+import fs from "node:fs/promises";
+import sharp from "sharp";
 const result = await build({
   stdin: {
     contents:
@@ -14,6 +16,7 @@ const result = await build({
 });
 const {
   panoramaPoints,
+  panoramaUrl,
   hotspotDirection,
   rooms,
   walls,
@@ -27,6 +30,22 @@ const {
   "data:text/javascript;base64," + Buffer.from(result.outputFiles[0].text).toString("base64")
 );
 assert.equal(new Set(panoramaPoints.map((p) => p.id)).size, panoramaPoints.length);
+const manifest = JSON.parse(await fs.readFile("public/panoramas/manifest.json", "utf8"));
+assert.equal(manifest.length, panoramaPoints.length, "panorama manifest count");
+for (const p of panoramaPoints) {
+  const item = manifest.find((m) => m.id === p.id);
+  assert.ok(item, p.id + " missing asset metadata");
+  assert.ok(panoramaUrl(p.id).endsWith("?v=" + item.revision), p.id + " cache revision mismatch");
+  for (const preview of [false, true]) {
+    const filename = `public/panoramas/${p.id}${preview ? "-preview" : ""}.jpg`;
+    const info = await sharp(filename).metadata();
+    assert.equal(info.format, "jpeg", p.id + " invalid JPEG");
+    assert.equal(info.width, preview ? 768 : item.width);
+    assert.equal(info.height, preview ? 384 : item.height);
+    assert.equal(info.width, info.height * 2, p.id + " invalid projection ratio");
+    assert.equal((await fs.stat(filename)).size, preview ? item.previewBytes : item.bytes);
+  }
+}
 for (const r of rooms)
   assert.ok(
     panoramaPoints.some((p) => p.room === r.id),
@@ -81,7 +100,7 @@ for (const p of panoramaPoints) {
       }
   assert.equal(seen.size, panoramaPoints.length, p.id + " cannot reach all viewpoints");
 }
-// Verify the displayed sphere's UV direction against Cycles' north-centred projection.
+// Panorama references and generated images retain the north-centred projection.
 const sphere = new THREE.SphereGeometry(10, 64, 40);
 sphere.scale(-1, 1, 1);
 sphere.rotateY(-Math.PI / 2);
