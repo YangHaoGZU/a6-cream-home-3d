@@ -1,194 +1,164 @@
 [
   {
-    "id": "living-entry",
-    "revision": "french-local-v3-tinypng",
+    "id": "01_living",
     "width": 1774,
     "height": 887,
-    "bytes": 241956,
-    "previewBytes": 37287
+    "bytes": 173842,
+    "previewBytes": 32800,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
   },
   {
-    "id": "living-window",
-    "revision": "french-local-v3-tinypng",
+    "id": "02_dining",
     "width": 1774,
     "height": 887,
-    "bytes": 253783,
-    "previewBytes": 45920
+    "bytes": 197075,
+    "previewBytes": 35970,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
   },
   {
-    "id": "dining-west",
-    "revision": "french-local-v3-tinypng",
+    "id": "03_study",
     "width": 1774,
     "height": 887,
-    "bytes": 241385,
-    "previewBytes": 35510
+    "bytes": 216966,
+    "previewBytes": 40126,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
   },
   {
-    "id": "dining-east",
-    "revision": "french-local-v3-tinypng",
+    "id": "04_west_lounge",
     "width": 1774,
     "height": 887,
-    "bytes": 231533,
-    "previewBytes": 45473
+    "bytes": 185934,
+    "previewBytes": 38483,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
   },
   {
-    "id": "kitchen-south",
-    "revision": "french-local-v3-tinypng",
+    "id": "05_terrace",
     "width": 1774,
     "height": 887,
-    "bytes": 243986,
-    "previewBytes": 42935
+    "bytes": 246765,
+    "previewBytes": 54456,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
   },
   {
-    "id": "kitchen-north",
-    "revision": "french-local-v3-tinypng",
+    "id": "06_entry",
     "width": 1774,
     "height": 887,
-    "bytes": 233321,
-    "previewBytes": 42161
+    "bytes": 250691,
+    "previewBytes": 48496,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
   },
   {
-    "id": "balcony-north",
-    "revision": "french-local-v3-tinypng",
+    "id": "07_kitchen",
     "width": 1774,
     "height": 887,
-    "bytes": 261631,
-    "previewBytes": 41722
+    "bytes": 177232,
+    "previewBytes": 37227,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
   },
   {
-    "id": "balcony-south",
-    "revision": "french-local-v3-tinypng",
+    "id": "08_utility",
     "width": 1774,
     "height": 887,
-    "bytes": 264189,
-    "previewBytes": 51529
+    "bytes": 179291,
+    "previewBytes": 36402,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
   },
   {
-    "id": "terrace-north",
-    "revision": "french-local-v3-tinypng",
+    "id": "09_master_bed",
     "width": 1774,
     "height": 887,
-    "bytes": 301043,
-    "previewBytes": 48379
+    "bytes": 172701,
+    "previewBytes": 31508,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
   },
   {
-    "id": "terrace-south",
-    "revision": "french-local-v3-tinypng",
+    "id": "10_master_dressing",
     "width": 1774,
     "height": 887,
-    "bytes": 350018,
-    "previewBytes": 50305
+    "bytes": 150974,
+    "previewBytes": 27852,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
   },
   {
-    "id": "master-entry",
-    "revision": "french-local-v3-tinypng",
+    "id": "11_ne_suite",
     "width": 1774,
     "height": 887,
-    "bytes": 254971,
-    "previewBytes": 35776
+    "bytes": 169093,
+    "previewBytes": 34687,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
   },
   {
-    "id": "master-window",
-    "revision": "french-local-v3-tinypng",
+    "id": "12_ne_dressing",
     "width": 1774,
     "height": 887,
-    "bytes": 224525,
-    "previewBytes": 45392
+    "bytes": 131551,
+    "previewBytes": 28785,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
   },
   {
-    "id": "south",
-    "revision": "french-local-v3-tinypng",
+    "id": "13_south_bed",
     "width": 1774,
     "height": 887,
-    "bytes": 233418,
-    "previewBytes": 35887
+    "bytes": 196792,
+    "previewBytes": 36632,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
   },
   {
-    "id": "north",
-    "revision": "french-local-v3-tinypng",
+    "id": "14_north_bed",
     "width": 1774,
     "height": 887,
-    "bytes": 235002,
-    "previewBytes": 32920
+    "bytes": 165667,
+    "previewBytes": 27996,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
   },
   {
-    "id": "suite",
-    "revision": "french-local-v3-tinypng",
+    "id": "15_master_bath",
     "width": 1774,
     "height": 887,
-    "bytes": 257019,
-    "previewBytes": 36053
+    "bytes": 152455,
+    "previewBytes": 29135,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
   },
   {
-    "id": "entry",
-    "revision": "french-local-v3-tinypng",
+    "id": "16_ne_bath",
     "width": 1774,
     "height": 887,
-    "bytes": 245035,
-    "previewBytes": 33395
+    "bytes": 216916,
+    "previewBytes": 40029,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
   },
   {
-    "id": "bath1",
-    "revision": "french-local-v3-tinypng",
+    "id": "17_common_bath",
     "width": 1774,
     "height": 887,
-    "bytes": 226021,
-    "previewBytes": 36634
+    "bytes": 191086,
+    "previewBytes": 35355,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
   },
   {
-    "id": "bath2",
-    "revision": "french-local-v3-tinypng",
+    "id": "18_common_wash",
     "width": 1774,
     "height": 887,
-    "bytes": 264428,
-    "previewBytes": 39630
-  },
-  {
-    "id": "bath3",
-    "revision": "french-local-v3-tinypng",
-    "width": 1774,
-    "height": 887,
-    "bytes": 313297,
-    "previewBytes": 39167
-  },
-  {
-    "id": "utility",
-    "revision": "french-local-v3-tinypng",
-    "width": 1774,
-    "height": 887,
-    "bytes": 231100,
-    "previewBytes": 50990
-  },
-  {
-    "id": "lobby",
-    "revision": "french-local-v3-tinypng",
-    "width": 1774,
-    "height": 887,
-    "bytes": 202652,
-    "previewBytes": 43894
-  },
-  {
-    "id": "hall",
-    "revision": "french-local-v3-tinypng",
-    "width": 1774,
-    "height": 887,
-    "bytes": 233549,
-    "previewBytes": 36824
-  },
-  {
-    "id": "lift",
-    "revision": "french-local-v3-tinypng",
-    "width": 1774,
-    "height": 887,
-    "bytes": 188410,
-    "previewBytes": 29913
-  },
-  {
-    "id": "stairs",
-    "revision": "french-local-v3-tinypng",
-    "width": 1774,
-    "height": 887,
-    "bytes": 204070,
-    "previewBytes": 33876
+    "bytes": 208090,
+    "previewBytes": 38960,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
   }
 ]
