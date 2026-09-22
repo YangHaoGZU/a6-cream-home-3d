@@ -1,0 +1,745 @@
+{
+  "provider": "TinyPNG",
+  "batches": 6,
+  "files": 92,
+  "inputBytes": 18681902,
+  "outputBytes": 7867674,
+  "assets": [
+    {
+      "path": "gallery/reference/01_living.jpg",
+      "batch": "01",
+      "provider": "TinyPNG",
+      "inputBytes": 138488,
+      "outputBytes": 51179,
+      "sha256": "8176a177be38288af1b920f9e95f1bc1d3b3b348eef1e17045cdfc37cefd7565"
+    },
+    {
+      "path": "gallery/reference/00_overview.jpg",
+      "batch": "01",
+      "provider": "TinyPNG",
+      "inputBytes": 294163,
+      "outputBytes": 88058,
+      "sha256": "d3ba980a3092516277e13a341ba224d7848c2a77944b4283067a8ba042504968"
+    },
+    {
+      "path": "gallery/final/18_common_wash.jpg",
+      "batch": "01",
+      "provider": "TinyPNG",
+      "inputBytes": 411141,
+      "outputBytes": 138580,
+      "sha256": "76fd023b87c5091ab185be7bced70f5d15b0d254bc4767e4d7e1eb66608ea6ba"
+    },
+    {
+      "path": "gallery/final/17_common_bath.jpg",
+      "batch": "01",
+      "provider": "TinyPNG",
+      "inputBytes": 491781,
+      "outputBytes": 181081,
+      "sha256": "ad3ef9aae953028f9ecf2c2b3d66ea3d838034c4d33deee17b176544726ee610"
+    },
+    {
+      "path": "gallery/final/15_master_bath.jpg",
+      "batch": "01",
+      "provider": "TinyPNG",
+      "inputBytes": 412299,
+      "outputBytes": 159340,
+      "sha256": "7ce60018b297b0722d6742b1e38598305269c98537ad865356b4828a4b3fb20d"
+    },
+    {
+      "path": "gallery/final/16_ne_bath.jpg",
+      "batch": "01",
+      "provider": "TinyPNG",
+      "inputBytes": 409548,
+      "outputBytes": 129027,
+      "sha256": "631dca286134275b79f97ed917a23feb30faa889e22206cc70fe8e0ad4fe2843"
+    },
+    {
+      "path": "gallery/final/14_north_bed.jpg",
+      "batch": "01",
+      "provider": "TinyPNG",
+      "inputBytes": 418009,
+      "outputBytes": 128969,
+      "sha256": "a5d64c493e751cc322ac8c2f140c991dadf7ddd7c4eef87e91ce9426e6511eae"
+    },
+    {
+      "path": "gallery/final/13_south_bed.jpg",
+      "batch": "01",
+      "provider": "TinyPNG",
+      "inputBytes": 394826,
+      "outputBytes": 121416,
+      "sha256": "737f76e59b3bf8d2bb7df3dfaf56b5c91f072c858c1b2e59e0e53f26b66baa8d"
+    },
+    {
+      "path": "gallery/final/11_ne_suite.jpg",
+      "batch": "01",
+      "provider": "TinyPNG",
+      "inputBytes": 489920,
+      "outputBytes": 177567,
+      "sha256": "1191d8f1d2f18ce16bda1480c937bcc25530f789f540f28faf117b3bdbbab8ab"
+    },
+    {
+      "path": "gallery/final/12_ne_dressing.jpg",
+      "batch": "01",
+      "provider": "TinyPNG",
+      "inputBytes": 296133,
+      "outputBytes": 80609,
+      "sha256": "4bf6034800d26486668e21657c17f41d9cb3032558ac712ccd810780b105d6ca"
+    },
+    {
+      "path": "gallery/final/10_master_dressing.jpg",
+      "batch": "01",
+      "provider": "TinyPNG",
+      "inputBytes": 270089,
+      "outputBytes": 69125,
+      "sha256": "ca81fc7c2a3ccf9a63344c9f14daf87abecc8c3574e506c968c0cb9d50b579df"
+    },
+    {
+      "path": "gallery/final/09_master_bed.jpg",
+      "batch": "01",
+      "provider": "TinyPNG",
+      "inputBytes": 435768,
+      "outputBytes": 141971,
+      "sha256": "56eeecbc5869f57fc722b937e17b23a3dbe4615e2b2dd28a182478c19cd2174b"
+    },
+    {
+      "path": "gallery/final/08_utility.jpg",
+      "batch": "01",
+      "provider": "TinyPNG",
+      "inputBytes": 466560,
+      "outputBytes": 133880,
+      "sha256": "7309dd50295391cf602428a8e48c1935f910799ec0e8be42898e44c61c20ec87"
+    },
+    {
+      "path": "gallery/final/07_kitchen.jpg",
+      "batch": "01",
+      "provider": "TinyPNG",
+      "inputBytes": 329323,
+      "outputBytes": 82602,
+      "sha256": "b1bfef98ed57e55cfea9170a74caf4fcb4998d53dd562d65b2fbae0015a79600"
+    },
+    {
+      "path": "gallery/final/06_entry.jpg",
+      "batch": "01",
+      "provider": "TinyPNG",
+      "inputBytes": 380494,
+      "outputBytes": 139583,
+      "sha256": "34e0aa6735b6d9ff4a9c0c3cbfe4ef622ca3ff69a95a4eecbd2ede2453d04c9f"
+    },
+    {
+      "path": "gallery/final/05_terrace.jpg",
+      "batch": "01",
+      "provider": "TinyPNG",
+      "inputBytes": 449616,
+      "outputBytes": 164979,
+      "sha256": "b7af32ff4463a202e16277bfd10901bce5aff9e7171882509676e6ac8c65cfb5"
+    },
+    {
+      "path": "gallery/final/04_west_lounge.jpg",
+      "batch": "01",
+      "provider": "TinyPNG",
+      "inputBytes": 503291,
+      "outputBytes": 161221,
+      "sha256": "742c2bfd57b25d58b243842d6f12d8892cc20575b31341f33d3248fdd3672ffe"
+    },
+    {
+      "path": "gallery/final/03_study.jpg",
+      "batch": "01",
+      "provider": "TinyPNG",
+      "inputBytes": 471255,
+      "outputBytes": 135513,
+      "sha256": "a26b105ce71cee083caaf8a434595b4ca22c97bbc5c8c6c2c986a7a56b9ccb89"
+    },
+    {
+      "path": "gallery/final/02_dining.jpg",
+      "batch": "01",
+      "provider": "TinyPNG",
+      "inputBytes": 491720,
+      "outputBytes": 160731,
+      "sha256": "108998d1deb54c097ad45586bb2f4be3c440d91e7f42bf7aa138e9a9da6e68aa"
+    },
+    {
+      "path": "gallery/final/01_living.jpg",
+      "batch": "01",
+      "provider": "TinyPNG",
+      "inputBytes": 444276,
+      "outputBytes": 139849,
+      "sha256": "733b49d64725ceb366f057e73f4b66b842c62482414aafcb899238a5aa6d6daa"
+    },
+    {
+      "path": "gallery/thumb/03_study.jpg",
+      "batch": "02",
+      "provider": "TinyPNG",
+      "inputBytes": 50609,
+      "outputBytes": 32235,
+      "sha256": "413e670fce8fa06b435d0b8e5b7659bf5291b1adb5e1269950b8f789c3ae44ec"
+    },
+    {
+      "path": "gallery/thumb/02_dining.jpg",
+      "batch": "02",
+      "provider": "TinyPNG",
+      "inputBytes": 49577,
+      "outputBytes": 40031,
+      "sha256": "48b99f34a1105cc3712a86fa90383d97d14761301aebbb48ab8335ac4255f25f"
+    },
+    {
+      "path": "gallery/thumb/01_living.jpg",
+      "batch": "02",
+      "provider": "TinyPNG",
+      "inputBytes": 45217,
+      "outputBytes": 35529,
+      "sha256": "e2db74fd6c72964631f261605f0ea2200f055a3ff79dd292d4fad25917fd94b6"
+    },
+    {
+      "path": "gallery/reference/18_common_wash.jpg",
+      "batch": "02",
+      "provider": "TinyPNG",
+      "inputBytes": 137656,
+      "outputBytes": 42562,
+      "sha256": "46c8090120fceb9b88f6609055dc5ceed06a001d2249d742756ccbba5389dac2"
+    },
+    {
+      "path": "gallery/reference/17_common_bath.jpg",
+      "batch": "02",
+      "provider": "TinyPNG",
+      "inputBytes": 124957,
+      "outputBytes": 36238,
+      "sha256": "cfb1854d87db67237fbde551b0d759ad74a01f7aba4f7040fe824c9a6e78bf84"
+    },
+    {
+      "path": "gallery/reference/16_ne_bath.jpg",
+      "batch": "02",
+      "provider": "TinyPNG",
+      "inputBytes": 154277,
+      "outputBytes": 45244,
+      "sha256": "ac31c5c769d72357eb1532682c18ca850e80975e6cd7eb9d8b3929e608ab7e93"
+    },
+    {
+      "path": "gallery/reference/15_master_bath.jpg",
+      "batch": "02",
+      "provider": "TinyPNG",
+      "inputBytes": 114093,
+      "outputBytes": 29888,
+      "sha256": "908b1921f222b90a4b92e4661c161b91e5e0cd708ac82b4c18c12241e4316d50"
+    },
+    {
+      "path": "gallery/reference/14_north_bed.jpg",
+      "batch": "02",
+      "provider": "TinyPNG",
+      "inputBytes": 96550,
+      "outputBytes": 32922,
+      "sha256": "9bcb7a2da54d13bc9ca6fdb1661f21edfa88bc602d08eb6a1cec43a69a9b76d3"
+    },
+    {
+      "path": "gallery/reference/13_south_bed.jpg",
+      "batch": "02",
+      "provider": "TinyPNG",
+      "inputBytes": 87770,
+      "outputBytes": 29032,
+      "sha256": "2b9d541f658baa6bfc2e67bc203f17a8b775b605717f2aa5d4cdb77f178953ca"
+    },
+    {
+      "path": "gallery/reference/12_ne_dressing.jpg",
+      "batch": "02",
+      "provider": "TinyPNG",
+      "inputBytes": 95688,
+      "outputBytes": 32303,
+      "sha256": "f0507c34928e23242a0d2d3d99ca8d4f9ad59b394295eee34e69a096d3877261"
+    },
+    {
+      "path": "gallery/reference/11_ne_suite.jpg",
+      "batch": "02",
+      "provider": "TinyPNG",
+      "inputBytes": 117316,
+      "outputBytes": 36905,
+      "sha256": "61878a33d232f0b5baee444a111bedf5d3ce2f126ac7b5006ee5aca77d23603a"
+    },
+    {
+      "path": "gallery/reference/10_master_dressing.jpg",
+      "batch": "02",
+      "provider": "TinyPNG",
+      "inputBytes": 92594,
+      "outputBytes": 30128,
+      "sha256": "145c61f0be2bc9179624fa452554a0398c80beb05a445776a7390db6eed6c4ef"
+    },
+    {
+      "path": "gallery/reference/09_master_bed.jpg",
+      "batch": "02",
+      "provider": "TinyPNG",
+      "inputBytes": 121553,
+      "outputBytes": 46054,
+      "sha256": "d92c33cb41c2a738b3d3ee894c5f4a34b64b79d719d5c61417d63853d87a9bd7"
+    },
+    {
+      "path": "gallery/reference/08_utility.jpg",
+      "batch": "02",
+      "provider": "TinyPNG",
+      "inputBytes": 92758,
+      "outputBytes": 23960,
+      "sha256": "11437ba755658d0bef29f641f1515f17a61bd5b849eb328b4ef0720e8a072003"
+    },
+    {
+      "path": "gallery/reference/07_kitchen.jpg",
+      "batch": "02",
+      "provider": "TinyPNG",
+      "inputBytes": 101072,
+      "outputBytes": 36570,
+      "sha256": "580c669f6822b523f0f4eee4f8803c6de96867df29e48467ff0a29cc410b0e1a"
+    },
+    {
+      "path": "gallery/reference/06_entry.jpg",
+      "batch": "02",
+      "provider": "TinyPNG",
+      "inputBytes": 91741,
+      "outputBytes": 28703,
+      "sha256": "3a6cf639940db1b56a05921814eb2f2db89ad2fceaf55b8336aeb8c332e495fa"
+    },
+    {
+      "path": "gallery/reference/05_terrace.jpg",
+      "batch": "02",
+      "provider": "TinyPNG",
+      "inputBytes": 109371,
+      "outputBytes": 25785,
+      "sha256": "65123ea7f38a6224a1831bafcdb9189581b1e80e80ec869b847c3e74f49b9a38"
+    },
+    {
+      "path": "gallery/reference/04_west_lounge.jpg",
+      "batch": "02",
+      "provider": "TinyPNG",
+      "inputBytes": 147986,
+      "outputBytes": 50561,
+      "sha256": "f98bc995d173d7cf45473a82490d412df2e01f80446d242ba7d0e59ecaca850f"
+    },
+    {
+      "path": "gallery/reference/03_study.jpg",
+      "batch": "02",
+      "provider": "TinyPNG",
+      "inputBytes": 169432,
+      "outputBytes": 62477,
+      "sha256": "1dbe539f77995b9fa0024beba9865be6ff11be615d53e4a19a214941f3396d9d"
+    },
+    {
+      "path": "gallery/reference/02_dining.jpg",
+      "batch": "02",
+      "provider": "TinyPNG",
+      "inputBytes": 146759,
+      "outputBytes": 57431,
+      "sha256": "a65cbbe03d47602cca9b96b43d3f61dd1a67f79c7176dc99789038422e958fd8"
+    },
+    {
+      "path": "floorplan.jpg",
+      "batch": "03",
+      "provider": "TinyPNG",
+      "inputBytes": 124212,
+      "outputBytes": 96729,
+      "sha256": "d18a4c8d949b4ce931f1b29fdda6c8c8a55108f64b4a992e471bbe9dd66a8312"
+    },
+    {
+      "path": "gallery/thumb/18_common_wash.jpg",
+      "batch": "03",
+      "provider": "TinyPNG",
+      "inputBytes": 28180,
+      "outputBytes": 23168,
+      "sha256": "3cdaea6f4499a161cf5974646e84f0b244d84d9340067f56b27a11199e23059c"
+    },
+    {
+      "path": "gallery/thumb/17_common_bath.jpg",
+      "batch": "03",
+      "provider": "TinyPNG",
+      "inputBytes": 29026,
+      "outputBytes": 23497,
+      "sha256": "a5c8f1f78ae44fff6a180342c212da86f697f6475ec7600d86bf97f15ef240d4"
+    },
+    {
+      "path": "gallery/thumb/15_master_bath.jpg",
+      "batch": "03",
+      "provider": "TinyPNG",
+      "inputBytes": 26719,
+      "outputBytes": 21357,
+      "sha256": "d6cbb7639e286167e04d5b7eb46492a528c7efd03f4e3a4d3090a54b93ed6e0f"
+    },
+    {
+      "path": "gallery/thumb/16_ne_bath.jpg",
+      "batch": "03",
+      "provider": "TinyPNG",
+      "inputBytes": 31318,
+      "outputBytes": 22076,
+      "sha256": "33acf45ec71c525d9e47080389576da0a4f145491379fc86bc675f3acee623ac"
+    },
+    {
+      "path": "gallery/thumb/13_south_bed.jpg",
+      "batch": "03",
+      "provider": "TinyPNG",
+      "inputBytes": 32338,
+      "outputBytes": 24475,
+      "sha256": "e4a36a84fb7403e51e8f4ce6a5a9a600311c797265c5bac96c802085d46d0898"
+    },
+    {
+      "path": "gallery/thumb/14_north_bed.jpg",
+      "batch": "03",
+      "provider": "TinyPNG",
+      "inputBytes": 37346,
+      "outputBytes": 30332,
+      "sha256": "cd3206eaa38efc286bd80ef14e2d7c5dd2eabaf4b7056b283b1d88fff4a56444"
+    },
+    {
+      "path": "gallery/thumb/12_ne_dressing.jpg",
+      "batch": "03",
+      "provider": "TinyPNG",
+      "inputBytes": 28301,
+      "outputBytes": 19927,
+      "sha256": "858dcd3dde5d717ea425f4a36eec4b69481d0a3efcebe172db0f52f09cc3730a"
+    },
+    {
+      "path": "gallery/thumb/11_ne_suite.jpg",
+      "batch": "03",
+      "provider": "TinyPNG",
+      "inputBytes": 43299,
+      "outputBytes": 36886,
+      "sha256": "38c994817f4f4d5e6037ba059c777c3c2b2129f0e875eec6f1f35e0bc0fc3c41"
+    },
+    {
+      "path": "gallery/thumb/10_master_dressing.jpg",
+      "batch": "03",
+      "provider": "TinyPNG",
+      "inputBytes": 24429,
+      "outputBytes": 15121,
+      "sha256": "ad57a64373ec65751bb2d96acd422c6927f31d89319dbd2e4239f4fce310088a"
+    },
+    {
+      "path": "gallery/thumb/09_master_bed.jpg",
+      "batch": "03",
+      "provider": "TinyPNG",
+      "inputBytes": 39282,
+      "outputBytes": 32041,
+      "sha256": "345b171b7eb9e99c1825b033c4f40b69eaf782736a37185e17e6448df7492a61"
+    },
+    {
+      "path": "gallery/thumb/08_utility.jpg",
+      "batch": "03",
+      "provider": "TinyPNG",
+      "inputBytes": 38335,
+      "outputBytes": 32261,
+      "sha256": "e01838df4ef66b831184d1220fd4595653611139a76f1c0907bb399c00d0cd23"
+    },
+    {
+      "path": "gallery/thumb/06_entry.jpg",
+      "batch": "03",
+      "provider": "TinyPNG",
+      "inputBytes": 32963,
+      "outputBytes": 26379,
+      "sha256": "f0ce7d74566b0959aeb1a6b58b22340cf811c0a1c01888dbed7405d790b67f62"
+    },
+    {
+      "path": "gallery/thumb/07_kitchen.jpg",
+      "batch": "03",
+      "provider": "TinyPNG",
+      "inputBytes": 30812,
+      "outputBytes": 21513,
+      "sha256": "aa62583717df5aec7964a1ea762b2dfff1e1c3c4657b2f3c293be7acd4402af7"
+    },
+    {
+      "path": "gallery/thumb/04_west_lounge.jpg",
+      "batch": "03",
+      "provider": "TinyPNG",
+      "inputBytes": 49895,
+      "outputBytes": 41374,
+      "sha256": "dc135298bf0dd61e2153c14b34cc078d4f5fb551e8032da647f3e8826e222021"
+    },
+    {
+      "path": "gallery/thumb/05_terrace.jpg",
+      "batch": "03",
+      "provider": "TinyPNG",
+      "inputBytes": 27740,
+      "outputBytes": 22680,
+      "sha256": "a8f5a7b7c5ed7ad7b93ca269da76eab5ae821e4953dfbef4f66274e379d61c9f"
+    },
+    {
+      "path": "panoramas/10_master_dressing.jpg",
+      "batch": "04",
+      "provider": "TinyPNG",
+      "inputBytes": 319333,
+      "outputBytes": 150974,
+      "sha256": "ec6bfa518b9cd12353ffbf384399775e413c6884485c73b8ce806bfff9ac5fe2"
+    },
+    {
+      "path": "panoramas/10_master_dressing-preview.jpg",
+      "batch": "04",
+      "provider": "TinyPNG",
+      "inputBytes": 71309,
+      "outputBytes": 27852,
+      "sha256": "9dc9b634d2c3f0eedacffd682b75443eb1e76d52f7370d90982cfa4bbb14eea6"
+    },
+    {
+      "path": "panoramas/09_master_bed.jpg",
+      "batch": "04",
+      "provider": "TinyPNG",
+      "inputBytes": 334619,
+      "outputBytes": 172701,
+      "sha256": "32c2241147b7463436ec2f259e69474da664ac5cda7b70c18a29b9f0f079694a"
+    },
+    {
+      "path": "panoramas/09_master_bed-preview.jpg",
+      "batch": "04",
+      "provider": "TinyPNG",
+      "inputBytes": 66880,
+      "outputBytes": 31508,
+      "sha256": "5f55625dcfc868213f9820cadad07edd686ceca08186cd2f5bbe98e50fc35dc3"
+    },
+    {
+      "path": "panoramas/08_utility-preview.jpg",
+      "batch": "04",
+      "provider": "TinyPNG",
+      "inputBytes": 85081,
+      "outputBytes": 36402,
+      "sha256": "f3fbd34d60cfd4afc44258aa02ff33d406194f5f485ece546378d0c3d4612525"
+    },
+    {
+      "path": "panoramas/08_utility.jpg",
+      "batch": "04",
+      "provider": "TinyPNG",
+      "inputBytes": 370671,
+      "outputBytes": 179291,
+      "sha256": "11b235fced3e1ddb4b1ad1a3db2d5ef0eeb4dd01ea542fe41f3b04023a4aba97"
+    },
+    {
+      "path": "panoramas/07_kitchen.jpg",
+      "batch": "04",
+      "provider": "TinyPNG",
+      "inputBytes": 351300,
+      "outputBytes": 177232,
+      "sha256": "7ef4f170aa382e100091fa4a52475e4eda1f16596b016bd4324450e347f3d3ad"
+    },
+    {
+      "path": "panoramas/07_kitchen-preview.jpg",
+      "batch": "04",
+      "provider": "TinyPNG",
+      "inputBytes": 82315,
+      "outputBytes": 37227,
+      "sha256": "4d9ff74c48e0f57d7334565f25dd7abad9f2a9981ccbaa3f7607b5c70d85c154"
+    },
+    {
+      "path": "panoramas/06_entry.jpg",
+      "batch": "04",
+      "provider": "TinyPNG",
+      "inputBytes": 397836,
+      "outputBytes": 250691,
+      "sha256": "574d35c23c375668c307237be59f118196e4951faef8d2d7ea02effb3b0716f9"
+    },
+    {
+      "path": "panoramas/06_entry-preview.jpg",
+      "batch": "04",
+      "provider": "TinyPNG",
+      "inputBytes": 84277,
+      "outputBytes": 48496,
+      "sha256": "14981b167c04913a9dd494b8e7957cb224c1db440870635cdbd0e9af516f1a7f"
+    },
+    {
+      "path": "panoramas/05_terrace.jpg",
+      "batch": "04",
+      "provider": "TinyPNG",
+      "inputBytes": 473128,
+      "outputBytes": 246765,
+      "sha256": "06a1100f3606237faed3159920517a4b7297a7f77ccd4ee68800a8b2ba975a91"
+    },
+    {
+      "path": "panoramas/05_terrace-preview.jpg",
+      "batch": "04",
+      "provider": "TinyPNG",
+      "inputBytes": 114883,
+      "outputBytes": 54456,
+      "sha256": "9ab5103e5310ca12c2dbd13ef3954518cdb995ed8910afe282c26eaca89e4dca"
+    },
+    {
+      "path": "panoramas/04_west_lounge.jpg",
+      "batch": "04",
+      "provider": "TinyPNG",
+      "inputBytes": 369633,
+      "outputBytes": 185934,
+      "sha256": "5bad9dbea5bbf880e43ed09ca71465774d9081e2aad97e7de50426a358dbdf5d"
+    },
+    {
+      "path": "panoramas/04_west_lounge-preview.jpg",
+      "batch": "04",
+      "provider": "TinyPNG",
+      "inputBytes": 83582,
+      "outputBytes": 38483,
+      "sha256": "84868b0800f51232a12dd91c4dadd5a22195652a5d88f63bed220c660f5e2c6f"
+    },
+    {
+      "path": "panoramas/03_study-preview.jpg",
+      "batch": "04",
+      "provider": "TinyPNG",
+      "inputBytes": 86492,
+      "outputBytes": 40126,
+      "sha256": "e432244a5342e1f453fb8bbb1edf0b2d183fec92cff9e266f8c528c355aeedad"
+    },
+    {
+      "path": "panoramas/03_study.jpg",
+      "batch": "04",
+      "provider": "TinyPNG",
+      "inputBytes": 385674,
+      "outputBytes": 216966,
+      "sha256": "db6387cbb02ff0514f9e44ca53083833c1ed4ba02f70214b523f796e5367d78a"
+    },
+    {
+      "path": "panoramas/02_dining.jpg",
+      "batch": "04",
+      "provider": "TinyPNG",
+      "inputBytes": 358324,
+      "outputBytes": 197075,
+      "sha256": "f4ac9680d0122bed8d0709dff478dfe2d77e3a1f9e9574a5be5f8f0bdfcc617b"
+    },
+    {
+      "path": "panoramas/02_dining-preview.jpg",
+      "batch": "04",
+      "provider": "TinyPNG",
+      "inputBytes": 81544,
+      "outputBytes": 35970,
+      "sha256": "204a44a8b921d3ee55536854d176a7dc9aa41fd3a1e63ca1eb356fa43a45802a"
+    },
+    {
+      "path": "panoramas/01_living.jpg",
+      "batch": "04",
+      "provider": "TinyPNG",
+      "inputBytes": 324773,
+      "outputBytes": 173842,
+      "sha256": "794318690357158a1c90a40998115691b453b600ef8b41520b1aa0a621b108b3"
+    },
+    {
+      "path": "panoramas/01_living-preview.jpg",
+      "batch": "04",
+      "provider": "TinyPNG",
+      "inputBytes": 73431,
+      "outputBytes": 32800,
+      "sha256": "647c562b0db66d2693df8cd52450991b23a483863863c8c771ca0372b3e84fe8"
+    },
+    {
+      "path": "panoramas/18_common_wash.jpg",
+      "batch": "05",
+      "provider": "TinyPNG",
+      "inputBytes": 372791,
+      "outputBytes": 208090,
+      "sha256": "44c9dacb95e6124179a2f06dc4dfdc085718d092c1d18017bd451273d57bbdfb"
+    },
+    {
+      "path": "panoramas/18_common_wash-preview.jpg",
+      "batch": "05",
+      "provider": "TinyPNG",
+      "inputBytes": 81470,
+      "outputBytes": 38960,
+      "sha256": "58e3fd9c43a740c880eef8268c11d61b849d1ae453216fef22f23323f85d72ed"
+    },
+    {
+      "path": "panoramas/17_common_bath.jpg",
+      "batch": "05",
+      "provider": "TinyPNG",
+      "inputBytes": 363487,
+      "outputBytes": 191086,
+      "sha256": "de911a83a43181cb17e46cc6ed640a69677942b6e385edafc13919161ee0c055"
+    },
+    {
+      "path": "panoramas/17_common_bath-preview.jpg",
+      "batch": "05",
+      "provider": "TinyPNG",
+      "inputBytes": 73315,
+      "outputBytes": 35355,
+      "sha256": "29d8701d025be1acab58b0c26e0f2d21911eb5da0fdbbd5cf074e38a4c3176f9"
+    },
+    {
+      "path": "panoramas/16_ne_bath-preview.jpg",
+      "batch": "05",
+      "provider": "TinyPNG",
+      "inputBytes": 86602,
+      "outputBytes": 40029,
+      "sha256": "8823f42d12720274c993f1ae8678d105afe974b75de90a7b49a90f576bfb39f7"
+    },
+    {
+      "path": "panoramas/16_ne_bath.jpg",
+      "batch": "05",
+      "provider": "TinyPNG",
+      "inputBytes": 388944,
+      "outputBytes": 216916,
+      "sha256": "94763af56424e0e49d9dd0459ea30493f9ff395b8962d3c656c793f174d3b233"
+    },
+    {
+      "path": "panoramas/15_master_bath.jpg",
+      "batch": "06",
+      "provider": "TinyPNG",
+      "inputBytes": 239918,
+      "outputBytes": 152455,
+      "sha256": "a0bdd28063e330d756d397b073b85ecdd9ce8bcf6e9ca5d956a3ae9f64996528"
+    },
+    {
+      "path": "panoramas/15_master_bath-preview.jpg",
+      "batch": "06",
+      "provider": "TinyPNG",
+      "inputBytes": 52167,
+      "outputBytes": 29135,
+      "sha256": "83c39a2cb3c90b7d18c91062df532509e8df922ce2dafd3491a9af7211947537"
+    },
+    {
+      "path": "panoramas/14_north_bed-preview.jpg",
+      "batch": "05",
+      "provider": "TinyPNG",
+      "inputBytes": 77881,
+      "outputBytes": 27996,
+      "sha256": "9c392c379f91699ac40794d831ae5b3da467afb5ed887f60d6e871a41279263a"
+    },
+    {
+      "path": "panoramas/14_north_bed.jpg",
+      "batch": "05",
+      "provider": "TinyPNG",
+      "inputBytes": 354896,
+      "outputBytes": 165667,
+      "sha256": "ba651d10ea78aba7401901b15ec698586d681407755b3d1e31eb202cc0628057"
+    },
+    {
+      "path": "panoramas/13_south_bed.jpg",
+      "batch": "05",
+      "provider": "TinyPNG",
+      "inputBytes": 393814,
+      "outputBytes": 196792,
+      "sha256": "2ad79a27480faf7abe96d4bcc2dd1034a7f10c3fd4c9fe08ab450b5e51c0baae"
+    },
+    {
+      "path": "panoramas/13_south_bed-preview.jpg",
+      "batch": "05",
+      "provider": "TinyPNG",
+      "inputBytes": 91896,
+      "outputBytes": 36632,
+      "sha256": "3a785bf4383dd589d5119a52aa0b1d9a7acbd31c262cde10dc059b9abad2e3b2"
+    },
+    {
+      "path": "panoramas/12_ne_dressing.jpg",
+      "batch": "05",
+      "provider": "TinyPNG",
+      "inputBytes": 316974,
+      "outputBytes": 131551,
+      "sha256": "e5dea3edc35dba6f5761c2fac6472ead72a56393e0da3095c1f66e21c5e2fb7e"
+    },
+    {
+      "path": "panoramas/12_ne_dressing-preview.jpg",
+      "batch": "05",
+      "provider": "TinyPNG",
+      "inputBytes": 72468,
+      "outputBytes": 28785,
+      "sha256": "a8159f6069818d9b459a4f44b09a95c1ce118ebc89183d621f005775497ab176"
+    },
+    {
+      "path": "panoramas/11_ne_suite.jpg",
+      "batch": "05",
+      "provider": "TinyPNG",
+      "inputBytes": 352319,
+      "outputBytes": 169093,
+      "sha256": "673ee8f19a01a31d409ccdbc8a2ddce3026e044b0594b9707a0128819db79c95"
+    },
+    {
+      "path": "panoramas/11_ne_suite-preview.jpg",
+      "batch": "05",
+      "provider": "TinyPNG",
+      "inputBytes": 78004,
+      "outputBytes": 34687,
+      "sha256": "903da7e5ff397927baa62a37624f4dae1d9fe6c1fc1ad28087cc8ecedfc4f0b4"
+    }
+  ]
+}
