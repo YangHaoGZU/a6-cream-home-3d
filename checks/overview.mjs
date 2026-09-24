@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 import { build } from 'esbuild';
 import * as THREE from 'three';
 const result=await build({stdin:{contents:"export * from './lib/overview-model'; export * from './lib/overview-gesture'; export * from './lib/panorama-data'; export * from './lib/overview-markers'; export * from './lib/navigation';",resolveDir:process.cwd()},bundle:true,platform:'node',format:'esm',write:false});
-const {buildOverviewModel,OverviewTap,panoramaPoints,separateMarkers,fittedCameraDistance}=await import('data:text/javascript;base64,'+Buffer.from(result.outputFiles[0].text).toString('base64'));
+const {buildOverviewModel,OverviewTap,panoramaPoints,separateMarkers,fittedOverviewDistance}=await import('data:text/javascript;base64,'+Buffer.from(result.outputFiles[0].text).toString('base64'));
 const start=performance.now();const model=buildOverviewModel();const elapsed=performance.now()-start;
 assert.ok(model.userData.triangles<12000,'Overview triangle budget exceeded');
 assert.ok(model.children.length<=12,'Overview draw-call budget exceeded');
@@ -17,7 +17,7 @@ for(const object of model.children){
  const box=geometry.boundingBox;maxX=Math.max(maxX,box.max.x);maxZ=Math.max(maxZ,box.max.z);minX=Math.min(minX,box.min.x);minZ=Math.min(minZ,box.min.z);
 }
 assert.ok(maxX<16.7&&maxX>16.4&&maxZ<18&&maxZ>17.8&&minX>-.2&&minZ>-.2,'Floor-plan bounds changed');
-assert.equal(panoramaPoints.length,24);
+assert.equal(panoramaPoints.length,18);
 const tap=new OverviewTap();let t=0;
 const begin=(id=1,x=0,y=0,target='living-entry',touch=false,button=0)=>tap.begin(id,x,y,t,target,touch,button);
 const end=(id=1,x=0,y=0,target='living-entry')=>tap.end(id,x,y,t+100,target);
@@ -40,15 +40,15 @@ separateMarkers(crowded,296,430);
 for(let i=0;i<crowded.length;i++)for(let j=i+1;j<crowded.length;j++)assert.ok(Math.hypot(crowded[i].x-crowded[j].x,crowded[i].y-crowded[j].y)>30,'Marker hit areas overlap');
 for (const [width,height] of [[296,430],[351,540],[716,270],[1280,650]]) {
   const camera=new THREE.PerspectiveCamera(46,width/height,.1,250),target=new THREE.Vector3(8.2,.2,8.9);
-  camera.position.copy(target).add(new THREE.Vector3(19.4,23,22.1).normalize().multiplyScalar(fittedCameraDistance('overview',width/height)));
+  camera.position.copy(target).add(new THREE.Vector3(19.4,23,22.1).normalize().multiplyScalar(fittedOverviewDistance(width/height)));
   camera.lookAt(target);camera.updateMatrixWorld();
   const projected=panoramaPoints.map(p=>{const v=new THREE.Vector3(p.position[0],1.35,p.position[1]).project(camera);const x=(v.x+1)*width/2,y=(1-v.y)*height/2;return {id:p.id,x,y,anchorX:x,anchorY:y,visible:Math.abs(v.x)<.96&&Math.abs(v.y)<.95};});
   separateMarkers(projected,width,height);
-  assert.ok(projected.every(p=>p.visible),'All 24 points fit '+width+'x'+height);
+  assert.ok(projected.every(p=>p.visible),'All 18 points fit '+width+'x'+height);
   for(let i=0;i<projected.length;i++)for(let j=i+1;j<projected.length;j++)assert.ok(Math.hypot(projected[i].x-projected[j].x,projected[i].y-projected[j].y)>30,'Point spacing '+width+'x'+height);
 }
 const source=await fs.readFile('app/tour.tsx','utf8');
-assert.equal((source.match(/<TabsTrigger /g)||[]).length,2);
+assert.equal((source.match(/<TabsTrigger /g)||[]).length,3);
 assert.ok(!source.includes('@/lib/scene'));
 assert.ok(!source.includes('value="walk"')&&!source.includes('value="plan"'));
 const overviewSource=await fs.readFile('lib/overview.ts','utf8');

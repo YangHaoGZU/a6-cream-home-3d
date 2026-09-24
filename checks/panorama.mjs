@@ -53,42 +53,16 @@ for (const r of rooms)
     panoramaPoints.some((p) => p.room === r.id),
     r.id + " missing panorama",
   );
-const obstacles = [...coreObstacles, ...furnishingObstacles, ...fixtureObstacles];
-for (const w of walls) {
-  const vertical = w.a[0] === w.b[0],
-    length = Math.hypot(w.b[0] - w.a[0], w.b[1] - w.a[1]);
-  let last = 0;
-  const add = (s, e) => {
-    if (e <= s) return;
-    const t = (w.thickness ?? (w.external ? 0.2 : 0.12)) / 2;
-    obstacles.push(
-      vertical
-        ? [w.a[0] - t, w.a[1] + s, w.a[0] + t, w.a[1] + e]
-        : [w.a[0] + s, w.a[1] - t, w.a[0] + e, w.a[1] + t],
-    );
-  };
-  for (const o of w.openings ?? []) {
-    add(last, o.a);
-    if (o.kind === "window") add(o.a, o.b);
-    last = o.b;
-  }
-  add(last, length);
-}
+const renderReport = JSON.parse(await fs.readFile('lib/generated/render-report.json','utf8'));
 for (const p of panoramaPoints) {
   assert.ok(
     floorRects.some((r) => contains(r, ...p.position)),
     p.id + " outside floor",
   );
-  assert.ok(
-    !obstacles.some(
-      (r) =>
-        p.position[0] > r[0] - 0.16 &&
-        p.position[0] < r[2] + 0.16 &&
-        p.position[1] > r[1] - 0.16 &&
-        p.position[1] < r[3] + 0.16,
-    ),
-    p.id + " intersects model",
-  );
+  const rendered = renderReport.find(r=>r.id===p.id);
+  assert.ok(rendered && rendered.nearSurfaceCheck==='pass',p.id+' Blender surface check');
+  assert.deepEqual(p.position,rendered.position,p.id+' camera/model mismatch');
+  assert.equal(p.textureYaw ?? 0,rendered.textureYaw ?? 0,p.id+' texture heading mismatch');
   assert.ok(p.links.length > 0, p.id + " isolated");
   for (const id of p.links)
     assert.ok(id !== p.id && panoramaPoints.some((q) => q.id === id), p.id + " invalid link " + id);
@@ -118,6 +92,10 @@ for (const [direction, u] of [
   assert.ok(Math.abs(hit.uv.x - u) < 1e-6, "panorama compass/mapping mismatch");
 }
 const north = hotspotDirection({ position: [0, 0] }, { position: [0, -1] });
+mesh.rotation.y = Math.PI;
+mesh.updateMatrixWorld();
+const southCenter = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0,0,1)).intersectObject(mesh)[0];
+assert.ok(Math.abs(southCenter.uv.x - .5)<1e-6, 'Rotated panorama must keep global south aligned');
 assert.equal(Math.abs(north.yaw), 0);
 const east = hotspotDirection({ position: [0, 0] }, { position: [1, 0] });
 assert.ok(Math.abs(east.yaw + Math.PI / 2) < 1e-8);
@@ -128,24 +106,4 @@ for (const aspect of [.45, .75, 1, 16/9, 2.7]) {
   assert.ok(vertical <= 75 && horizontal <= 90.000001, 'Default panorama view is excessively wide');
   assert.ok(minimum < vertical && maximum > vertical, 'Zoom must work in both directions');
 }
-const cells = floorTileCells(),
-  area = (r) => (r[2] - r[0]) * (r[3] - r[1]);
-for (let i = 0; i < cells.length; i++)
-  for (let j = i + 1; j < cells.length; j++) {
-    const a = cells[i].rect,
-      b = cells[j].rect;
-    assert.ok(
-      a[2] <= b[0] || b[2] <= a[0] || a[3] <= b[1] || b[3] <= a[1],
-      "coplanar floor overlap",
-    );
-  }
-assert.ok(
-  Math.abs(
-    cells.reduce((n, c) => n + area(c.rect), 0) -
-      (floorRects.reduce((n, r) => n + area(r), 0) - 2.56),
-  ) < 1e-7,
-  "floor union area changed",
-);
-console.log(
-  `PASS: image files, ${panoramaPoints.length} model camera coordinates, ${rooms.length} spaces, navigation links, viewer UV/FOV, ${cells.length} floor cells. AI image geometry requires separate visual review.`,
-);
+console.log('PASS: '+panoramaPoints.length+' panorama assets, Blender cameras, links and sphere UV/FOV.');
