@@ -26,3 +26,6 @@ export class LookPointer {
     this.id = null;
   }
 }
+
+// The exported overview is sectioned at 1.2m; widen it on landscape screens.
+export function fittedOverviewDistance(aspect:number){return fittedCameraDistance("overview",aspect)*(aspect>1.2?.82:1);}

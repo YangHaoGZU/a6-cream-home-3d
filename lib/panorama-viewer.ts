@@ -22,7 +22,8 @@ export function createPanoramaViewer(host: HTMLElement, onDraw: () => void, hots
   geometry.scale(-1, 1, 1);
   geometry.rotateY(-Math.PI / 2);
   const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
-  scene.add(new THREE.Mesh(geometry, material));
+  const sphere = new THREE.Mesh(geometry, material);
+  scene.add(sphere);
   scene.background = new THREE.Color("#e8e2d7");
   let yaw = 0,
     pitch = 0,
@@ -161,6 +162,7 @@ export function createPanoramaViewer(host: HTMLElement, onDraw: () => void, hots
       pointers.clear();
       tap.reset();
       startYaw = yaw = point.yaw;
+      sphere.rotation.y = point.textureYaw ?? 0;
       pitch = 0;
       changeFov(panoramaDefaultFov(camera.aspect));
       // Keep a neutral canvas until this location's preview arrives; never label the previous room as the new one.

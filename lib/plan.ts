@@ -1,32 +1,322 @@
 // Metres: x east, z south, y up. Labelled dimension chains are exact transcriptions.
-export const DIMENSIONS = { width:15.2, westLength:17.8, eastLength:16.7, height:3, terraceHeight:6,
+export const DIMENSIONS = { width:15.2, westLength:17.8, eastLength:16.4, height:3, terraceHeight:6,
  northChain:[2.1,1.9,3,3.2,3.3,1.7], southChain:[4,3.2,1.8,4.1,2.1],
- westChain:[1.4,3.6,7.8,5], eastChain:[1.4,.9,2.6,1.7,5,1.8,2.7,.6] };
+ westChain:[1.4,3.6,7.8,5], eastChain:[1.4,.6,2.6,1.7,5,1.8,2.7,.6] };
 export type Rect = [number,number,number,number];
 export type Room = {id:string;name:string;rect:Rect;height:number;position:[number,number];yaw:number;note:string;outdoor?:boolean};
 export const rooms:Room[] = [
- {id:'living',name:'客厅',rect:[2.1,7.6,8.6,12.8],height:3,position:[7.15,10.45],yaw:2.1,note:'电视置于南侧实墙，米白亚麻沙发朝南，搭配浅石色茶几。'},
- {id:'dining',name:'餐厅',rect:[2.1,5,8.6,7.6],height:3,position:[3.1,6.4],yaw:-1.57,note:'浅木色餐桌、六把藤编餐椅与餐边柜，北接厨房。'},
- {id:'kitchen',name:'厨房',rect:[4,1.4,7,5],height:3,position:[5.5,3.4],yaw:0,note:'图示开间 3m；保留北侧生活阳台通道。'},
- {id:'balcony',name:'长阳台',rect:[0,5,2.1,12.8],height:3,position:[1.05,8.6],yaw:Math.PI,note:'西侧 7.8m 长段，层高 3m，防滑瓷砖。',outdoor:true},
- {id:'terrace',name:'挑空阳台',rect:[0,12.8,4,17.8],height:6,position:[2.9,14],yaw:.6,note:'4×5m、层高 6m；遮阳伞、木制桌椅与绿植。',outdoor:true},
- {id:'master',name:'主卧',rect:[9,11.6,15.2,16.7],height:3,position:[10.1,14.25],yaw:-1.95,note:'按房开图将床头靠东，北侧设 L 形衣帽间；地面保持瓷砖。'},
- {id:'entry',name:'玄关',rect:[7.2,8.9,8.6,11.6],height:3,position:[7.8,9.65],yaw:Math.PI/2,note:'东侧入户，面向客厅；大门与电梯厅相通。'},
- {id:'south',name:'南次卧',rect:[4,12.8,7.2,16.7],height:3,position:[6.65,14.05],yaw:2,note:'床头靠西，衣柜沿北墙布置；保留朝向公卫过道的东向门。'},
- {id:'north',name:'北次卧',rect:[7,1.4,10.2,5],height:3,position:[9.65,4.35],yaw:.85,note:'床头靠西，衣柜沿南墙布置，留出东南侧进门通道。'},
- {id:'suite',name:'北套房',rect:[10.2,1.4,15.2,6.6],height:3,position:[10.65,4.5],yaw:-.95,note:'床头靠东，南侧按图设置 L 形衣帽区及独立卫生间。'},
- {id:'bath1',name:'北卫',rect:[13.5,2.3,15.2,4.9],height:3,position:[14.4,4.5],yaw:0,note:'浴室柜、镜柜、智能马桶及玻璃淋浴隔断。'},
- {id:'bath2',name:'公卫',rect:[7.2,14.25,9,16.7],height:3,position:[8.15,14.6],yaw:Math.PI,note:'浅灰墙地砖、洗手台、智能马桶与独立淋浴区。'},
- {id:'bath3',name:'主卫',rect:[13.1,13.4,15.2,16.7],height:3,position:[13.65,14.4],yaw:-2.3,note:'浴室柜、背光镜、智能马桶、淋浴区与独立浴缸。'},
- {id:'utility',name:'生活阳台',rect:[4,0,7,1.4],height:3,position:[5.5,.7],yaw:0,note:'北侧进深 1.4m，层高 3m。',outdoor:true},
- {id:'lobby',name:'电梯厅',rect:[8.6,8.95,11.8,11.6],height:3,position:[10.65,10.55],yaw:1.4,note:'电梯正对厅内，西侧入户；大门南边增设白色鞋柜。'},
- {id:'hall',name:'公共走廊',rect:[11.8,10.22,16.4,11.6],height:3,position:[14.35,10.88],yaw:Math.PI/2,note:'北侧设备井门，走廊东端实墙封闭，西接电梯厅。'},
- {id:'stairs',name:'步梯',rect:[11.8,6.6,16.4,9.4],height:3,position:[12.3,8.7],yaw:-Math.PI/2,note:'双跑楼梯、休息平台与金属扶手；每层高差 3m，可沿踏步行走。'},
- {id:'lift',name:'电梯',rect:[8.6,6.6,10.85,8.95],height:3,position:[9.72,7.85],yaw:Math.PI,note:'20 层电梯轿厢，配金属门套、按钮面板与层显。'},
+  {
+    "id": "living",
+    "name": "客厅与南墙电视",
+    "rect": [
+      2.1,
+      8.8,
+      8.8,
+      12.8
+    ],
+    "height": 3,
+    "position": [
+      7.8,
+      8.65
+    ],
+    "yaw": 2.411256885566015,
+    "note": "南墙电视，沙发朝南；保留窗边单椅，茶几西侧留空。"
+  },
+  {
+    "id": "dining",
+    "name": "餐厅与宽厨房入口",
+    "rect": [
+      4,
+      5,
+      8.8,
+      8.8
+    ],
+    "height": 3,
+    "position": [
+      6.5,
+      8.72
+    ],
+    "yaw": 0.6480282408431547,
+    "note": "六人餐桌，厨房居中扩大开口，通道保持通畅。"
+  },
+  {
+    "id": "study",
+    "name": "开放书房",
+    "rect": [
+      0,
+      5,
+      4,
+      8.5
+    ],
+    "height": 3,
+    "position": [
+      3.45,
+      8.5
+    ],
+    "yaw": 0.547284380987437,
+    "note": "北侧实墙设2.6m书柜，柜前1.8×0.75m独立书桌。"
+  },
+  {
+    "id": "balcony",
+    "name": "西侧阳台休闲区",
+    "rect": [
+      0,
+      8.5,
+      2.1,
+      12.8
+    ],
+    "height": 3,
+    "position": [
+      2.62,
+      8.5
+    ],
+    "yaw": 2.5785115755365746,
+    "note": "并入室内公共区，南侧可通往挑空庭院。"
+  },
+  {
+    "id": "terrace",
+    "name": "6米挑空庭院",
+    "rect": [
+      0,
+      12.8,
+      4,
+      17.8
+    ],
+    "height": 6,
+    "position": [
+      0.3,
+      13.15
+    ],
+    "yaw": -2.4410962836420667,
+    "note": "4×5m，层高6m；保留与客厅之间的玻璃隔断。",
+    "outdoor": true
+  },
+  {
+    "id": "entry",
+    "name": "玄关及卧室通道",
+    "rect": [
+      7.2,
+      8.8,
+      8.8,
+      12.8
+    ],
+    "height": 3,
+    "position": [
+      6.38,
+      10.25
+    ],
+    "yaw": -0.9817996877894449,
+    "note": "东侧入户与鞋柜，连接南北卧室及公共空间。"
+  },
+  {
+    "id": "kitchen",
+    "name": "厨房",
+    "rect": [
+      4,
+      1.4,
+      7,
+      5
+    ],
+    "height": 3,
+    "position": [
+      5.5,
+      5.66
+    ],
+    "yaw": -0.0,
+    "note": "3×3.6m标注范围；1.8m入口，两侧橱柜，中间约1.5m过道。"
+  },
+  {
+    "id": "utility",
+    "name": "生活阳台洗烘区",
+    "rect": [
+      4,
+      0,
+      7,
+      1.4
+    ],
+    "height": 3,
+    "position": [
+      5.7,
+      1.15
+    ],
+    "yaw": 1.1441688336680205,
+    "note": "3×1.4m，洗烘叠放、浅储物柜与折叠台。"
+  },
+  {
+    "id": "master",
+    "name": "东南主卧",
+    "rect": [
+      9,
+      13.1,
+      13.1,
+      16.4
+    ],
+    "height": 3,
+    "position": [
+      9.38,
+      13.5
+    ],
+    "yaw": -1.9720251257997454,
+    "note": "床垫1.8×2m，浅橡木床架，南侧落地窗边空间计入室内。"
+  },
+  {
+    "id": "master-dressing",
+    "name": "主卧衣帽区",
+    "rect": [
+      9,
+      11.3,
+      15.2,
+      13.1
+    ],
+    "height": 3,
+    "position": [
+      11.02,
+      13.05
+    ],
+    "yaw": -1.0534030591317967,
+    "note": "北侧定制衣柜，连接主卧与独立主卫。"
+  },
+  {
+    "id": "suite",
+    "name": "东北套房床区",
+    "rect": [
+      10.2,
+      1.4,
+      13.5,
+      4.6
+    ],
+    "height": 3,
+    "position": [
+      10.55,
+      4.75
+    ],
+    "yaw": -0.760403369778528,
+    "note": "床垫1.8×2m，北侧落地空间与室内齐平。"
+  },
+  {
+    "id": "suite-dressing",
+    "name": "东北套房衣帽区",
+    "rect": [
+      10.2,
+      4.6,
+      15.2,
+      6.3
+    ],
+    "height": 3,
+    "position": [
+      10.65,
+      4.92
+    ],
+    "yaw": -1.788350445928905,
+    "note": "与东北卧室连通的定制衣柜及套卫入口。"
+  },
+  {
+    "id": "south",
+    "name": "南侧次卧",
+    "rect": [
+      4,
+      12.8,
+      7.2,
+      16.4
+    ],
+    "height": 3,
+    "position": [
+      6.08,
+      16.04
+    ],
+    "yaw": 0.11425432796143965,
+    "note": "床垫1.5×2m；门在东侧公共洗手区入口，向内靠北墙开启。"
+  },
+  {
+    "id": "north",
+    "name": "北侧次卧",
+    "rect": [
+      7,
+      1.4,
+      10.2,
+      5
+    ],
+    "height": 3,
+    "position": [
+      7.45,
+      1.92
+    ],
+    "yaw": -2.6042265789442336,
+    "note": "床垫1.5×2m；北侧落地窗边带计入可用空间。"
+  },
+  {
+    "id": "bath3",
+    "name": "主卫生间",
+    "rect": [
+      13.1,
+      13.1,
+      15.2,
+      15.8
+    ],
+    "height": 3,
+    "position": [
+      13.57,
+      13.36
+    ],
+    "yaw": -2.8405288029729956,
+    "note": "2.1×2.7m标注范围；马桶水箱背靠西墙、向东摆放。"
+  },
+  {
+    "id": "bath1",
+    "name": "东北套卫",
+    "rect": [
+      13.5,
+      2,
+      15.2,
+      4.6
+    ],
+    "height": 3,
+    "position": [
+      14.53,
+      4.36
+    ],
+    "yaw": 0.1179336000300519,
+    "note": "1.7×2.6m标注范围；马桶水箱背靠西墙、向东摆放。"
+  },
+  {
+    "id": "bath2",
+    "name": "公共卫生间",
+    "rect": [
+      7.2,
+      13.9,
+      9,
+      16.4
+    ],
+    "height": 3,
+    "position": [
+      7.62,
+      14.15
+    ],
+    "yaw": -2.743964662067664,
+    "note": "1.8×2.5m标注范围；玻璃淋浴隔断。"
+  },
+  {
+    "id": "wash",
+    "name": "公共洗手区与南次卧入口",
+    "rect": [
+      7.2,
+      12.8,
+      9,
+      13.9
+    ],
+    "height": 3,
+    "position": [
+      7.65,
+      11.95
+    ],
+    "yaw": -2.7696750223390127,
+    "note": "外置洗手台，连接南次卧和公共卫生间。"
+  }
 ];
-export const floorRects:Rect[] = [[4,0,7,5],[7,1.4,13.5,5],[13.5,2.3,15.2,6.6],[7,5,13.5,6.6],[0,5,8.6,11.6],[0,11.6,15.2,12.8],[0,12.8,4,17.8],[4,12.8,15.2,16.7],[8.6,6.6,16.4,11.6]];
+export const floorRects:Rect[] = [[4,0,7,5],[7,1.4,13.5,5],[13.5,2,15.2,6.3],[7,5,13.5,6.3],[0,5,8.8,12.8],[8.8,11.3,15.2,12.8],[0,12.8,4,17.8],[4,12.8,13.1,16.4],[13.1,12.8,15.2,15.8]];
 export type Opening = {a:number;b:number;bottom:number;top:number;kind:'door'|'window'};
 export type Wall = {a:[number,number];b:[number,number];height?:number;thickness?:number;openings?:Opening[];external?:boolean};
+// Legacy walkthrough definitions; active overview uses the exported Blender mesh.
 // Unlabelled wall thickness, door/window widths and partition positions are proportional estimates.
 const door=(a:number,b:number):Opening=>({a,b,bottom:0,top:2.35,kind:'door'});
 const win=(a:number,b:number,bottom=.65,top=2.65):Opening=>({a,b,bottom,top,kind:'window'});

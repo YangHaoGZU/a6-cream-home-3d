@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { buildOverviewModel } from './overview-model';
 import { OverviewTap } from './overview-gesture';
 import { panoramaPoints } from './panorama-data';
-import { fittedCameraDistance } from './navigation';
+import { fittedOverviewDistance } from './navigation';
 import { floorElevation } from './plan';
 import { separateMarkers, type ProjectedPoint } from './overview-markers';
 export type { ProjectedPoint } from './overview-markers';
@@ -48,7 +48,7 @@ export function createOverview(host:HTMLElement, onProject:(points:ProjectedPoin
   const invalidate=()=>{if(!frame&&!disposed)frame=requestAnimationFrame(draw);};
   const reset=()=>{
     focusedId=null;controls.target.set(8.2,.2,8.9);
-    camera.position.copy(controls.target).add(new THREE.Vector3(19.4,23,22.1).normalize().multiplyScalar(fittedCameraDistance('overview',camera.aspect)));
+    camera.position.copy(controls.target).add(new THREE.Vector3(19.4,23,22.1).normalize().multiplyScalar(fittedOverviewDistance(camera.aspect)));
     controls.update();invalidate();
   };
   const focus=(id:string)=>{
