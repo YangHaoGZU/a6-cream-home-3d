@@ -1,0 +1,14 @@
+{
+  "revision": "nordic-r02",
+  "sourceSHA256": "bcd3a2daa0ec4f687aaf98ac2db9c27037cc57ff7a195a2ca39e25ae962b6190",
+  "coordinateSystem": "x east, y up, z south; metres",
+  "quantization": 1000,
+  "triangles": 7790,
+  "sourceBaseTriangles": 20708,
+  "drawCalls": 11,
+  "wallSectionHeight": 1.2,
+  "actualRoomHeight": 3,
+  "actualTerraceHeight": 6,
+  "omittedObjects": 763,
+  "sourceObjectsKept": 463
+}

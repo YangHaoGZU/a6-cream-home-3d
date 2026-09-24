@@ -1,0 +1,884 @@
+{
+  "units": "metres",
+  "axes": "x east; y plan south stored as Blender -Y; z up",
+  "assumptions": [
+    "Plan chains used as nominal control lines; 120mm partition proxy is not verified construction.",
+    "3m storey represented with ceiling underside 2.85m; 6m terrace underside 5.85m, assuming 150mm slab.",
+    "All glazing heights, fixtures, wall thicknesses and exact door heights are assumptions.",
+    "Kitchen 1.8m opening is proposed, structure and actual net opening unverified.",
+    "Master bath uses 2.1x2.7m nominal block; unconfirmed south bathroom window strip is excluded from usable floor.",
+    "Outside view is generic sky, not a verified Guiyang building view.",
+    "No structural removal is certified by this model."
+  ],
+  "user_confirmed": [
+    "Four bedrooms",
+    "Four bedroom 0.6m strips are flush usable floor",
+    "Study north boundary is solid wall",
+    "SW bedroom east-side entry",
+    "South TV wall",
+    "West balcony joins living",
+    "Terrace glass retained; west access retained",
+    "SW terrace 6m high; other areas 3m storey",
+    "Master and NE toilets backed against a wall",
+    "Remove living tea-table west chair; retain west-window chair"
+  ],
+  "furniture": [
+    {
+      "name": "Sofa footprint",
+      "xy_m": [
+        4,
+        9.15
+      ],
+      "size_m": [
+        3.1,
+        0.96,
+        0.29
+      ],
+      "z_m": 0.16,
+      "category": "sofa"
+    },
+    {
+      "name": "Coffee table 1.1m",
+      "xy_m": [
+        5,
+        10.56
+      ],
+      "size_m": [
+        1.1,
+        0.62,
+        0.045
+      ],
+      "z_m": 0.315,
+      "category": "table"
+    },
+    {
+      "name": "TV low cabinet",
+      "xy_m": [
+        4.4,
+        12.35
+      ],
+      "size_m": [
+        2.4,
+        0.35,
+        0.32
+      ],
+      "z_m": 0.12,
+      "category": "tv_cabinet"
+    },
+    {
+      "name": "98 inch TV body 2.178x1.25",
+      "xy_m": [
+        4.511,
+        12.7
+      ],
+      "size_m": [
+        2.178,
+        0.045,
+        1.25
+      ],
+      "z_m": 0.77,
+      "category": "television"
+    },
+    {
+      "name": "Bookcase overall",
+      "xy_m": [
+        0.35,
+        5.1
+      ],
+      "size_m": [
+        2.6,
+        0.35,
+        2.35
+      ],
+      "z_m": 0.05,
+      "category": "bookshelf"
+    },
+    {
+      "name": "Study freestanding desk 1.8x.75",
+      "xy_m": [
+        0.6,
+        6.5
+      ],
+      "size_m": [
+        1.8,
+        0.75,
+        0.045
+      ],
+      "z_m": 0.705,
+      "category": "table"
+    },
+    {
+      "name": "Dining table six seats 1.8x.9",
+      "xy_m": [
+        4.1,
+        6.7
+      ],
+      "size_m": [
+        1.8,
+        0.9,
+        0.045
+      ],
+      "z_m": 0.705,
+      "category": "table"
+    },
+    {
+      "name": "Entry shallow cabinet",
+      "xy_m": [
+        8.43,
+        7.85
+      ],
+      "size_m": [
+        0.32,
+        1.2,
+        2.34
+      ],
+      "z_m": 0.08,
+      "category": "cabinet"
+    },
+    {
+      "name": "Master 1.8m mattress frame",
+      "xy_m": [
+        10.85,
+        13.75
+      ],
+      "size_m": [
+        2.1,
+        1.9,
+        0.23
+      ],
+      "z_m": 0.16,
+      "category": "bedframe"
+    },
+    {
+      "name": "Master north wardrobe",
+      "xy_m": [
+        10.3,
+        11.5
+      ],
+      "size_m": [
+        4.65,
+        0.6,
+        2.4699999999999998
+      ],
+      "z_m": 0.08,
+      "category": "cabinet"
+    },
+    {
+      "name": "Master closet return",
+      "xy_m": [
+        10.3,
+        12.1
+      ],
+      "size_m": [
+        0.6,
+        0.55,
+        2.4699999999999998
+      ],
+      "z_m": 0.08,
+      "category": "cabinet"
+    },
+    {
+      "name": "Master dressing table",
+      "xy_m": [
+        14,
+        12.35
+      ],
+      "size_m": [
+        0.95,
+        0.45,
+        0.045
+      ],
+      "z_m": 0.695,
+      "category": "table"
+    },
+    {
+      "name": "NE 1.8m mattress frame",
+      "xy_m": [
+        11.3,
+        2.15
+      ],
+      "size_m": [
+        2.1,
+        1.9,
+        0.23
+      ],
+      "z_m": 0.16,
+      "category": "bedframe"
+    },
+    {
+      "name": "NE south wardrobe",
+      "xy_m": [
+        11.1,
+        5.55
+      ],
+      "size_m": [
+        3.7,
+        0.58,
+        2.4699999999999998
+      ],
+      "z_m": 0.08,
+      "category": "cabinet"
+    },
+    {
+      "name": "SW 1.5m mattress frame",
+      "xy_m": [
+        4.2,
+        13.1
+      ],
+      "size_m": [
+        1.6,
+        2.1,
+        0.23
+      ],
+      "z_m": 0.16,
+      "category": "bedframe"
+    },
+    {
+      "name": "SW east wardrobe",
+      "xy_m": [
+        6.48,
+        14.15
+      ],
+      "size_m": [
+        0.55,
+        1.5,
+        2.42
+      ],
+      "z_m": 0.08,
+      "category": "cabinet"
+    },
+    {
+      "name": "North 1.5m mattress frame",
+      "xy_m": [
+        7.18,
+        2.73
+      ],
+      "size_m": [
+        1.6,
+        2.1,
+        0.23
+      ],
+      "z_m": 0.16,
+      "category": "bedframe"
+    },
+    {
+      "name": "North east wardrobe",
+      "xy_m": [
+        9.45,
+        2.8
+      ],
+      "size_m": [
+        0.55,
+        1.3,
+        2.42
+      ],
+      "z_m": 0.08,
+      "category": "cabinet"
+    },
+    {
+      "name": "North bedroom desk",
+      "xy_m": [
+        8.7,
+        1.65
+      ],
+      "size_m": [
+        1.1,
+        0.48,
+        0.045
+      ],
+      "z_m": 0.695,
+      "category": "table"
+    },
+    {
+      "name": "Kitchen west base",
+      "xy_m": [
+        4.15,
+        1.65
+      ],
+      "size_m": [
+        0.6,
+        3.15,
+        0.77
+      ],
+      "z_m": 0.08,
+      "category": "cabinet"
+    },
+    {
+      "name": "Kitchen east base",
+      "xy_m": [
+        6.25,
+        1.65
+      ],
+      "size_m": [
+        0.6,
+        3.15,
+        0.77
+      ],
+      "z_m": 0.08,
+      "category": "cabinet"
+    },
+    {
+      "name": "Fridge integrated tall",
+      "xy_m": [
+        6.24,
+        3.96
+      ],
+      "size_m": [
+        0.61,
+        0.82,
+        2.45
+      ],
+      "z_m": 0,
+      "category": "appliance"
+    },
+    {
+      "name": "Laundry machine",
+      "xy_m": [
+        4.2,
+        0.2
+      ],
+      "size_m": [
+        0.62,
+        0.66,
+        0.84
+      ],
+      "z_m": 0.07,
+      "category": "appliance"
+    },
+    {
+      "name": "Laundry machine",
+      "xy_m": [
+        4.2,
+        0.2
+      ],
+      "size_m": [
+        0.62,
+        0.66,
+        0.84
+      ],
+      "z_m": 0.94,
+      "category": "appliance"
+    },
+    {
+      "name": "Laundry storage",
+      "xy_m": [
+        6.25,
+        0.15
+      ],
+      "size_m": [
+        0.6,
+        1.05,
+        2.37
+      ],
+      "z_m": 0.08,
+      "category": "cabinet"
+    },
+    {
+      "name": "Common external wash cabinet",
+      "xy_m": [
+        8.45,
+        12.9
+      ],
+      "size_m": [
+        0.43,
+        0.9,
+        0.67
+      ],
+      "z_m": 0.08,
+      "category": "cabinet"
+    },
+    {
+      "name": "NE bath vanity cabinet",
+      "xy_m": [
+        14.65,
+        3.74
+      ],
+      "size_m": [
+        0.4,
+        0.67,
+        0.67
+      ],
+      "z_m": 0.08,
+      "category": "cabinet"
+    },
+    {
+      "name": "Master vanity cabinet",
+      "xy_m": [
+        14.66,
+        13.3
+      ],
+      "size_m": [
+        0.4,
+        0.95,
+        0.67
+      ],
+      "z_m": 0.08,
+      "category": "cabinet"
+    },
+    {
+      "name": "Master bath tub exterior",
+      "xy_m": [
+        13.3,
+        14.98
+      ],
+      "size_m": [
+        1.65,
+        0.72,
+        0.55
+      ],
+      "z_m": 0.05,
+      "category": "bathtub"
+    },
+    {
+      "name": "Terrace sofa seat",
+      "xy_m": [
+        2.9,
+        14.4
+      ],
+      "size_m": [
+        0.8,
+        1.7,
+        0.18
+      ],
+      "z_m": 0.28,
+      "category": "terrace_sofa"
+    }
+  ],
+  "checks": [
+    {
+      "check": "Master bed contained in room inside 60mm wall allowance",
+      "pass_": true
+    },
+    {
+      "check": "NE bed contained in room inside 60mm wall allowance",
+      "pass_": true
+    },
+    {
+      "check": "SW bed contained in room inside 60mm wall allowance",
+      "pass_": true
+    },
+    {
+      "check": "North bed contained in room inside 60mm wall allowance",
+      "pass_": true
+    },
+    {
+      "check": "Kitchen cabinet aisle proxy",
+      "metres": 1.5
+    },
+    {
+      "check": "Kitchen proposed opening",
+      "metres": 1.8000000000000007
+    },
+    {
+      "check": "Bookcase front to desk rear",
+      "metres": 1.0499999999999998
+    },
+    {
+      "check": "Desk east to dining west chair",
+      "metres": 1.1
+    },
+    {
+      "check": "Kitchen opening to dining north chair",
+      "metres": 1.1500000000000004
+    },
+    {
+      "check": "Dining south chair to sofa back",
+      "metres": 0.9900000000000002
+    },
+    {
+      "check": "Master toilet rear to west wall finish",
+      "metres": 0.02,
+      "pass_": true
+    },
+    {
+      "check": "NE toilet rear to west wall finish",
+      "metres": 0.02,
+      "pass_": true
+    },
+    {
+      "check": "Tea-table west chair removed including four legs",
+      "pass_": true
+    },
+    {
+      "check": "West-window chair retained",
+      "pass_": true
+    }
+  ],
+  "cameras": [
+    {
+      "id": "01_living",
+      "title": "客厅与南墙电视",
+      "position_plan_xyz_m": [
+        7.8,
+        8.65,
+        1.6
+      ],
+      "target_plan_xyz_m": [
+        4.8,
+        12.0,
+        1.48
+      ],
+      "lens_mm": 24,
+      "resolution": [
+        1280,
+        853
+      ]
+    },
+    {
+      "id": "02_dining",
+      "title": "餐厅与宽厨房入口",
+      "position_plan_xyz_m": [
+        6.5,
+        8.72,
+        1.58
+      ],
+      "target_plan_xyz_m": [
+        4.1,
+        5.55,
+        1.45
+      ],
+      "lens_mm": 25,
+      "resolution": [
+        1280,
+        853
+      ]
+    },
+    {
+      "id": "03_study",
+      "title": "开放书房",
+      "position_plan_xyz_m": [
+        3.45,
+        8.5,
+        1.58
+      ],
+      "target_plan_xyz_m": [
+        1.5,
+        5.3,
+        1.42
+      ],
+      "lens_mm": 28,
+      "resolution": [
+        1280,
+        853
+      ]
+    },
+    {
+      "id": "04_west_lounge",
+      "title": "西侧阳台休闲区",
+      "position_plan_xyz_m": [
+        2.62,
+        8.5,
+        1.58
+      ],
+      "target_plan_xyz_m": [
+        0.6,
+        11.7,
+        1.38
+      ],
+      "lens_mm": 27,
+      "resolution": [
+        1280,
+        853
+      ]
+    },
+    {
+      "id": "05_terrace",
+      "title": "6米挑空庭院",
+      "position_plan_xyz_m": [
+        0.3,
+        13.15,
+        1.55
+      ],
+      "target_plan_xyz_m": [
+        2.45,
+        15.7,
+        2.1
+      ],
+      "lens_mm": 18,
+      "resolution": [
+        1024,
+        1280
+      ]
+    },
+    {
+      "id": "06_entry",
+      "title": "玄关及卧室通道",
+      "position_plan_xyz_m": [
+        6.38,
+        10.25,
+        1.6
+      ],
+      "target_plan_xyz_m": [
+        8.7,
+        8.7,
+        1.48
+      ],
+      "lens_mm": 25,
+      "resolution": [
+        1280,
+        853
+      ]
+    },
+    {
+      "id": "07_kitchen",
+      "title": "厨房",
+      "position_plan_xyz_m": [
+        5.5,
+        5.66,
+        1.58
+      ],
+      "target_plan_xyz_m": [
+        5.5,
+        1.5,
+        1.47
+      ],
+      "lens_mm": 23,
+      "resolution": [
+        1280,
+        853
+      ]
+    },
+    {
+      "id": "08_utility",
+      "title": "生活阳台洗烘区",
+      "position_plan_xyz_m": [
+        5.4,
+        1.23,
+        1.55
+      ],
+      "target_plan_xyz_m": [
+        4.6,
+        0.65,
+        1.0
+      ],
+      "lens_mm": 18,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "id": "09_master_bed",
+      "title": "东南主卧",
+      "position_plan_xyz_m": [
+        9.38,
+        13.5,
+        1.58
+      ],
+      "target_plan_xyz_m": [
+        12.35,
+        14.76,
+        1.2
+      ],
+      "lens_mm": 24,
+      "resolution": [
+        1280,
+        853
+      ]
+    },
+    {
+      "id": "10_master_dressing",
+      "title": "主卧衣帽区",
+      "position_plan_xyz_m": [
+        11.02,
+        13.05,
+        1.56
+      ],
+      "target_plan_xyz_m": [
+        13.48,
+        11.65,
+        1.4
+      ],
+      "lens_mm": 22,
+      "resolution": [
+        1280,
+        853
+      ]
+    },
+    {
+      "id": "11_ne_suite",
+      "title": "东北套房床区",
+      "position_plan_xyz_m": [
+        10.55,
+        4.75,
+        1.57
+      ],
+      "target_plan_xyz_m": [
+        12.5,
+        2.7,
+        1.2
+      ],
+      "lens_mm": 23,
+      "resolution": [
+        1280,
+        853
+      ]
+    },
+    {
+      "id": "12_ne_dressing",
+      "title": "东北套房衣帽区",
+      "position_plan_xyz_m": [
+        10.65,
+        4.92,
+        1.58
+      ],
+      "target_plan_xyz_m": [
+        13.5,
+        5.55,
+        1.4
+      ],
+      "lens_mm": 22,
+      "resolution": [
+        1280,
+        853
+      ]
+    },
+    {
+      "id": "13_south_bed",
+      "title": "南侧次卧",
+      "position_plan_xyz_m": [
+        6.08,
+        16.04,
+        1.55
+      ],
+      "target_plan_xyz_m": [
+        5.8,
+        13.6,
+        1.3
+      ],
+      "lens_mm": 22,
+      "resolution": [
+        1280,
+        853
+      ]
+    },
+    {
+      "id": "14_north_bed",
+      "title": "北侧次卧",
+      "position_plan_xyz_m": [
+        7.45,
+        1.92,
+        1.55
+      ],
+      "target_plan_xyz_m": [
+        8.6,
+        3.85,
+        1.25
+      ],
+      "lens_mm": 20,
+      "resolution": [
+        1280,
+        853
+      ]
+    },
+    {
+      "id": "15_master_bath",
+      "title": "主卫生间",
+      "position_plan_xyz_m": [
+        13.57,
+        13.36,
+        1.56
+      ],
+      "target_plan_xyz_m": [
+        14.25,
+        15.55,
+        1.1
+      ],
+      "lens_mm": 20,
+      "resolution": [
+        1024,
+        1280
+      ]
+    },
+    {
+      "id": "16_ne_bath",
+      "title": "东北套卫",
+      "position_plan_xyz_m": [
+        14.53,
+        4.36,
+        1.55
+      ],
+      "target_plan_xyz_m": [
+        14.28,
+        2.25,
+        1.12
+      ],
+      "lens_mm": 20,
+      "resolution": [
+        1024,
+        1280
+      ]
+    },
+    {
+      "id": "17_common_bath",
+      "title": "公共卫生间",
+      "position_plan_xyz_m": [
+        7.62,
+        14.15,
+        1.55
+      ],
+      "target_plan_xyz_m": [
+        8.25,
+        15.65,
+        1.1
+      ],
+      "lens_mm": 20,
+      "resolution": [
+        1024,
+        1280
+      ]
+    },
+    {
+      "id": "18_common_wash",
+      "title": "公共洗手区与南次卧入口",
+      "position_plan_xyz_m": [
+        7.65,
+        11.95,
+        1.57
+      ],
+      "target_plan_xyz_m": [
+        8.2,
+        13.36,
+        1.23
+      ],
+      "lens_mm": 23,
+      "resolution": [
+        1024,
+        1280
+      ]
+    }
+  ],
+  "revision": "02 - two toilets backed against west walls; tea-table west chair removed; window chair retained",
+  "fixtures": [
+    {
+      "name": "Master toilet",
+      "reference_xy_m": [
+        13.42,
+        14.18
+      ],
+      "facing": "east",
+      "backing_wall": "west",
+      "wall_face_x_m": 13.16,
+      "rear_gap_m": 0.02,
+      "footprint_m": [
+        0.65,
+        0.44
+      ]
+    },
+    {
+      "name": "NE toilet",
+      "reference_xy_m": [
+        13.82,
+        3.48
+      ],
+      "facing": "east",
+      "backing_wall": "west",
+      "wall_face_x_m": 13.56,
+      "rear_gap_m": 0.02,
+      "footprint_m": [
+        0.65,
+        0.44
+      ]
+    }
+  ]
+}
