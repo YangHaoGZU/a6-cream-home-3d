@@ -14,9 +14,10 @@ export default function HomeTour() {
   const host = useRef<HTMLDivElement>(null), api = useRef<OverviewApi | null>(null);
   const markers = useRef(new Map<string, HTMLButtonElement>());
   const leaders = useRef(new Map<string, SVGLineElement>());
-  const [panoramaOpen,setPanoramaOpen] = useState(() => !!hashPoint());
+  const [mode,setMode] = useState(() => hashPoint() ? 'panorama' : location.hash === '#renders' ? 'renders' : 'overview');
+  const panoramaOpen = mode === 'panorama';
   const [roomId,setRoomId] = useState(() => hashPoint()?.room ?? 'living');
-  const [selectedId,setSelectedId] = useState(() => hashPoint()?.id ?? 'living-entry');
+  const [selectedId,setSelectedId] = useState(() => hashPoint()?.id ?? '01_living');
   const [ready,setReady] = useState(false), [error,setError] = useState('');
   const [source,setSource] = useState(false), [pointsOpen,setPointsOpen] = useState(false);
   const [immersive,setImmersive] = useState(false);
@@ -25,15 +26,15 @@ export default function HomeTour() {
     const p = panoramaPoints.find(p=>p.id===id);if(!p)return;
     setSelectedId(id);setRoomId(p.room);setPointsOpen(false);
     history.replaceState(null,'',location.pathname+location.search+'#panorama/'+id);
-    setPanoramaOpen(true);
+    setMode('panorama');
   }
   openRef.current=openPoint;
   useEffect(()=>{
-    const update=()=>{const p=hashPoint();setPanoramaOpen(!!p);if(p){setRoomId(p.room);setSelectedId(p.id);}};
+    const update=()=>{const p=hashPoint();setMode(p ? 'panorama' : location.hash === '#renders' ? 'renders' : 'overview');if(p){setRoomId(p.room);setSelectedId(p.id);}};
     window.addEventListener('hashchange',update);return()=>window.removeEventListener('hashchange',update);
   },[]);
   useEffect(()=>{
-    if(panoramaOpen)return;
+    if(mode !== 'overview')return;
     let cancelled=false;setReady(false);setError('');
     const project=(points:ProjectedPoint[])=>{
       for(const p of points){const button=markers.current.get(p.id);if(!button)continue;
@@ -50,7 +51,7 @@ export default function HomeTour() {
       catch(e){console.error(e);setError('3D 暂时无法显示，你仍可从点位列表进入全景。');}
     }).catch(()=>setError('总览未能载入，请重试或直接选择全景点位。'));
     return()=>{cancelled=true;api.current?.dispose();api.current=null;};
-  },[panoramaOpen]);
+  },[mode]);
   useEffect(()=>{
     const sync=()=>setImmersive(!!document.fullscreenElement);
     const escape=(e:KeyboardEvent)=>{if(e.key==='Escape')setImmersive(false);};
@@ -63,21 +64,22 @@ export default function HomeTour() {
   }
   function changeTab(value:string) {
     if(value==='panorama'){openPoint(selectedId);return;}
-    setPanoramaOpen(false);history.replaceState(null,'',location.pathname+location.search+'#overview');
+    setMode(value);history.replaceState(null,'',location.pathname+location.search+'#'+value);
   }
   return <main className={'tour-shell french-tour'+(immersive?' immersive':'')+(panoramaOpen?' panorama-active':'')}>
     <header className="topbar">
-      <div className="brand"><span className="monogram">A<span>6</span></span><div><h1>法式自然 · 我的家</h1><p>190.65㎡ / 20 层 / 24 个全景点位</p></div></div>
-      <Tabs value={panoramaOpen?'panorama':'overview'} onValueChange={changeTab} className="mode-tabs">
+      <div className="brand"><span className="monogram">A<span>6</span></span><div><h1>现代北欧 · 我的家</h1><p>190.65㎡ / 四房 / 18 个全景点位</p></div></div>
+      <Tabs value={mode} onValueChange={changeTab} className="mode-tabs">
         <TabsList aria-label="查看方式">
           <TabsTrigger value="overview"><Layers3/>空间总览</TabsTrigger>
           <TabsTrigger value="panorama"><Compass/>全景漫游</TabsTrigger>
+          <TabsTrigger value="renders"><FileImage/>效果图</TabsTrigger>
         </TabsList>
       </Tabs>
       <button className="source-button" aria-label="户型与设计说明" onClick={()=>setSource(true)}><FileImage size={18}/><span>户型说明</span></button>
     </header>
-    <section className="viewport" aria-label={panoramaOpen?'全景漫游':'空间总览'}>
-      {panoramaOpen ? <Suspense fallback={<div className="loading" role="status"><span/><p>正在载入全景…</p></div>}>
+    <section className="viewport" aria-label={mode==='renders'?'效果图':panoramaOpen?'全景漫游':'空间总览'}>
+      {mode === 'renders' ? <iframe className="renders-frame" src="./gallery/index.html" title="现代北欧全屋效果图" allowFullScreen/> : panoramaOpen ? <Suspense fallback={<div className="loading" role="status"><span/><p>正在载入全景…</p></div>}>
         <Panorama initialRoom={roomId} immersive={immersive} onFullscreen={fullscreen} onRoomChange={id=>{setRoomId(id);setSelectedId(hashPoint()?.id??pointForRoom(id).id);}}/>
       </Suspense> : <>
         <div className="three-host" ref={host}/>
@@ -87,7 +89,7 @@ export default function HomeTour() {
             <span>{i+1}</span><b>{p.name}</b>
           </button>)}
         </div>
-        <div className="overview-heading"><span>法式自然风 · 空间示意</span><h2>从这里，走进每个房间</h2><p>点击编号，打开对应全景</p></div>
+        <div className="overview-heading"><span>现代简约 · 北欧风</span><h2>从这里，走进每个房间</h2><p>点击编号，打开对应全景</p></div>
         <div className="top-tools overview-tools">
           <button onClick={()=>api.current?.zoom(.83)} aria-label="放大模型" title="放大"><Plus size={19}/></button>
           <button onClick={()=>api.current?.zoom(1.2)} aria-label="缩小模型" title="缩小"><Minus size={19}/></button>
@@ -96,19 +98,19 @@ export default function HomeTour() {
         </div>
         {!ready&&!error&&<div className="loading" role="status"><span/><b>正在展开空间总览</b></div>}
         {error&&<div className="loading error" role="alert"><b>暂时无法显示模型</b><p>{error}</p><button onClick={()=>setPointsOpen(true)}>选择全景点位</button></div>}
-        <div className="overview-bottom"><button className="overview-open-points" onClick={()=>setPointsOpen(true)}><MapPin size={18}/><span>选择空间 <small>24 个点位</small></span></button><p><span>拖动旋转 · 滚轮缩放</span><span>手机：单指旋转 · 双指缩放 / 平移</span></p><span className="overview-north">普通层高 3m · 挑空阳台 6m</span></div>
+        <div className="overview-bottom"><button className="overview-open-points" onClick={()=>setPointsOpen(true)}><MapPin size={18}/><span>选择空间 <small>18 个点位</small></span></button><p><span>拖动旋转 · 滚轮缩放</span><span>手机：单指旋转 · 双指缩放 / 平移</span></p><span className="overview-north">普通层高 3m · 挑空阳台 6m</span></div>
       </>}
       {immersive&&<button className="immersive-exit" aria-label="退出沉浸模式" onClick={fullscreen}><X size={18}/></button>}
     </section>
     <Sheet open={pointsOpen} onOpenChange={setPointsOpen}>
       <SheetContent side="bottom" className="mobile-sheet overview-sheet">
-        <SheetHeader><SheetTitle>选择全景点位</SheetTitle><SheetDescription>共 18 个空间，24 个观察点</SheetDescription></SheetHeader>
+        <SheetHeader><SheetTitle>选择全景点位</SheetTitle><SheetDescription>共 18 个空间，18 个观察点</SheetDescription></SheetHeader>
         <div className="overview-point-list">{panoramaPoints.map((p,i)=><button key={p.id} onClick={()=>openPoint(p.id)}><span>{String(i+1).padStart(2,'0')}</span><b>{p.name}</b><Compass size={16}/></button>)}</div>
       </SheetContent>
     </Sheet>
-    <Dialog open={source} onOpenChange={setSource}><DialogContent className="source-dialog"><DialogTitle>户型与设计说明</DialogTitle><DialogDescription>A6 · 190.65㎡ · 法式自然风</DialogDescription><div className="source-scroll">
-      <img src="./floorplan.jpg?v=french-v1-tinypng" alt="房开 A6 原始户型图及标注尺寸" loading="lazy"/>
-      <div className="dimension-table"><div><b>户型结构</b><p>沿用房开户型标注及既有布局。普通房间和长阳台层高 3m，挑空阳台 6m；长阳台封窗并与客厅连通，电视在客厅南侧实墙。未标注的细部尺寸为按图估算。</p></div><div><b>空间总览</b><p>总览采用剖切墙体与简化家具，便于看清房间和全景点位。总览的墙体显示高度为剖切高度，不代表实际层高。</p></div><div><b>材质与风格</b><p>暖白墙面、简洁法式饰线、米白亚麻、浅木色家具与藤编。室内木纹地面为人字拼瓷砖，厨卫为浅色瓷砖。</p></div><div><b>全景效果</b><p>全景直接使用 AI 生图，以原有空间和已确认风格图为参考。全景为效果示意，局部细节和跨视角一致性可能与模型存在差异；窗外城市为示意景观。</p></div></div>
+    <Dialog open={source} onOpenChange={setSource}><DialogContent className="source-dialog"><DialogTitle>户型与设计说明</DialogTitle><DialogDescription>A6 · 190.65㎡ · 现代北欧风</DialogDescription><div className="source-scroll">
+      <img src="./floorplan.jpg?v=nordic-r02-tinypng" alt="房开 A6 原始户型图及标注尺寸" loading="lazy"/>
+      <div className="dimension-table"><div><b>户型结构</b><p>依据房开户型标注与已确认的四房方案建模。普通房间和长阳台层高 3m，挑空阳台 6m；长阳台封窗并与客厅连通，电视在客厅南侧实墙。未标注的细部尺寸为按图估算。</p></div><div><b>空间总览</b><p>总览采用剖切墙体与简化家具，便于看清房间和全景点位。总览的墙体显示高度为剖切高度，不代表实际层高。</p></div><div><b>材质与风格</b><p>暖白墙面、浅橡木地板与家具、米色亚麻，点缀鼠尾草绿与灰蓝；厨卫采用浅灰米色瓷砖和哑光柜门。</p></div><div><b>全景效果</b><p>全景以同一份 Blender 模型的球面渲染为几何参考，再生成材质与软装效果。全景为效果示意，局部细节和跨视角一致性可能与模型存在差异；窗外城市为示意景观。</p></div></div>
     </div></DialogContent></Dialog>
   </main>;
 }
