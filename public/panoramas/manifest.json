@@ -1,0 +1,164 @@
+[
+  {
+    "id": "01_living",
+    "width": 1774,
+    "height": 887,
+    "bytes": 173842,
+    "previewBytes": 32800,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
+  },
+  {
+    "id": "02_dining",
+    "width": 1774,
+    "height": 887,
+    "bytes": 197075,
+    "previewBytes": 35970,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
+  },
+  {
+    "id": "03_study",
+    "width": 1774,
+    "height": 887,
+    "bytes": 216966,
+    "previewBytes": 40126,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
+  },
+  {
+    "id": "04_west_lounge",
+    "width": 1774,
+    "height": 887,
+    "bytes": 185934,
+    "previewBytes": 38483,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
+  },
+  {
+    "id": "05_terrace",
+    "width": 1774,
+    "height": 887,
+    "bytes": 246765,
+    "previewBytes": 54456,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
+  },
+  {
+    "id": "06_entry",
+    "width": 1774,
+    "height": 887,
+    "bytes": 250691,
+    "previewBytes": 48496,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
+  },
+  {
+    "id": "07_kitchen",
+    "width": 1774,
+    "height": 887,
+    "bytes": 177232,
+    "previewBytes": 37227,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
+  },
+  {
+    "id": "08_utility",
+    "width": 1774,
+    "height": 887,
+    "bytes": 179291,
+    "previewBytes": 36402,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
+  },
+  {
+    "id": "09_master_bed",
+    "width": 1774,
+    "height": 887,
+    "bytes": 172701,
+    "previewBytes": 31508,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
+  },
+  {
+    "id": "10_master_dressing",
+    "width": 1774,
+    "height": 887,
+    "bytes": 150974,
+    "previewBytes": 27852,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
+  },
+  {
+    "id": "11_ne_suite",
+    "width": 1774,
+    "height": 887,
+    "bytes": 169093,
+    "previewBytes": 34687,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
+  },
+  {
+    "id": "12_ne_dressing",
+    "width": 1774,
+    "height": 887,
+    "bytes": 131551,
+    "previewBytes": 28785,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
+  },
+  {
+    "id": "13_south_bed",
+    "width": 1774,
+    "height": 887,
+    "bytes": 196792,
+    "previewBytes": 36632,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
+  },
+  {
+    "id": "14_north_bed",
+    "width": 1774,
+    "height": 887,
+    "bytes": 165667,
+    "previewBytes": 27996,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
+  },
+  {
+    "id": "15_master_bath",
+    "width": 1774,
+    "height": 887,
+    "bytes": 152455,
+    "previewBytes": 29135,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
+  },
+  {
+    "id": "16_ne_bath",
+    "width": 1774,
+    "height": 887,
+    "bytes": 216916,
+    "previewBytes": 40029,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
+  },
+  {
+    "id": "17_common_bath",
+    "width": 1774,
+    "height": 887,
+    "bytes": 191086,
+    "previewBytes": 35355,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
+  },
+  {
+    "id": "18_common_wash",
+    "width": 1774,
+    "height": 887,
+    "bytes": 208090,
+    "previewBytes": 38960,
+    "revision": "nordic-r03-tinypng",
+    "compression": "TinyPNG"
+  }
+]
