@@ -2,7 +2,7 @@
 
 三个入口：空间总览、18 个区域的 360° 全景漫游、18 张全屋效果图及 Blender 对照。
 
-总览使用 `models/nordic/A6_modern_nordic.blend` 的直接简化导出网格，7,790 个三角面、11 个材质批次；毫米量化几何数据约 162 KB，构建后的总览模块 gzip 约 49 KB。省略倒角、地板缝、书脊和家具腿等细节，墙体剖切至 1.2m，实际层高仍为 3m / 庭院 6m。模型按需载入，静止时不持续绘制。
+总览使用本地已确认 Blender 模型的直接简化导出网格，7,790 个三角面、11 个材质批次；毫米量化几何数据约 162 KB，构建后的总览模块 gzip 约 49 KB。省略倒角、地板缝、书脊和家具腿等细节，墙体剖切至 1.2m，实际层高仍为 3m / 庭院 6m。模型按需载入，静止时不持续绘制。
 
 方案保留四卧室、主卧及东北套房 1.8m 床、西阳台融入客厅、挑空庭院玻璃及西侧通道、南墙电视、北实墙书柜和独立书桌。主卫及东北套卫马桶背靠西墙朝东；茶几西侧椅子移除，窗边椅子保留。核心筒保留体块，未为没有设计模型的公共区域编造全景。
 
@@ -10,8 +10,20 @@
 
 网站全部 92 张 JPEG（全景、预览、效果图、参考图、缩略图及户型图）已由 TinyPNG 分 6 批压缩（含主卫修订补压缩）：18,681,902 → 7,867,674 字节，减少 57.9%。逐文件 SHA-256、批次及字节数见 `public/compression-report.json`。全景先载入 768×384 预览，图集缩略图延迟加载。
 
-## 发布与源文件
+## 运行、校验与发布
 
-当前 GitHub Pages 发布目录为 main 分支的 docs/，已通过网页上传新版构建产物。完整可构建工程与 Blender 源文件保留在本地交付包，没有公开上传。仓库根目录的历史源文件尚未同步，请勿直接重新构建并覆盖当前 docs/。
+```sh
+npm ci
+npm run dev
+npx tsc --noEmit
+npm run check:geometry
+npm run check:overview
+npm run check:mobile
+npm run check:panorama
+node checks/assets.mjs
+npm run build
+```
 
-网站全部展示图片的 TinyPNG 压缩溯源见 docs/compression-report.json。
+GitHub Pages 使用 `main` 分支 `/docs`。相对路径支持仓库子目录部署。自动检查涵盖导出网格、尺寸链、设计校验记录、18 个点位与连通图、球面 UV/FOV、手机视口、交互手势和全量图片压缩溯源。浏览器验收不能代替 iOS/Android 真机测试。
+
+Blender 建模、导出和全景渲染脚本在 `models/nordic/`，原始 `.blend` 工程保留在本地；可运行建模脚本重建模型。当前运行模型数据在 `lib/generated/`。原有自由行走代码保留为历史代码，当前网站的总览不使用旧版 furniture-layout / walls 来重建家具与墙体。效果图页面在 `public/gallery/index.html`。
