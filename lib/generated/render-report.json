@@ -1,0 +1,327 @@
+[
+  {
+    "id": "01_living",
+    "room": "living",
+    "name": "客厅与南墙电视",
+    "position": [
+      7.8,
+      8.65
+    ],
+    "height": 1024,
+    "yaw": 2.411256885566015,
+    "links": [
+      "02_dining",
+      "04_west_lounge",
+      "06_entry"
+    ],
+    "seconds": 87.3,
+    "nearSurfaceCheck": "pass",
+    "width": 2048
+  },
+  {
+    "id": "02_dining",
+    "room": "dining",
+    "name": "餐厅与宽厨房入口",
+    "position": [
+      6.5,
+      8.72
+    ],
+    "height": 1024,
+    "yaw": 0.6480282408431547,
+    "links": [
+      "01_living",
+      "03_study",
+      "07_kitchen",
+      "14_north_bed",
+      "11_ne_suite"
+    ],
+    "seconds": 85.85,
+    "nearSurfaceCheck": "pass",
+    "width": 2048
+  },
+  {
+    "id": "03_study",
+    "room": "study",
+    "name": "开放书房",
+    "position": [
+      3.45,
+      8.5
+    ],
+    "height": 1024,
+    "yaw": 0.547284380987437,
+    "links": [
+      "02_dining",
+      "04_west_lounge"
+    ],
+    "seconds": 81.7,
+    "nearSurfaceCheck": "pass",
+    "width": 2048
+  },
+  {
+    "id": "04_west_lounge",
+    "room": "balcony",
+    "name": "西侧阳台休闲区",
+    "position": [
+      2.62,
+      8.5
+    ],
+    "height": 1024,
+    "yaw": 2.5785115755365746,
+    "links": [
+      "01_living",
+      "03_study",
+      "05_terrace"
+    ],
+    "seconds": 79.8,
+    "nearSurfaceCheck": "pass",
+    "width": 2048
+  },
+  {
+    "id": "05_terrace",
+    "room": "terrace",
+    "name": "6米挑空庭院",
+    "position": [
+      0.3,
+      13.15
+    ],
+    "height": 1024,
+    "yaw": -2.4410962836420667,
+    "links": [
+      "04_west_lounge"
+    ],
+    "seconds": 51.27,
+    "nearSurfaceCheck": "pass",
+    "width": 2048
+  },
+  {
+    "id": "06_entry",
+    "room": "entry",
+    "name": "玄关及卧室通道",
+    "position": [
+      6.38,
+      10.25
+    ],
+    "height": 1024,
+    "yaw": -0.9817996877894449,
+    "links": [
+      "01_living",
+      "10_master_dressing",
+      "18_common_wash"
+    ],
+    "seconds": 82.25,
+    "nearSurfaceCheck": "pass",
+    "width": 2048
+  },
+  {
+    "id": "07_kitchen",
+    "room": "kitchen",
+    "name": "厨房",
+    "position": [
+      5.5,
+      5.66
+    ],
+    "height": 1024,
+    "yaw": -0.0,
+    "links": [
+      "02_dining",
+      "08_utility"
+    ],
+    "seconds": 80.8,
+    "nearSurfaceCheck": "pass",
+    "width": 2048
+  },
+  {
+    "id": "08_utility",
+    "room": "utility",
+    "name": "生活阳台洗烘区",
+    "position": [
+      5.7,
+      1.15
+    ],
+    "height": 1024,
+    "yaw": 1.1441688336680205,
+    "links": [
+      "07_kitchen"
+    ],
+    "seconds": 74.42,
+    "nearSurfaceCheck": "pass",
+    "width": 2048
+  },
+  {
+    "id": "09_master_bed",
+    "room": "master",
+    "name": "东南主卧",
+    "position": [
+      9.38,
+      13.5
+    ],
+    "height": 1024,
+    "yaw": -1.9720251257997454,
+    "links": [
+      "10_master_dressing"
+    ],
+    "seconds": 81.05,
+    "nearSurfaceCheck": "pass",
+    "width": 2048
+  },
+  {
+    "id": "10_master_dressing",
+    "room": "master-dressing",
+    "name": "主卧衣帽区",
+    "position": [
+      11.02,
+      13.05
+    ],
+    "height": 1024,
+    "yaw": -1.0534030591317967,
+    "links": [
+      "06_entry",
+      "09_master_bed",
+      "15_master_bath"
+    ],
+    "seconds": 78.02,
+    "nearSurfaceCheck": "pass",
+    "width": 2048
+  },
+  {
+    "id": "11_ne_suite",
+    "room": "suite",
+    "name": "东北套房床区",
+    "position": [
+      10.55,
+      4.75
+    ],
+    "height": 1024,
+    "yaw": -0.760403369778528,
+    "links": [
+      "02_dining",
+      "12_ne_dressing"
+    ],
+    "seconds": 79.26,
+    "nearSurfaceCheck": "pass",
+    "width": 2048
+  },
+  {
+    "id": "12_ne_dressing",
+    "room": "suite-dressing",
+    "name": "东北套房衣帽区",
+    "position": [
+      10.65,
+      4.92
+    ],
+    "height": 1024,
+    "yaw": -1.788350445928905,
+    "links": [
+      "11_ne_suite",
+      "16_ne_bath"
+    ],
+    "seconds": 80.25,
+    "nearSurfaceCheck": "pass",
+    "width": 2048
+  },
+  {
+    "id": "13_south_bed",
+    "room": "south",
+    "name": "南侧次卧",
+    "position": [
+      6.08,
+      16.04
+    ],
+    "height": 1024,
+    "yaw": 0.11425432796143965,
+    "links": [
+      "18_common_wash"
+    ],
+    "seconds": 68.29,
+    "nearSurfaceCheck": "pass",
+    "width": 2048
+  },
+  {
+    "id": "14_north_bed",
+    "room": "north",
+    "name": "北侧次卧",
+    "position": [
+      7.45,
+      1.92
+    ],
+    "height": 1024,
+    "yaw": -2.6042265789442336,
+    "links": [
+      "02_dining"
+    ],
+    "seconds": 75.35,
+    "nearSurfaceCheck": "pass",
+    "width": 2048
+  },
+  {
+    "id": "16_ne_bath",
+    "room": "bath1",
+    "name": "东北套卫",
+    "position": [
+      14.53,
+      4.36
+    ],
+    "height": 1024,
+    "yaw": 0.1179336000300519,
+    "links": [
+      "12_ne_dressing"
+    ],
+    "seconds": 88.25,
+    "nearSurfaceCheck": "pass",
+    "width": 2048
+  },
+  {
+    "id": "17_common_bath",
+    "room": "bath2",
+    "name": "公共卫生间",
+    "position": [
+      7.62,
+      14.15
+    ],
+    "height": 1024,
+    "yaw": -2.743964662067664,
+    "links": [
+      "18_common_wash"
+    ],
+    "seconds": 95.19,
+    "nearSurfaceCheck": "pass",
+    "width": 2048
+  },
+  {
+    "id": "18_common_wash",
+    "room": "wash",
+    "name": "公共洗手区与南次卧入口",
+    "position": [
+      7.65,
+      11.95
+    ],
+    "height": 1024,
+    "yaw": -2.7696750223390127,
+    "links": [
+      "06_entry",
+      "13_south_bed",
+      "17_common_bath"
+    ],
+    "seconds": 86.09,
+    "nearSurfaceCheck": "pass",
+    "width": 2048
+  },
+  {
+    "id": "15_master_bath",
+    "room": "bath3",
+    "name": "主卫生间",
+    "position": [
+      13.57,
+      13.36
+    ],
+    "height": 1024,
+    "yaw": -2.8405288029729956,
+    "links": [
+      "10_master_dressing"
+    ],
+    "textureYaw": 3.141592653589793,
+    "seconds": 79.7,
+    "nearSurfaceCheck": "pass",
+    "width": 2048
+  }
+]
